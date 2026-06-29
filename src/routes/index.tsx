@@ -590,17 +590,19 @@ function CollectionsCarousel() {
                 <a key={`${c.name}-${i}`} className="h-col-card" href={c.href}>
                   <div className="h-col-imgwrap">
                     <img src={c.img} alt={c.name} loading="lazy" />
+                    <div className="h-col-meta">
+                      <h3>{c.name}</h3>
+                      <div className="arr">Explore →</div>
+                    </div>
                   </div>
-                  <div className="h-col-meta">
-                    <h3>{c.name}</h3>
-                    <div className="arr">Explore →</div>
-                  </div>
+                  <div className="h-col-name">{c.name}</div>
                 </a>
               ))}
             </div>
           </div>
           <div className="h-carousel-nav">
             <button className="h-carousel-btn" onClick={() => nudge("left")} aria-label="Previous"><Icon.Arrow dir="left" /></button>
+            <a className="h-carousel-viewall" href={`${BASE}/shop`}>View all collections →</a>
             <button className="h-carousel-btn" onClick={() => nudge("right")} aria-label="Next"><Icon.Arrow /></button>
           </div>
         </div>
@@ -608,6 +610,7 @@ function CollectionsCarousel() {
     </section>
   );
 }
+
 
 function GiftCards() {
   return (
