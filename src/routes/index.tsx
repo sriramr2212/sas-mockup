@@ -776,7 +776,7 @@ function Stores() {
 
 function ReviewQR() {
   return (
-    <section className="h-section">
+    <section className="h-section h-section--dark">
       <div className="container">
         <div className="h-section-head">
           <span className="eyebrow">Scan or Click to Review Us</span>
