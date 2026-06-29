@@ -89,6 +89,77 @@ const collections = [
   { name: "Men's Dhothis", img: colDhoti, href: `${BASE}/product-category/mens-cotton-dhotis/` },
 ];
 
+// Header navigation: 8 grouped dropdowns matching the reference screenshot.
+// Each group links directly into the corresponding WooCommerce category pages.
+const navGroups: { name: string; href: string; items: { name: string; href: string }[] }[] = [
+  {
+    name: "Kanjivaram Silks",
+    href: `${BASE}/product-category/Kanjivaram-silks-sarees/`,
+    items: [
+      { name: "Pure Kanjivaram Silk", href: `${BASE}/product-category/Kanjivaram-silks-sarees/` },
+      { name: "Bridal Kanjivaram", href: `${BASE}/product-category/bridal/` },
+      { name: "Tussar & Soft Silk", href: `${BASE}/product-category/tussar/` },
+    ],
+  },
+  {
+    name: "Silk Cottons",
+    href: `${BASE}/product-category/silk-cotton-sarees-collection/`,
+    items: [
+      { name: "Traditional Silk Cotton", href: `${BASE}/product-category/silk-cotton-sarees-collection/` },
+      { name: "Printed Silk Cotton", href: `${BASE}/product-category/printed-saree/` },
+      { name: "Semi Silk Cotton", href: `${BASE}/product-category/saree-collections/traditional-polycotton/` },
+    ],
+  },
+  {
+    name: "Cotton Sarees",
+    href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/`,
+    items: [
+      { name: "Traditional Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/` },
+      { name: "Chettinad Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/` },
+    ],
+  },
+  {
+    name: "10 Yards Sarees",
+    href: `${BASE}/product-category/10-yards-sarees-2/all-collections/`,
+    items: [
+      { name: "10 Yards Silk Cotton", href: `${BASE}/product-category/10-yards-sarees-2/all-collections/` },
+      { name: "10 Yards Cotton", href: `${BASE}/product-category/amman-pavadai/` },
+    ],
+  },
+  {
+    name: "Collections",
+    href: `${BASE}/product-category/latest-collections/`,
+    items: [
+      { name: "New Arrivals", href: `${BASE}/product-category/latest-collections/` },
+      { name: "Bridal Collection", href: `${BASE}/product-category/bridal/` },
+      { name: "Tussar & Soft Silk", href: `${BASE}/product-category/tussar/` },
+      { name: "Shop All", href: `${BASE}/shop` },
+    ],
+  },
+  {
+    name: "Dance Sarees",
+    href: `${BASE}/product-category/dance-sarees/`,
+    items: [
+      { name: "Dance Sarees", href: `${BASE}/product-category/dance-sarees/` },
+    ],
+  },
+  {
+    name: "Mens",
+    href: `${BASE}/product-category/uga-mens-kurtas-bushirt/`,
+    items: [
+      { name: "Men's Kurtas", href: `${BASE}/product-category/uga-mens-kurtas-bushirt/` },
+      { name: "Men's Dhothis", href: `${BASE}/product-category/mens-cotton-dhotis/` },
+    ],
+  },
+  {
+    name: "Fancy Sarees",
+    href: `${BASE}/product-category/fancy-sarees/`,
+    items: [
+      { name: "Fancy Sarees", href: `${BASE}/product-category/fancy-sarees/` },
+    ],
+  },
+];
+
 const reviewLinks = {
   adyar: "https://search.google.com/local/writereview?placeid=ChIJO3_5v5JnUjoRQp3ZfkknJgg",
   tnagar: "https://search.google.com/local/writereview?placeid=ChIJQ5LU3VVmUjoRZUuYG7x_Jhc",
