@@ -6,9 +6,9 @@
   --h-cream: #faf5ec;
   --h-ivory: #f4ead6;
   --h-sand: #ead8b8;
-  --h-burgundy: #5a1a23;
-  --h-burgundy-dark: #41131a;
-  --h-maroon: #7a1f2b;
+  --h-burgundy: #6b4202;
+  --h-burgundy-dark: #4a2d01;
+  --h-maroon: #8a5a18;
   --h-gold: #b48a3c;
   --h-gold-soft: #d4ad5e;
   --h-ink: #1f1410;
@@ -129,7 +129,7 @@
 }
 .h-search-inline:focus-within {
   border-color: var(--h-burgundy);
-  box-shadow: 0 0 0 4px rgba(90, 26, 35, 0.08);
+  box-shadow: 0 0 0 4px rgba(107,66,2, 0.08);
 }
 .h-search-inline > svg {
   width: 18px; height: 18px;
@@ -185,7 +185,7 @@
   font-weight: 500;
   transition: color 0.2s, background 0.2s;
 }
-.h-util:hover { color: var(--h-burgundy); background: rgba(90,26,35,0.05); }
+.h-util:hover { color: var(--h-burgundy); background: rgba(107,66,2,0.05); }
 .h-util svg { width: 20px; height: 20px; stroke-width: 1.6; }
 .h-util span {
   font-size: 10.5px;
@@ -1077,10 +1077,13 @@
 
 /* ============ FOOTER ============ */
 .h-footer {
-  background: #1f1410;
-  color: rgba(250,245,236,0.82);
+  background:
+    linear-gradient(rgba(20, 12, 4, 0.86), rgba(20, 12, 4, 0.93)),
+    url("./assets/footer-loom.jpg") center / cover no-repeat;
+  color: rgba(250,245,236,0.92);
   padding: 72px 0 28px;
   font-size: 14px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
 }
 .h-footer-grid {
   display: grid;
@@ -1101,7 +1104,7 @@
 }
 .h-footer a { color: inherit; text-decoration: none; }
 .h-footer a:hover { color: var(--h-gold-soft); }
-.h-footer-brand p { margin: 16px 0 0; line-height: 1.7; max-width: 320px; color: rgba(250,245,236,0.7); }
+.h-footer-brand p { margin: 16px 0 0; line-height: 1.7; max-width: 320px; color: rgba(250,245,236,0.85); }
 .h-footer-brand img { height: 70px; mix-blend-mode: screen; filter: brightness(1.6); }
 .h-footer-social { display: flex; gap: 14px; margin-top: 18px; }
 .h-footer-social a {
@@ -1123,7 +1126,7 @@
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(250,245,236,0.5);
+  color: rgba(250,245,236,0.72);
 }
 
 /* ============ SEARCH MODAL ============ */
