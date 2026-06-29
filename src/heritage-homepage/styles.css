@@ -1425,3 +1425,4 @@
 @media (max-width: 860px) {
   .h-temple-grid { grid-template-columns: 1fr; }
 }
+.h-aitry-badge-row { display: block; margin-bottom: 14px; }
