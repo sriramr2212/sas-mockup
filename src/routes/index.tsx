@@ -208,10 +208,10 @@ function HeritageHome() {
       <AiTryOn />
       <Stats />
       <Testimonials />
-      <Instagram />
       <Stores />
       <ReviewQR />
       <FeaturedTemple />
+      <Instagram />
       <Footer />
     </div>
   );
