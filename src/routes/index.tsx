@@ -89,6 +89,77 @@ const collections = [
   { name: "Men's Dhothis", img: colDhoti, href: `${BASE}/product-category/mens-cotton-dhotis/` },
 ];
 
+// Header navigation: 8 grouped dropdowns matching the reference screenshot.
+// Each group links directly into the corresponding WooCommerce category pages.
+const navGroups: { name: string; href: string; items: { name: string; href: string }[] }[] = [
+  {
+    name: "Kanjivaram Silks",
+    href: `${BASE}/product-category/Kanjivaram-silks-sarees/`,
+    items: [
+      { name: "Pure Kanjivaram Silk", href: `${BASE}/product-category/Kanjivaram-silks-sarees/` },
+      { name: "Bridal Kanjivaram", href: `${BASE}/product-category/bridal/` },
+      { name: "Tussar & Soft Silk", href: `${BASE}/product-category/tussar/` },
+    ],
+  },
+  {
+    name: "Silk Cottons",
+    href: `${BASE}/product-category/silk-cotton-sarees-collection/`,
+    items: [
+      { name: "Traditional Silk Cotton", href: `${BASE}/product-category/silk-cotton-sarees-collection/` },
+      { name: "Printed Silk Cotton", href: `${BASE}/product-category/printed-saree/` },
+      { name: "Semi Silk Cotton", href: `${BASE}/product-category/saree-collections/traditional-polycotton/` },
+    ],
+  },
+  {
+    name: "Cotton Sarees",
+    href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/`,
+    items: [
+      { name: "Traditional Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/` },
+      { name: "Chettinad Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/` },
+    ],
+  },
+  {
+    name: "10 Yards Sarees",
+    href: `${BASE}/product-category/10-yards-sarees-2/all-collections/`,
+    items: [
+      { name: "10 Yards Silk Cotton", href: `${BASE}/product-category/10-yards-sarees-2/all-collections/` },
+      { name: "10 Yards Cotton", href: `${BASE}/product-category/amman-pavadai/` },
+    ],
+  },
+  {
+    name: "Collections",
+    href: `${BASE}/product-category/latest-collections/`,
+    items: [
+      { name: "New Arrivals", href: `${BASE}/product-category/latest-collections/` },
+      { name: "Bridal Collection", href: `${BASE}/product-category/bridal/` },
+      { name: "Tussar & Soft Silk", href: `${BASE}/product-category/tussar/` },
+      { name: "Shop All", href: `${BASE}/shop` },
+    ],
+  },
+  {
+    name: "Dance Sarees",
+    href: `${BASE}/product-category/dance-sarees/`,
+    items: [
+      { name: "Dance Sarees", href: `${BASE}/product-category/dance-sarees/` },
+    ],
+  },
+  {
+    name: "Mens",
+    href: `${BASE}/product-category/uga-mens-kurtas-bushirt/`,
+    items: [
+      { name: "Men's Kurtas", href: `${BASE}/product-category/uga-mens-kurtas-bushirt/` },
+      { name: "Men's Dhothis", href: `${BASE}/product-category/mens-cotton-dhotis/` },
+    ],
+  },
+  {
+    name: "Fancy Sarees",
+    href: `${BASE}/product-category/fancy-sarees/`,
+    items: [
+      { name: "Fancy Sarees", href: `${BASE}/product-category/fancy-sarees/` },
+    ],
+  },
+];
+
 const reviewLinks = {
   adyar: "https://search.google.com/local/writereview?placeid=ChIJO3_5v5JnUjoRQp3ZfkknJgg",
   tnagar: "https://search.google.com/local/writereview?placeid=ChIJQ5LU3VVmUjoRZUuYG7x_Jhc",
@@ -281,11 +352,21 @@ function SiteHeader() {
 
           <nav className="h-nav" aria-label="Collections">
             <div className="h-nav-inner">
-              {collections.map((c) => (
-                <a key={c.name} href={c.href}>{c.name}</a>
+              {navGroups.map((g) => (
+                <div key={g.name} className="h-nav-group">
+                  <a href={g.href} className="h-nav-top">
+                    {g.name}
+                    <svg className="h-nav-caret" viewBox="0 0 12 7" width="10" height="6" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </a>
+                  {g.items.length > 0 && (
+                    <div className="h-nav-panel" role="menu">
+                      {g.items.map((it) => (
+                        <a key={it.name} href={it.href} role="menuitem">{it.name}</a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
-              <a href={`${BASE}/product-category/latest-collections/`} className="h-nav-accent">New Arrivals</a>
-              <a href={`${BASE}/shop`} className="h-nav-accent">Shop All</a>
             </div>
           </nav>
         </header>
@@ -299,10 +380,14 @@ function SiteHeader() {
           <input name="s" type="text" placeholder="Search sarees…" />
           <input type="hidden" name="post_type" value="product" />
         </form>
-        {collections.map((c) => (
-          <a key={c.name} href={c.href} onClick={() => setMenuOpen(false)}>{c.name}</a>
+        {navGroups.map((g) => (
+          <div key={g.name} className="h-mobile-group">
+            <a className="h-mobile-group-title" href={g.href} onClick={() => setMenuOpen(false)}>{g.name}</a>
+            {g.items.map((it) => (
+              <a key={it.name} className="h-mobile-sub" href={it.href} onClick={() => setMenuOpen(false)}>{it.name}</a>
+            ))}
+          </div>
         ))}
-        <a href={`${BASE}/shop`} onClick={() => setMenuOpen(false)}>Shop All</a>
         <a href={`${BASE}/my-account`} onClick={() => setMenuOpen(false)}>My Account</a>
         <a href={`${BASE}/wishlist`} onClick={() => setMenuOpen(false)}>Wishlist</a>
         <a href={`${BASE}/cart`} onClick={() => setMenuOpen(false)}>Cart ({cartCount})</a>
