@@ -129,7 +129,7 @@
 }
 .h-search-inline:focus-within {
   border-color: var(--h-burgundy);
-  box-shadow: 0 0 0 4px rgba(90, 26, 35, 0.08);
+  box-shadow: 0 0 0 4px rgba(107,66,2, 0.08);
 }
 .h-search-inline > svg {
   width: 18px; height: 18px;
@@ -185,7 +185,7 @@
   font-weight: 500;
   transition: color 0.2s, background 0.2s;
 }
-.h-util:hover { color: var(--h-burgundy); background: rgba(90,26,35,0.05); }
+.h-util:hover { color: var(--h-burgundy); background: rgba(107,66,2,0.05); }
 .h-util svg { width: 20px; height: 20px; stroke-width: 1.6; }
 .h-util span {
   font-size: 10.5px;
