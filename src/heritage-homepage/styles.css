@@ -254,6 +254,8 @@
 .h-nav {
   border-top: 1px solid var(--h-rule);
   background: var(--h-cream);
+  position: relative;
+  z-index: 40;
 }
 .h-nav-inner {
   max-width: 1480px;
@@ -261,32 +263,87 @@
   padding: 0 28px;
   display: flex;
   justify-content: center;
+  align-items: stretch;
   gap: 2px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
-.h-nav-inner a {
-  display: inline-block;
-  padding: 12px 12px;
+.h-nav-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+.h-nav-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 14px;
   font-size: 11.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--h-text);
   font-weight: 500;
-  position: relative;
-  transition: color 0.2s;
   white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 2px solid transparent;
 }
-.h-nav-inner a:hover { color: var(--h-burgundy); }
-.h-nav-inner a:hover::after {
-  content: "";
+.h-nav-top .h-nav-caret { opacity: 0.7; transition: transform 0.2s; }
+.h-nav-group:hover .h-nav-top,
+.h-nav-group:focus-within .h-nav-top {
+  color: var(--h-burgundy);
+  border-bottom-color: var(--h-gold);
+}
+.h-nav-group:hover .h-nav-caret,
+.h-nav-group:focus-within .h-nav-caret { transform: rotate(180deg); }
+
+.h-nav-panel {
   position: absolute;
-  left: 12px; right: 12px;
-  bottom: 6px;
-  height: 1px;
-  background: var(--h-gold);
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  min-width: 220px;
+  background: var(--h-cream);
+  border: 1px solid var(--h-rule);
+  border-top: 2px solid var(--h-gold);
+  box-shadow: 0 18px 40px -20px rgba(31, 20, 16, 0.28);
+  padding: 10px 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 50;
 }
-.h-nav-inner a.h-nav-accent { color: var(--h-burgundy); font-weight: 600; }
+.h-nav-group:hover .h-nav-panel,
+.h-nav-group:focus-within .h-nav-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.h-nav-panel a {
+  display: block;
+  padding: 10px 22px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: var(--h-text);
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.h-nav-panel a:hover { background: var(--h-ivory); color: var(--h-burgundy); }
+
+/* Buttons — ensure ivory text wins over inherited link color */
+.heritage-root a.h-btn,
+.heritage-root button.h-btn,
+.h-btn { color: var(--h-cream); }
+.heritage-root a.h-btn--ghost,
+.h-btn--ghost { color: var(--h-burgundy); }
+.heritage-root a.h-btn--ghost:hover,
+.h-btn--ghost:hover { color: var(--h-cream); }
+.heritage-root a.h-btn--gold,
+.h-btn--gold { color: #1f1410; }
 
 .h-mobile-toggle {
   display: none;
