@@ -631,15 +631,15 @@ function GiftCards() {
 
 function VideoShopping() {
   return (
-    <section className="h-vshop h-vshop--compact">
+    <section className="h-vshop h-vshop--compact h-vshop--right">
       <div className="h-vshop-grid">
-        <img src={videoShop} alt="Video saree consultation" loading="lazy" />
         <div className="h-vshop-text">
           <span className="eyebrow">Video Saree Consultation</span>
           <h2>Shop with us, from anywhere in the world.</h2>
           <p>Book a private video appointment with our family consultants.</p>
           <a className="h-btn h-btn--gold" href={`${BASE}/video-call-appointment/`}>Book an Appointment</a>
         </div>
+        <img src={videoShop} alt="Video saree consultation" loading="lazy" />
       </div>
     </section>
   );
