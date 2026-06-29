@@ -1,41 +1,39 @@
-## Plan: Final Layout Refinements (Gift Cards → Stats)
+## 1. Theme dark color → logo brown (#6B4202)
 
-### 1. AI Try-On — Break the 50/50 repetition
-Gift Cards and Video Shopping keep their existing full-bleed split layouts.
+The heritage homepage uses two "dark" families:
+- **Burgundy** (`--h-burgundy: #5a1a23`, `--h-burgundy-dark: #41131a`, `--h-maroon: #7a1f2b`) — used for header background, primary buttons, links/hover, search button, nav active, badges, etc.
+- **Ink/text** (`--h-ink: #1f1410`, `--h-text: #2a1f18`) — headings and body text.
 
-Redesign AI Try-On into a **centered premium announcement card**:
-- Contain the content in a centered card (`max-width: ~900px`) instead of a full-bleed two-column grid.
-- Display the illustration with `object-fit: contain` so it is fully visible (not tightly cropped) and framed with a subtle gold glow / border for visual presence.
-- Place the image above the text in a portrait/announcement composition, or keep it beside the text but inside the contained card with relaxed proportions.
-- Keep the existing burgundy/gold/cream palette and dark gradient background.
-- Update the heading copy: **"Your Personal AI Saree Trial Room. Coming Soon."**
+The user wants the **existing dark theme color** replaced with the logo's dark brown. The visually dominant dark in the UI is the burgundy family, so I'll remap that family to a brown palette derived from `#6B4202` and leave ink/text alone (text remains readable).
 
-### 2. Increase vertical spacing between sections
-Add extra margin/padding between:
-- Gift Cards → Video Shopping
-- Video Shopping → AI Try-On
-- AI Try-On → Heritage Statistics
+New tokens in `src/heritage-homepage/styles.css`:
+- `--h-burgundy: #6B4202` (was `#5a1a23`)
+- `--h-burgundy-dark: #4a2d01` (deeper shade for hover)
+- `--h-maroon: #8a5a18` (slightly warmer secondary)
 
-Target: each transition should feel relaxed and premium, avoiding attached sections. Likely increase existing `padding` or add `margin` by ~24–40px at each boundary.
+I'll also sweep the stylesheet for any hardcoded `#5a1a23`, `#41131a`, `#7a1f2b` or `rgba(90,26,35,…)` literals and replace them so nothing is left burgundy. The few hardcoded `#1f1410` (ink/footer bg) stay — they match the requested brown family already.
 
-### 3. AI Try-On — more internal breathing room
-Inside the new card layout, increase padding around:
-- Heading
-- Description (keep it the existing one-liner)
-- Email field + CTA button
+Verification: read the stylesheet after edits, grep for the old hex codes to confirm zero matches, then visually check header/buttons/footer in the running preview.
 
-Make the content feel spacious rather than cramped.
+## 2. Footer — handloom-themed photo background
 
-### 4. Reduce AI section overall height by ~15–20%
-By switching from a full-bleed 50/50 grid to a compact centered card, the section naturally becomes shorter. We will ensure the final rendered height is roughly 15–20% less than the current full-bleed split.
+Current footer (`.h-footer`) is flat `#1f1410`. I will:
 
-### 5. Heritage Statistics — distinct milestone spacing
-Increase the top spacing (padding/margin) before the Statistics section so it sits as a clearly separate milestone block, not a continuation of the AI section.
+1. **Generate** a wide background image with `generate_image` (premium quality not needed; `standard`): macro photo of golden silk warp threads on a traditional handloom, soft warm lighting, shallow depth of field, rich dark tones. Save to `src/heritage-homepage/assets/footer-loom.jpg` (1920×1080).
+2. **Apply** in `.h-footer`:
+   - `background-image: linear-gradient(rgba(20,12,4,0.82), rgba(20,12,4,0.92)), url(...)`
+   - `background-size: cover; background-position: center;`
+   - Keep existing padding and text color.
+3. **Legibility pass**: bump body text opacity from `0.82` → `0.9`, brand tagline `0.7` → `0.85`, bottom strip `0.5` → `0.7`, and add a subtle `text-shadow: 0 1px 2px rgba(0,0,0,0.5)` on `.h-footer` so text stays crisp over the photo. Headings already use gold and remain readable.
 
----
+## Files touched
 
-**Files to edit:**
-- `src/heritage-homepage/styles.css`
-- `src/routes/index.tsx`
+- `src/heritage-homepage/styles.css` — color token remap + footer background + text-shadow/opacity tweaks.
+- `src/heritage-homepage/assets/footer-loom.jpg` — new generated image.
 
-**No new dependencies or assets required.**
+No JSX changes required.
+
+## Out of scope
+
+- The base Tailwind/shadcn tokens in `src/styles.css` (the homepage is fully scoped under `.heritage-root` and doesn't use them).
+- Logo image itself, layout, typography, or any other section.
