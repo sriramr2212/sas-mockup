@@ -577,10 +577,9 @@ function CollectionsCarousel() {
   return (
     <section className="h-section">
       <div className="container">
-        <div className="h-section-head">
+        <div className="h-section-head h-collections-head">
           <span className="eyebrow">Shop by Collection</span>
           <h2>Every collection, in its own chapter.</h2>
-          <p>From Pure Silk to Chettinad cotton, from 10-yard madisar to men's kurtas — explore every collection we offer, the way it has always been: each one on its own.</p>
         </div>
         <div className={`h-carousel ${paused ? "is-paused" : ""}`}
              onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
