@@ -1284,6 +1284,8 @@
 .h-aitry-text { max-width: 540px; }
 .h-aitry-badge {
   display: inline-flex; align-items: center; gap: 8px;
+  margin-right: 8px;
+  display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--h-mono, ui-monospace, monospace);
   font-size: 11px;
   letter-spacing: 0.22em;
