@@ -414,9 +414,7 @@ function Hero() {
         <div className="h-hero-text">
           <span className="eyebrow">Est. Chennai · Since 1972</span>
           <h1>
-            Woven in <em>devotion.</em>
-            <br />
-            Worn through generations.
+            Give Life to handloom.
           </h1>
           <p>
             For more than five decades, our family has carried the looms of South India into the homes of those
