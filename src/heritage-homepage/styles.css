@@ -1310,7 +1310,7 @@
 .h-aitry {
   background: linear-gradient(160deg, #2a0c11 0%, var(--h-burgundy-dark) 55%, #1a0608 100%);
   color: var(--h-cream);
-  padding: clamp(56px, 8vw, 110px) 24px;
+  padding: 0;
   position: relative;
   overflow: hidden;
 }
@@ -1324,20 +1324,18 @@
 }
 .h-aitry-inner {
   position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: 0.5fr 1fr;
-  gap: clamp(32px, 6vw, 80px);
-  align-items: center;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: stretch;
+  gap: 0;
 }
 .h-aitry-art {
   position: relative;
-  border-radius: 4px;
   overflow: hidden;
-  border: 1px solid rgba(212,173,94,0.35);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
-  aspect-ratio: 1 / 1;
+  border-right: 1px solid rgba(212,173,94,0.25);
+  aspect-ratio: auto;
+  min-height: 320px;
+  max-height: 380px;
 }
 .h-aitry-art img {
   width: 100%; height: 100%;
@@ -1350,11 +1348,16 @@
   background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4));
   pointer-events: none;
 }
-.h-aitry-text { max-width: 540px; }
+.h-aitry-text {
+  max-width: none;
+  padding: 56px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .h-aitry-badge {
   display: inline-flex; align-items: center; gap: 8px;
   margin-right: 8px;
-  display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--h-mono, ui-monospace, monospace);
   font-size: 11px;
   letter-spacing: 0.22em;
@@ -1379,13 +1382,16 @@
 .h-aitry-text .eyebrow { color: var(--h-gold-soft); }
 .h-aitry-text h2 {
   color: var(--h-cream);
-  margin: 8px 0 18px;
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  font-style: italic;
+  margin: 8px 0 14px;
 }
 .h-aitry-text p {
   color: rgba(250, 245, 236, 0.78);
-  font-size: 16px;
-  line-height: 1.7;
-  margin-bottom: 24px;
+  font-size: 15.5px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+  max-width: 460px;
 }
 .h-aitry-form {
   display: flex;
