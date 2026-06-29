@@ -813,6 +813,12 @@
 }
 .h-gift-text .h-btn { margin-top: 32px; align-self: flex-start; }
 
+.h-gift--compact .h-gift-img img { min-height: 320px; }
+.h-gift--compact .h-gift-text { padding: 56px 56px; }
+.h-gift--compact .h-gift-text h2 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+.h-gift--compact .h-gift-text p { margin-top: 14px; }
+.h-gift--compact .h-gift-text .h-btn { margin-top: 22px; }
+
 /* ============ VIDEO SHOPPING ============ */
 .h-vshop {
   background: var(--h-ink);
@@ -828,6 +834,14 @@
 .h-vshop-text p { margin-top: 20px; color: rgba(250,245,236,0.78); max-width: 460px; }
 .h-vshop-text .eyebrow { color: var(--h-gold-soft); }
 .h-vshop-text .h-btn { margin-top: 30px; align-self: flex-start; }
+
+.h-vshop--compact .h-vshop-grid { grid-template-columns: 0.8fr 1.2fr; }
+.h-vshop--compact img { min-height: 280px; max-height: 360px; }
+.h-vshop--compact .h-vshop-text { padding: 48px 56px; }
+.h-vshop--compact .h-vshop-text h2 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+.h-vshop--compact .h-vshop-text p { margin-top: 14px; }
+.h-vshop--compact .h-vshop-text .h-btn { margin-top: 22px; }
+
 
 /* ============ STATS ============ */
 .h-stats {
