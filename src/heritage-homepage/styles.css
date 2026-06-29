@@ -1104,7 +1104,7 @@
 }
 .h-footer a { color: inherit; text-decoration: none; }
 .h-footer a:hover { color: var(--h-gold-soft); }
-.h-footer-brand p { margin: 16px 0 0; line-height: 1.7; max-width: 320px; color: rgba(250,245,236,0.7); }
+.h-footer-brand p { margin: 16px 0 0; line-height: 1.7; max-width: 320px; color: rgba(250,245,236,0.85); }
 .h-footer-brand img { height: 70px; mix-blend-mode: screen; filter: brightness(1.6); }
 .h-footer-social { display: flex; gap: 14px; margin-top: 18px; }
 .h-footer-social a {
