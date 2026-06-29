@@ -692,6 +692,7 @@
   flex: 0 0 290px;
   text-decoration: none;
   color: inherit;
+  position: relative;
 }
 .h-col-imgwrap {
   position: relative;
@@ -710,19 +711,21 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(31,20,16,0.7));
+  background: linear-gradient(180deg, transparent 50%, rgba(31,20,16,0.78));
   pointer-events: none;
 }
 .h-col-meta {
   position: absolute;
-  bottom: 20px; left: 22px; right: 22px;
+  bottom: 18px; left: 20px; right: 20px;
   color: var(--h-cream);
+  z-index: 1;
 }
 .h-col-meta h3 {
   color: var(--h-cream);
-  font-size: 22px;
+  font-size: 20px;
   font-style: italic;
   font-weight: 500;
+  line-height: 1.15;
 }
 .h-col-meta .arr {
   margin-top: 6px;
@@ -733,14 +736,37 @@
   color: var(--h-gold-soft);
   font-weight: 600;
 }
+.h-col-name {
+  display: none;
+  margin-top: 12px;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--h-burgundy);
+  text-align: center;
+}
 .h-carousel-nav {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  align-items: center;
+  gap: 14px;
   margin-top: 32px;
 }
+.h-carousel-viewall {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--h-burgundy);
+  text-decoration: none;
+  border-bottom: 1px solid var(--h-gold);
+  padding: 4px 2px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.h-carousel-viewall:hover { color: var(--h-gold); }
 .h-carousel-btn {
-  width: 46px; height: 46px;
+  width: 42px; height: 42px;
   border-radius: 50%;
   border: 1px solid var(--h-burgundy);
   background: transparent;
@@ -755,6 +781,7 @@
   color: var(--h-cream);
 }
 .h-carousel-btn svg { width: 18px; height: 18px; }
+
 
 /* ============ GIFT CARDS ============ */
 .h-gift {
