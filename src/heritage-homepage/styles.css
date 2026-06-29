@@ -823,6 +823,7 @@
 .h-vshop {
   background: var(--h-ivory);
   color: var(--h-text);
+  margin-top: 40px;
 }
 .h-vshop-grid {
   display: grid;
@@ -852,7 +853,7 @@
 .h-stats {
   background: var(--h-burgundy);
   color: var(--h-cream);
-  padding: 80px 0;
+  padding: 120px 0;
 }
 .h-stats-grid {
   display: grid;
@@ -1313,6 +1314,7 @@
   padding: 0;
   position: relative;
   overflow: hidden;
+  margin-top: 56px;
 }
 .h-aitry::before {
   content: "";
@@ -1324,22 +1326,38 @@
 }
 .h-aitry-inner {
   position: relative;
+  max-width: 960px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  align-items: stretch;
-  gap: 0;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 56px;
+  padding: 48px 72px;
+  border: 1px solid rgba(212,173,94,0.18);
 }
 .h-aitry-art {
   position: relative;
-  overflow: hidden;
-  border-right: 1px solid rgba(212,173,94,0.25);
-  aspect-ratio: auto;
-  min-height: 320px;
-  max-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260px;
+  height: 260px;
+  flex-shrink: 0;
+  overflow: visible;
 }
-.h-aitry-art img {
-  width: 100%; height: 100%;
-  object-fit: cover;
+.h-aitry-art-frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(212,173,94,0.25);
+  padding: 18px;
+}
+.h-aitry-art-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   display: block;
   opacity: 0.95;
 }
@@ -1350,7 +1368,7 @@
 }
 .h-aitry-text {
   max-width: none;
-  padding: 56px 56px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1366,7 +1384,7 @@
   padding: 7px 14px;
   border: 1px solid rgba(212,173,94,0.45);
   border-radius: 999px;
-  margin-bottom: 18px;
+  margin-bottom: 24px;
   background: rgba(212,173,94,0.06);
 }
 .h-aitry-badge .dot {
@@ -1384,13 +1402,13 @@
   color: var(--h-cream);
   font-size: clamp(2rem, 3.2vw, 2.6rem);
   font-style: italic;
-  margin: 8px 0 14px;
+  margin: 16px 0 22px;
 }
 .h-aitry-text p {
   color: rgba(250, 245, 236, 0.78);
   font-size: 15.5px;
   line-height: 1.6;
-  margin-bottom: 22px;
+  margin-bottom: 32px;
   max-width: 460px;
 }
 .h-aitry-form {
@@ -1426,9 +1444,11 @@
   font-size: 18px;
 }
 @media (max-width: 860px) {
-  .h-aitry-inner { grid-template-columns: 1fr; }
-  .h-aitry-art { max-width: 460px; margin: 0 auto; max-height: 320px; border-right: 0; }
-  .h-aitry-text { padding: 40px 24px; }
+  .h-aitry-inner { grid-template-columns: 1fr; padding: 40px 28px; gap: 32px; }
+  .h-aitry-art { width: 220px; height: 220px; margin: 0 auto; border-right: 0; }
+  .h-aitry-text { padding: 0; text-align: center; }
+  .h-aitry-text p { margin-left: auto; margin-right: auto; }
+  .h-aitry-form { justify-content: center; }
 }
 
 /* ======= Featured Temple of the Month ======= */

@@ -1,27 +1,41 @@
-## Changes
+## Plan: Final Layout Refinements (Gift Cards → Stats)
 
-### 1. Match section sizing across Gift Card, Video Saree, AI Try-On
-Use Gift Card section as the size/border reference. Update `.h-vshop--compact` and `.h-aitry` in `src/heritage-homepage/styles.css` to mirror Gift Card's padding, image min-height (~320px), grid ratios, and border treatment so all three sections feel uniform and compact.
+### 1. AI Try-On — Break the 50/50 repetition
+Gift Cards and Video Shopping keep their existing full-bleed split layouts.
 
-### 2. Video Saree — flip image to right + fix vertical alignment
-- In `src/routes/index.tsx`, reorder Video Shopping's grid so the image is on the right (text left). Gift Card has image left, AI Try-On has image left → Video Saree on the right alternates the rhythm.
-- Add `align-items: center` to `.h-vshop-inner` so the text block and image align cleanly top/bottom.
+Redesign AI Try-On into a **centered premium announcement card**:
+- Contain the content in a centered card (`max-width: ~900px`) instead of a full-bleed two-column grid.
+- Display the illustration with `object-fit: contain` so it is fully visible (not tightly cropped) and framed with a subtle gold glow / border for visual presence.
+- Place the image above the text in a portrait/announcement composition, or keep it beside the text but inside the contained card with relaxed proportions.
+- Keep the existing burgundy/gold/cream palette and dark gradient background.
+- Update the heading copy: **"Your Personal AI Saree Trial Room. Coming Soon."**
 
-### 3. Typography tweaks
-- Increase H2 size for the three section titles (Gift Card, Video Saree, AI Try-On) — bump `.h-gift-text h2`, `.h-vshop-text h2`, `.h-aitry-text h2` up one step.
-- Collections section: make the eyebrow "SHOP BY COLLECTION" larger and more prominent (bigger font, stronger letter-spacing/weight). Reduce the sub-tagline "Every collection, in its…" to a small, muted line.
+### 2. Increase vertical spacing between sections
+Add extra margin/padding between:
+- Gift Cards → Video Shopping
+- Video Shopping → AI Try-On
+- AI Try-On → Heritage Statistics
 
-### 4. AI Try-On description → one liner
-Trim the paragraph under the AI Try-On heading in `src/routes/index.tsx` to a single sentence (e.g., "Virtually drape any saree from our collection — coming soon to your phone.").
+Target: each transition should feel relaxed and premium, avoiding attached sections. Likely increase existing `padding` or add `margin` by ~24–40px at each boundary.
 
-### 5. Testimonials — carousel with 3 visible + arrows
-- Rename section title to **"Testimonials from our Patrons"**.
-- Replace the current static grid with a carousel showing up to 3 testimonials at a time, with left/right arrow controls on the sides. Implementation: lightweight state-based slider (index + prev/next) inside `src/routes/index.tsx` using existing `.h-test-*` card styles; arrows styled like the collections carousel arrows. On mobile, show 1 per view.
+### 3. AI Try-On — more internal breathing room
+Inside the new card layout, increase padding around:
+- Heading
+- Description (keep it the existing one-liner)
+- Email field + CTA button
 
-### 6. Reorder — move Instagram "From our looms" to the end
-Move the `.h-ig` section JSX so it renders after the Featured Temple section (currently the last content section before footer-area).
+Make the content feel spacious rather than cramped.
 
-## Technical Notes
-- Files edited: `src/routes/index.tsx`, `src/heritage-homepage/styles.css`.
-- No new dependencies — testimonial carousel uses local React state, not Embla.
-- No changes to data files or assets.
+### 4. Reduce AI section overall height by ~15–20%
+By switching from a full-bleed 50/50 grid to a compact centered card, the section naturally becomes shorter. We will ensure the final rendered height is roughly 15–20% less than the current full-bleed split.
+
+### 5. Heritage Statistics — distinct milestone spacing
+Increase the top spacing (padding/margin) before the Statistics section so it sits as a clearly separate milestone block, not a continuation of the AI section.
+
+---
+
+**Files to edit:**
+- `src/heritage-homepage/styles.css`
+- `src/routes/index.tsx`
+
+**No new dependencies or assets required.**
