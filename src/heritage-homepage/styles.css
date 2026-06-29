@@ -651,20 +651,20 @@
   place-items: center;
   width: 64px; height: 64px;
   border-radius: 50%;
-  background: var(--h-cream);
+  background: rgba(250,245,236,0.08);
   border: 1px solid var(--h-gold);
-  color: var(--h-burgundy);
+  color: var(--h-cream);
   margin-bottom: 20px;
 }
 .h-craft-icon svg { width: 28px; height: 28px; }
 .h-craft-card h3 {
   font-size: 22px;
   font-style: italic;
-  color: var(--h-burgundy);
+  color: var(--h-cream);
   margin-bottom: 10px;
 }
 .h-craft-card p {
-  color: var(--h-muted);
+  color: rgba(250,245,236,0.72);
   font-size: 15px;
   line-height: 1.7;
 }
