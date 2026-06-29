@@ -821,8 +821,8 @@
 
 /* ============ VIDEO SHOPPING ============ */
 .h-vshop {
-  background: var(--h-ink);
-  color: var(--h-cream);
+  background: var(--h-ivory);
+  color: var(--h-text);
 }
 .h-vshop-grid {
   display: grid;
