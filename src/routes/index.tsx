@@ -115,8 +115,8 @@ const Icon = {
 function HeritageHome() {
   return (
     <div className="heritage-root">
-      <TopBar />
-      <Header />
+      <SiteHeader />
+      <div className="h-header-spacer" aria-hidden="true" />
       <Hero />
       <TrustStrip />
       <NewArrivals />
@@ -135,85 +135,136 @@ function HeritageHome() {
   );
 }
 
-function TopBar() {
-  return (
-    <div className="h-topbar">
-      Complimentary Shipping Across India
-      <span className="sep">·</span>
-      Personalised Saree Consultation
-      <span className="sep">·</span>
-      Three Generations of Trust
-    </div>
-  );
-}
+const CURRENCIES = [
+  { code: "INR", symbol: "₹", label: "INR ₹" },
+  { code: "USD", symbol: "$", label: "USD $" },
+  { code: "GBP", symbol: "£", label: "GBP £" },
+  { code: "EUR", symbol: "€", label: "EUR €" },
+];
 
-function Header() {
-  const [searchOpen, setSearchOpen] = useState(false);
+function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [currency, setCurrency] = useState("INR");
+  // Placeholder counts — to be wired to WooCommerce wishlist & cart plugins.
+  const [wishlistCount] = useState(0);
+  const [cartCount] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 6);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const onCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrency(e.target.value);
+    // Future: trigger WooCommerce currency switcher
+    // e.g. window.location.search = `?currency=${e.target.value}`;
+  };
 
   return (
     <>
-      <header className="h-header">
-        <div className="h-header-top">
-          <div className="h-header-left">
-            <button className="h-mobile-toggle" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+      <div className={`h-fixed-wrap ${scrolled ? "is-scrolled" : ""}`}>
+        <div className="h-topbar">
+          Complimentary Shipping Across India
+          <span className="sep">·</span>
+          Personalised Saree Consultation
+          <span className="sep">·</span>
+          Three Generations of Trust
+        </div>
+
+        <header className="h-header">
+          <div className="h-header-top">
+            <button
+              className="h-mobile-toggle"
+              aria-label="Open menu"
+              onClick={() => setMenuOpen(true)}
+            >
               <Icon.Menu />
             </button>
-            <button className="h-search-trigger" onClick={() => setSearchOpen(true)} aria-label="Search products">
+
+            <a href={BASE} className="h-logo" aria-label="Sri Aishwarya Sarees">
+              <img src={logo} alt="Sri Aishwarya Sarees — Temple of Silk Cottons" />
+            </a>
+
+            <form
+              className="h-search-inline"
+              action={BASE}
+              method="get"
+              role="search"
+              aria-label="Search products"
+            >
               <Icon.Search />
-              <span>Search sarees, collections…</span>
-            </button>
-          </div>
-          <a href={BASE} className="h-logo" aria-label="Sri Aishwarya Sarees">
-            <img src={logo} alt="Sri Aishwarya Sarees — Temple of Silk Cottons" />
-          </a>
-          <div className="h-actions-right">
+              <input
+                type="text"
+                name="s"
+                placeholder="Search sarees, collections, fabrics…"
+                aria-label="Search sarees"
+              />
+              <input type="hidden" name="post_type" value="product" />
+              <button type="submit">Search</button>
+            </form>
+
             <div className="h-header-utils">
-              <a href={`${BASE}/my-account`}><Icon.User /><span>Account</span></a>
-              <a href={`${BASE}/wishlist`}><Icon.Heart /><span>Wishlist</span></a>
-              <a href={`${BASE}/cart`}><Icon.Bag /><span>Cart</span></a>
+              <label className="h-currency" aria-label="Select currency">
+                <select value={currency} onChange={onCurrencyChange}>
+                  {CURRENCIES.map((c) => (
+                    <option key={c.code} value={c.code}>{c.label}</option>
+                  ))}
+                </select>
+                <span className="h-currency-display" aria-hidden="true">
+                  {CURRENCIES.find((c) => c.code === currency)?.label}
+                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6"/></svg>
+                </span>
+              </label>
+
+              <a href={`${BASE}/my-account`} className="h-util" aria-label="My account">
+                <Icon.User />
+                <span>Account</span>
+              </a>
+
+              <a href={`${BASE}/wishlist`} className="h-util h-util--badge" aria-label={`Wishlist (${wishlistCount})`}>
+                <Icon.Heart />
+                <span>Wishlist</span>
+                {wishlistCount > 0 && <em className="h-badge">{wishlistCount}</em>}
+              </a>
+
+              <a href={`${BASE}/cart`} className="h-util h-util--badge" aria-label={`Cart (${cartCount})`}>
+                <Icon.Bag />
+                <span>Cart</span>
+                <em className="h-badge h-badge--solid" data-count={cartCount}>{cartCount}</em>
+              </a>
             </div>
           </div>
-        </div>
-        <nav className="h-nav" aria-label="Collections">
-          <div className="h-nav-inner">
-            <a href={`${BASE}/product-category/Kanjivaram-silks-sarees/`}>Pure Silk</a>
-            <a href={`${BASE}/product-category/silk-cotton-sarees-collection/`}>Silk Cotton</a>
-            <a href={`${BASE}/product-category/10-yards-sarees-2/all-collections/`}>10 Yards</a>
-            <a href={`${BASE}/product-category/printed-saree/`}>Printed</a>
-            <a href={`${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/`}>Cotton</a>
-            <a href={`${BASE}/product-category/fancy-sarees/`}>Fancy</a>
-            <a href={`${BASE}/product-category/dance-sarees/`}>Dance</a>
-            <a href={`${BASE}/product-category/uga-mens-kurtas-bushirt/`}>Kurtas</a>
-            <a href={`${BASE}/product-category/mens-cotton-dhotis/`}>Dhothis</a>
-            <a href={`${BASE}/product-category/latest-collections/`}>New Arrivals</a>
-            <a href={`${BASE}/shop`}>Shop All</a>
-          </div>
-        </nav>
-      </header>
 
-      {/* Search modal */}
-      <div className={`h-search-modal ${searchOpen ? "open" : ""}`} onClick={(e) => e.target === e.currentTarget && setSearchOpen(false)}>
-        <button className="h-search-modal-close" onClick={() => setSearchOpen(false)} aria-label="Close">×</button>
-        <div className="h-search-modal-card">
-          <label>Search</label>
-          <form className="h-search-form" action={BASE} method="get">
-            <input name="s" type="text" placeholder="What are you looking for?" autoFocus />
-            <input type="hidden" name="post_type" value="product" />
-            <button type="submit">Search</button>
-          </form>
-        </div>
+          <nav className="h-nav" aria-label="Collections">
+            <div className="h-nav-inner">
+              {collections.map((c) => (
+                <a key={c.name} href={c.href}>{c.name}</a>
+              ))}
+              <a href={`${BASE}/product-category/latest-collections/`} className="h-nav-accent">New Arrivals</a>
+              <a href={`${BASE}/shop`} className="h-nav-accent">Shop All</a>
+            </div>
+          </nav>
+        </header>
       </div>
 
       {/* Mobile drawer */}
       <div className={`h-mobile-nav ${menuOpen ? "open" : ""}`}>
         <button className="h-mobile-nav-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button>
+        <form className="h-mobile-search" action={BASE} method="get" role="search">
+          <Icon.Search />
+          <input name="s" type="text" placeholder="Search sarees…" />
+          <input type="hidden" name="post_type" value="product" />
+        </form>
         {collections.map((c) => (
           <a key={c.name} href={c.href} onClick={() => setMenuOpen(false)}>{c.name}</a>
         ))}
         <a href={`${BASE}/shop`} onClick={() => setMenuOpen(false)}>Shop All</a>
         <a href={`${BASE}/my-account`} onClick={() => setMenuOpen(false)}>My Account</a>
-        <a href={`${BASE}/cart`} onClick={() => setMenuOpen(false)}>Cart</a>
+        <a href={`${BASE}/wishlist`} onClick={() => setMenuOpen(false)}>Wishlist</a>
+        <a href={`${BASE}/cart`} onClick={() => setMenuOpen(false)}>Cart ({cartCount})</a>
       </div>
     </>
   );
