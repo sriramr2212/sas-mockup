@@ -1131,7 +1131,8 @@
   .h-arrivals-grid { grid-template-columns: repeat(3, 1fr); }
   .h-ig-grid { grid-template-columns: repeat(3, 1fr); }
   .h-stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .h-nav-inner a { padding: 10px 8px; font-size: 11px; letter-spacing: 0.1em; }
+  .h-nav-top { padding: 12px 10px; font-size: 11px; letter-spacing: 0.1em; }
+  .h-nav-inner { gap: 0; padding: 0 16px; }
 }
 
 @media (max-width: 860px) {
