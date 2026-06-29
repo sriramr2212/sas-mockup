@@ -1502,3 +1502,70 @@
   .h-temple-grid { grid-template-columns: 1fr; }
 }
 .h-aitry-badge-row { display: block; margin-bottom: 14px; }
+
+/* ============ COLLECTIONS HEAD (eyebrow large, h2 small) ============ */
+.h-collections-head .eyebrow {
+  display: block;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--h-burgundy);
+  margin-bottom: 8px;
+}
+.h-collections-head h2 {
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--h-muted);
+  margin-top: 4px;
+  text-transform: none;
+}
+
+/* ============ TESTIMONIALS CAROUSEL (3-up + arrows) ============ */
+.h-test-carousel {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.h-test-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.h-test-row[data-per-view="2"] { grid-template-columns: repeat(2, 1fr); }
+.h-test-row[data-per-view="1"] { grid-template-columns: 1fr; }
+.h-test-row .h-test-card {
+  background: var(--h-cream);
+  border: 1px solid var(--h-rule);
+  padding: 28px 24px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.h-test-row .h-test-card blockquote {
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  margin: 14px 0 18px;
+  flex: 1;
+}
+.h-test-arrow {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--h-rule);
+  background: var(--h-cream);
+  color: var(--h-burgundy);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.h-test-arrow:hover:not(:disabled) {
+  background: var(--h-burgundy);
+  color: var(--h-cream);
+  border-color: var(--h-burgundy);
+}
+.h-test-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+.h-test-arrow svg { width: 18px; height: 18px; }
