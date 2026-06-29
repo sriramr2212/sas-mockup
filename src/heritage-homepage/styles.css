@@ -1403,6 +1403,7 @@
   line-height: 1.75;
   margin-bottom: 26px;
 }
+.heritage-root a.h-btn--ghost-dark,
 .h-btn--ghost-dark {
   display: inline-flex; align-items: center; gap: 10px;
   border: 1px solid var(--h-burgundy);
