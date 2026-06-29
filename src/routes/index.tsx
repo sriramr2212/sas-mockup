@@ -838,7 +838,9 @@ function AiTryOn() {
     <section className="h-aitry" aria-labelledby="h-aitry-title">
       <div className="h-aitry-inner">
         <div className="h-aitry-art" aria-hidden="true">
-          <img src={aiTryon} alt="" loading="lazy" width={1280} height={1280} />
+          <div className="h-aitry-art-frame">
+            <img src={aiTryon} alt="" loading="lazy" width={1280} height={1280} />
+          </div>
           <span className="h-aitry-glow" />
         </div>
         <div className="h-aitry-text">
@@ -848,7 +850,7 @@ function AiTryOn() {
             </span>
           </div>
           <span className="eyebrow">AI Saree Try-On</span>
-          <h2 id="h-aitry-title">See yourself draped, before you decide.</h2>
+          <h2 id="h-aitry-title">Your Personal AI Saree Trial Room. Coming Soon.</h2>
           <p>
             Virtually drape any saree from our collection — coming soon to your phone.
           </p>
