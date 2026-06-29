@@ -2,6 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import "../heritage-homepage/styles.css";
 import testimonialsData from "../heritage-homepage/testimonials.json";
+import featuredTemple from "../heritage-homepage/featured-temple.json";
+import aiTryon from "../heritage-homepage/assets/ai-tryon.jpg";
+import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
+
+// Map JSON image keys (filenames) to bundled assets so the featured temple can
+// be swapped each month by editing featured-temple.json + adding an import here.
+const templeImages: Record<string, string> = {
+  "temple-meenakshi.jpg": templeMeenakshi,
+};
 
 import logo from "../heritage-homepage/assets/logo.png";
 import hero from "../heritage-homepage/assets/hero.jpg";
@@ -196,11 +205,13 @@ function HeritageHome() {
       <CollectionsCarousel />
       <GiftCards />
       <VideoShopping />
+      <AiTryOn />
       <Stats />
       <Testimonials />
       <Instagram />
       <Stores />
       <ReviewQR />
+      <FeaturedTemple />
       <Footer />
     </div>
   );
