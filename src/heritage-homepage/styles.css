@@ -1005,6 +1005,29 @@
   padding-bottom: 2px;
 }
 
+/* QR review section on dark bg */
+.h-section--dark .h-qr {
+  background: rgba(250, 245, 236, 0.06);
+  border-color: rgba(250, 245, 236, 0.14);
+}
+.h-section--dark .h-qr h3 {
+  color: var(--h-cream);
+}
+.h-section--dark .h-qr p {
+  color: rgba(250, 245, 236, 0.72);
+}
+.h-section--dark .h-qr a {
+  color: var(--h-cream);
+  border-bottom-color: var(--h-gold);
+}
+.h-section--dark .h-qr a:hover {
+  color: var(--h-gold-soft);
+}
+.h-section--dark .h-qr-img {
+  background: #fff;
+  border-color: rgba(250, 245, 236, 0.2);
+}
+
 /* ============ FOOTER ============ */
 .h-footer {
   background: #1f1410;
