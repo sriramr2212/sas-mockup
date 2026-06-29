@@ -1427,7 +1427,8 @@
 }
 @media (max-width: 860px) {
   .h-aitry-inner { grid-template-columns: 1fr; }
-  .h-aitry-art { max-width: 460px; margin: 0 auto; }
+  .h-aitry-art { max-width: 460px; margin: 0 auto; max-height: 320px; border-right: 0; }
+  .h-aitry-text { padding: 40px 24px; }
 }
 
 /* ======= Featured Temple of the Month ======= */
