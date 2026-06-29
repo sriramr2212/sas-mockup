@@ -670,31 +670,59 @@ function Stats() {
 }
 
 function Testimonials() {
-  const [idx, setIdx] = useState(0);
   const t = testimonialsData as Array<{ name: string; location: string; rating: number; review: string }>;
+  const [perView, setPerView] = useState(3);
+  const [start, setStart] = useState(0);
+
   useEffect(() => {
-    const id = setInterval(() => setIdx((i) => (i + 1) % t.length), 6500);
-    return () => clearInterval(id);
-  }, [t.length]);
-  const cur = t[idx];
+    const compute = () => {
+      const w = window.innerWidth;
+      setPerView(w < 720 ? 1 : w < 1080 ? 2 : 3);
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+
+  const maxStart = Math.max(0, t.length - perView);
+  const safeStart = Math.min(start, maxStart);
+  const visible = t.slice(safeStart, safeStart + perView);
+  const prev = () => setStart((s) => Math.max(0, s - 1));
+  const next = () => setStart((s) => Math.min(maxStart, s + 1));
+
   return (
     <section className="h-section h-section--alt">
       <div className="container">
         <div className="h-section-head">
           <span className="eyebrow">From Our Patrons</span>
-          <h2>Trust, woven through generations.</h2>
+          <h2>Testimonials from our Patrons</h2>
         </div>
-        <div className="h-test">
-          <div className="h-test-card" key={idx}>
-            <div className="h-test-stars">{"★".repeat(cur.rating)}</div>
-            <blockquote>"{cur.review}"</blockquote>
-            <cite>{cur.name}<small>{cur.location}</small></cite>
-          </div>
-          <div className="h-test-dots">
-            {t.map((_, i) => (
-              <button key={i} className={i === idx ? "active" : ""} onClick={() => setIdx(i)} aria-label={`Testimonial ${i + 1}`} />
+        <div className="h-test-carousel">
+          <button
+            className="h-test-arrow"
+            onClick={prev}
+            disabled={safeStart === 0}
+            aria-label="Previous testimonials"
+          >
+            <Icon.Arrow dir="left" />
+          </button>
+          <div className="h-test-row" data-per-view={perView}>
+            {visible.map((cur, i) => (
+              <div className="h-test-card" key={`${safeStart}-${i}`}>
+                <div className="h-test-stars">{"★".repeat(cur.rating)}</div>
+                <blockquote>"{cur.review}"</blockquote>
+                <cite>{cur.name}<small>{cur.location}</small></cite>
+              </div>
             ))}
           </div>
+          <button
+            className="h-test-arrow"
+            onClick={next}
+            disabled={safeStart >= maxStart}
+            aria-label="Next testimonials"
+          >
+            <Icon.Arrow />
+          </button>
         </div>
       </div>
     </section>
