@@ -1079,7 +1079,7 @@
 .h-footer {
   background:
     linear-gradient(rgba(20, 12, 4, 0.86), rgba(20, 12, 4, 0.93)),
-    url("../heritage-homepage/assets/footer-loom.jpg") center / cover no-repeat;
+    url("./assets/footer-loom.jpg") center / cover no-repeat;
   color: rgba(250,245,236,0.92);
   padding: 72px 0 28px;
   font-size: 14px;
