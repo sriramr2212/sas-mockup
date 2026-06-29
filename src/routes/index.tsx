@@ -818,9 +818,11 @@ function AiTryOn() {
           <span className="h-aitry-glow" />
         </div>
         <div className="h-aitry-text">
-          <span className="h-aitry-badge">
-            <span className="dot" /> Coming Soon
-          </span>
+          <div className="h-aitry-badge-row">
+            <span className="h-aitry-badge">
+              <span className="dot" /> Coming Soon
+            </span>
+          </div>
           <span className="eyebrow">AI Saree Try-On</span>
           <h2 id="h-aitry-title">See yourself draped, before you decide.</h2>
           <p>
