@@ -1215,3 +1215,19 @@
   cursor: pointer;
   color: var(--h-burgundy);
 }
+.h-mobile-group { display: flex; flex-direction: column; border-bottom: 1px solid var(--h-rule); padding: 6px 0; }
+.h-mobile-nav .h-mobile-group a { border-bottom: 0; padding: 10px 0; }
+.h-mobile-nav .h-mobile-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--h-burgundy);
+  letter-spacing: 0.18em;
+}
+.h-mobile-nav .h-mobile-sub {
+  padding-left: 14px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--h-muted);
+  font-weight: 400;
+}
