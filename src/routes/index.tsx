@@ -822,9 +822,7 @@ function AiTryOn() {
           <span className="eyebrow">AI Saree Try-On</span>
           <h2 id="h-aitry-title">See yourself draped, before you decide.</h2>
           <p>
-            We are quietly crafting an AI-powered virtual try-on, so you can preview
-            our Kanjivaram silks, silk cottons and bridal sarees on yourself — the
-            colour, the fall, the borders — from anywhere in the world.
+            Virtually drape any saree from our collection — coming soon to your phone.
           </p>
           {submitted ? (
             <p className="h-aitry-thanks">
