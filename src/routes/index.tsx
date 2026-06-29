@@ -2,6 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import "../heritage-homepage/styles.css";
 import testimonialsData from "../heritage-homepage/testimonials.json";
+import featuredTemple from "../heritage-homepage/featured-temple.json";
+import aiTryon from "../heritage-homepage/assets/ai-tryon.jpg";
+import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
+
+// Map JSON image keys (filenames) to bundled assets so the featured temple can
+// be swapped each month by editing featured-temple.json + adding an import here.
+const templeImages: Record<string, string> = {
+  "temple-meenakshi.jpg": templeMeenakshi,
+};
 
 import logo from "../heritage-homepage/assets/logo.png";
 import hero from "../heritage-homepage/assets/hero.jpg";
@@ -196,11 +205,13 @@ function HeritageHome() {
       <CollectionsCarousel />
       <GiftCards />
       <VideoShopping />
+      <AiTryOn />
       <Stats />
       <Testimonials />
       <Instagram />
       <Stores />
       <ReviewQR />
+      <FeaturedTemple />
       <Footer />
     </div>
   );
@@ -785,6 +796,102 @@ function ReviewQR() {
             <p>Open your camera and point it at the code, or tap below.</p>
             <a href={reviewLinks.tnagar} target="_blank" rel="noreferrer">Write a Google Review →</a>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AiTryOn() {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubmitted(true);
+  };
+  return (
+    <section className="h-aitry" aria-labelledby="h-aitry-title">
+      <div className="h-aitry-inner">
+        <div className="h-aitry-art" aria-hidden="true">
+          <img src={aiTryon} alt="" loading="lazy" width={1280} height={1280} />
+          <span className="h-aitry-glow" />
+        </div>
+        <div className="h-aitry-text">
+          <div className="h-aitry-badge-row">
+            <span className="h-aitry-badge">
+              <span className="dot" /> Coming Soon
+            </span>
+          </div>
+          <span className="eyebrow">AI Saree Try-On</span>
+          <h2 id="h-aitry-title">See yourself draped, before you decide.</h2>
+          <p>
+            We are quietly crafting an AI-powered virtual try-on, so you can preview
+            our Kanjivaram silks, silk cottons and bridal sarees on yourself — the
+            colour, the fall, the borders — from anywhere in the world.
+          </p>
+          {submitted ? (
+            <p className="h-aitry-thanks">
+              Thank you. We will write to you the moment it is ready.
+            </p>
+          ) : (
+            <form className="h-aitry-form" onSubmit={onSubmit}>
+              <input
+                type="email"
+                required
+                placeholder="Your email address"
+                aria-label="Email for AI Try-On launch notification"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button type="submit" className="h-btn h-btn--gold">
+                Notify Me When Available
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeaturedTemple() {
+  const t = featuredTemple as {
+    name: string;
+    location: string;
+    image: string;
+    description: string;
+    url: string;
+  };
+  const imgKey = t.image.split("/").pop() ?? "";
+  const img = templeImages[imgKey] ?? templeMeenakshi;
+  return (
+    <section className="h-temple" aria-labelledby="h-temple-title">
+      <div className="h-temple-grid">
+        <a
+          className="h-temple-media"
+          href={t.url}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${t.name} — read more`}
+        >
+          <img src={img} alt={`${t.name}, ${t.location}`} loading="lazy" />
+        </a>
+        <div className="h-temple-text">
+          <span className="eyebrow">Featured Temple of the Month</span>
+          <h2 id="h-temple-title">{t.name}</h2>
+          <div className="h-temple-loc">
+            <Icon.Pin /> <span>{t.location}</span>
+          </div>
+          <p>{t.description}</p>
+          <a
+            className="h-btn h-btn--ghost-dark"
+            href={t.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read More <Icon.Arrow />
+          </a>
         </div>
       </div>
     </section>
