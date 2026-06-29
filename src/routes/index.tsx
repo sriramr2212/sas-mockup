@@ -590,17 +590,19 @@ function CollectionsCarousel() {
                 <a key={`${c.name}-${i}`} className="h-col-card" href={c.href}>
                   <div className="h-col-imgwrap">
                     <img src={c.img} alt={c.name} loading="lazy" />
+                    <div className="h-col-meta">
+                      <h3>{c.name}</h3>
+                      <div className="arr">Explore →</div>
+                    </div>
                   </div>
-                  <div className="h-col-meta">
-                    <h3>{c.name}</h3>
-                    <div className="arr">Explore →</div>
-                  </div>
+                  <div className="h-col-name">{c.name}</div>
                 </a>
               ))}
             </div>
           </div>
           <div className="h-carousel-nav">
             <button className="h-carousel-btn" onClick={() => nudge("left")} aria-label="Previous"><Icon.Arrow dir="left" /></button>
+            <a className="h-carousel-viewall" href={`${BASE}/shop`}>View all collections →</a>
             <button className="h-carousel-btn" onClick={() => nudge("right")} aria-label="Next"><Icon.Arrow /></button>
           </div>
         </div>
@@ -609,20 +611,18 @@ function CollectionsCarousel() {
   );
 }
 
+
 function GiftCards() {
   return (
-    <section className="h-gift">
+    <section className="h-gift h-gift--compact">
       <div className="h-gift-grid">
         <div className="h-gift-img">
-          <img src={giftcard} alt="Sri Aishwarya Sarees gift card" loading="lazy" />
+          <img src={giftcard} alt="Sri Aishwarya Sarees gift card on a thamboolam plate" loading="lazy" />
         </div>
         <div className="h-gift-text">
           <span className="eyebrow">Gift Cards & Coupons</span>
           <h2>The gift of a saree, chosen with love.</h2>
-          <p>
-            Not sure which saree she would love? Let her choose. Our gift coupons are the easiest way to send a
-            piece of heritage to someone special — for weddings, birthdays, and every celebration in between.
-          </p>
+          <p>Let her pick her own heritage — a gift card for every celebration.</p>
           <a className="h-btn h-btn--gold" href={`${BASE}/gift-cards/`}>Purchase a Gift Card</a>
         </div>
       </div>
@@ -632,23 +632,20 @@ function GiftCards() {
 
 function VideoShopping() {
   return (
-    <section className="h-vshop">
+    <section className="h-vshop h-vshop--compact">
       <div className="h-vshop-grid">
         <img src={videoShop} alt="Video saree consultation" loading="lazy" />
         <div className="h-vshop-text">
           <span className="eyebrow">Video Saree Consultation</span>
           <h2>Shop with us, from anywhere in the world.</h2>
-          <p>
-            Book a private video appointment with our family consultants. We will walk you through our store,
-            show you sarees in natural light, and help you find the one that feels right — just as you would in
-            person at our Chennai boutiques.
-          </p>
+          <p>Book a private video appointment with our family consultants.</p>
           <a className="h-btn h-btn--gold" href={`${BASE}/video-call-appointment/`}>Book an Appointment</a>
         </div>
       </div>
     </section>
   );
 }
+
 
 function Stats() {
   const stats = [
