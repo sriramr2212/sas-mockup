@@ -157,10 +157,51 @@ function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Initialise from URL param or existing WooCommerce currency cookies (WOOCS / CURCY / FOX).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    const fromUrl =
+      url.searchParams.get("currency") ||
+      url.searchParams.get("wmc-currency") ||
+      url.searchParams.get("woocs");
+    const cookies = Object.fromEntries(
+      document.cookie.split(";").map((c) => {
+        const [k, ...v] = c.trim().split("=");
+        return [k, decodeURIComponent(v.join("="))];
+      }),
+    );
+    const fromCookie =
+      cookies["woocommerce_current_currency"] ||
+      cookies["aelia_cs_selected_currency"] ||
+      cookies["wmc_current_currency"] ||
+      cookies["woocs_current_currency"];
+    const detected = (fromUrl || fromCookie || "").toUpperCase();
+    if (detected && CURRENCIES.some((c) => c.code === detected)) {
+      setCurrency(detected);
+    }
+  }, []);
+
   const onCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrency(e.target.value);
-    // Future: trigger WooCommerce currency switcher
-    // e.g. window.location.search = `?currency=${e.target.value}`;
+    const code = e.target.value;
+    setCurrency(code);
+    if (typeof window === "undefined") return;
+
+    // Persist for every common WooCommerce currency-switcher plugin so the
+    // selection survives navigation and is honoured by server-rendered prices.
+    const oneYear = 60 * 60 * 24 * 365;
+    const cookieOpts = `path=/; max-age=${oneYear}; SameSite=Lax`;
+    document.cookie = `woocommerce_current_currency=${code}; ${cookieOpts}`; // Aelia / generic
+    document.cookie = `aelia_cs_selected_currency=${code}; ${cookieOpts}`;   // Aelia Currency Switcher
+    document.cookie = `wmc_current_currency=${code}; ${cookieOpts}`;          // CURCY (FOX)
+    document.cookie = `woocs_current_currency=${code}; ${cookieOpts}`;        // WOOCS
+
+    // Trigger a server roundtrip with query params recognised by the major
+    // plugins so cart totals, mini-cart and product prices refresh site-wide.
+    const url = new URL(window.location.href);
+    url.searchParams.set("currency", code);    // WOOCS, Aelia
+    url.searchParams.set("wmc-currency", code); // CURCY
+    window.location.assign(url.toString());
   };
 
   return (
