@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+
 import "../heritage-homepage/styles.css";
 import testimonialsData from "../heritage-homepage/testimonials.json";
 import featuredTemple from "../heritage-homepage/featured-temple.json";
@@ -117,6 +118,13 @@ const navGroups: { name: string; href: string; items: { name: string; href: stri
       { name: "Traditional Silk Cotton", href: `${BASE}/product-category/silk-cotton-sarees-collection/` },
       { name: "Printed Silk Cotton", href: `${BASE}/product-category/printed-saree/` },
       { name: "Semi Silk Cotton", href: `${BASE}/product-category/saree-collections/traditional-polycotton/` },
+    ],
+  },
+  {
+    name: "Kids",
+    href: `${BASE}/product-category/amman-pavadai/`,
+    items: [
+      { name: "Kids Pattu Pavadai", href: `${BASE}/product-category/amman-pavadai/` },
     ],
   },
   {
@@ -906,14 +914,20 @@ function FeaturedTemple() {
             <Icon.Pin /> <span>{t.location}</span>
           </div>
           <p>{t.description}</p>
-          <a
-            className="h-btn h-btn--ghost-dark"
-            href={t.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Read More <Icon.Arrow />
-          </a>
+          <div className="h-temple-actions">
+            <a
+              className="h-btn h-btn--ghost-dark"
+              href={t.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read More <Icon.Arrow />
+            </a>
+            <Link to="/temples" className="h-temple-archive-link">
+              See all featured temples →
+            </Link>
+          </div>
+
         </div>
       </div>
     </section>

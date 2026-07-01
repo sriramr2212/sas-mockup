@@ -1,39 +1,125 @@
-## 1. Theme dark color → logo brown (#6B4202)
+## 1. Floating WhatsApp button (all pages, desktop + mobile)
 
-The heritage homepage uses two "dark" families:
-- **Burgundy** (`--h-burgundy: #5a1a23`, `--h-burgundy-dark: #41131a`, `--h-maroon: #7a1f2b`) — used for header background, primary buttons, links/hover, search button, nav active, badges, etc.
-- **Ink/text** (`--h-ink: #1f1410`, `--h-text: #2a1f18`) — headings and body text.
+- Add a small reusable `WhatsAppFloat` component rendered from `src/routes/__root.tsx` so it appears on every route.
+- Number: `+91 95001 92418` → `https://wa.me/919500192418?text=...`
+- Prefilled message: `Thank you for choosing Sri Aishwarya Sarees. How may we help you today?` (URL-encoded).
+- Style (in `src/heritage-homepage/styles.css`, scoped `.h-wa-float`):
+  - Fixed bottom-right, `bottom: 20px; right: 20px`, `z-index: 60`.
+  - 56px circle (48px on mobile ≤600px), WhatsApp green `#25D366`, white glyph, soft shadow, gentle pulse ring.
+  - `aria-label="Chat on WhatsApp"`, `target="_blank"`, `rel="noopener"`.
+- Uses inline SVG (no new dep). Visible on both desktop and mobile — no hiding rules.
 
-The user wants the **existing dark theme color** replaced with the logo's dark brown. The visually dominant dark in the UI is the burgundy family, so I'll remap that family to a brown palette derived from `#6B4202` and leave ink/text alone (text remains readable).
+## 2. Kids category in header nav
 
-New tokens in `src/heritage-homepage/styles.css`:
-- `--h-burgundy: #6B4202` (was `#5a1a23`)
-- `--h-burgundy-dark: #4a2d01` (deeper shade for hover)
-- `--h-maroon: #8a5a18` (slightly warmer secondary)
+Update the `navGroups` array in `src/routes/index.tsx` to add a new group **Kids** (placed after "Silk Cottons"):
 
-I'll also sweep the stylesheet for any hardcoded `#5a1a23`, `#41131a`, `#7a1f2b` or `rgba(90,26,35,…)` literals and replace them so nothing is left burgundy. The few hardcoded `#1f1410` (ink/footer bg) stay — they match the requested brown family already.
+- Group heading link: `https://sriaishwaryasarees.com/product-category/amman-pavadai/` (the existing Pattu Pavadai category on the live site).
+- Sub-items:
+  - **Kids Pattu Pavadai** → `https://sriaishwaryasarees.com/product-category/amman-pavadai/`
+  - (Room left for a second sub-item later; only Pattu Pavadai confirmed for now.)
 
-Verification: read the stylesheet after edits, grep for the old hex codes to confirm zero matches, then visually check header/buttons/footer in the running preview.
+No other nav changes.
 
-## 2. Footer — handloom-themed photo background
+## 3. New `/temples` page — single scrolling page
 
-Current footer (`.h-footer`) is flat `#1f1410`. I will:
+New route file: `src/routes/temples.tsx` (createFileRoute `"/temples"`), with its own `head()` (title, description, og:title/description, og:image = current featured temple image).
 
-1. **Generate** a wide background image with `generate_image` (premium quality not needed; `standard`): macro photo of golden silk warp threads on a traditional handloom, soft warm lighting, shallow depth of field, rich dark tones. Save to `src/heritage-homepage/assets/footer-loom.jpg` (1920×1080).
-2. **Apply** in `.h-footer`:
-   - `background-image: linear-gradient(rgba(20,12,4,0.82), rgba(20,12,4,0.92)), url(...)`
-   - `background-size: cover; background-position: center;`
-   - Keep existing padding and text color.
-3. **Legibility pass**: bump body text opacity from `0.82` → `0.9`, brand tagline `0.7` → `0.85`, bottom strip `0.5` → `0.7`, and add a subtle `text-shadow: 0 1px 2px rgba(0,0,0,0.5)` on `.h-footer` so text stays crisp over the photo. Headings already use gold and remain readable.
+Data source: new JSON file `src/heritage-homepage/temples.json` — an array, newest first:
+
+```json
+[
+  { "slug": "meenakshi-amman",
+    "name": "Meenakshi Amman Temple",
+    "location": "Madurai, Tamil Nadu",
+    "month": "December 2025",
+    "image": "temple-meenakshi.jpg",
+    "url": "https://maduraimeenakshi.org/",
+    "description": "…full paragraph…",
+    "story": ["Paragraph 1", "Paragraph 2", "Paragraph 3"] }
+]
+```
+
+- Image key resolves via the existing `templeImages` map (moved to a shared `src/heritage-homepage/temple-images.ts` so both `index.tsx` and `temples.tsx` import it).
+- To add next month's temple: drop a JPG in `assets/`, add an import + map entry in `temple-images.ts`, prepend a new object to `temples.json`. No component edits needed.
+
+Page layout (all scoped under `.heritage-root`, reusing existing tokens):
+
+```
+[ Header — same as home, shared component ]
+[ Hero band: "Temple of the Month" eyebrow, page title
+  "Sacred Threads — Temples That Inspire Us", short intro paragraph ]
+
+[ Featured (newest) temple — full-bleed section ]
+   Large image left, name/location/month, long story on right,
+   "Visit temple site" outline button.
+
+[ Archive — each earlier temple as its own alternating section ]
+   image ↔ text, subtle divider between entries,
+   `<article id="{slug}">` so deep links like /temples#meenakshi-amman work.
+
+[ Footer — same as home, shared component ]
+```
+
+New CSS block `.h-temples-*` added to `src/heritage-homepage/styles.css`.
+
+**Link from home page:** in the existing "Temple of the Month" section on `index.tsx`, change the current external "Visit temple website" CTA area to also include a secondary link **"See all featured temples →"** pointing to `/temples`. The external "Visit temple website" button stays.
+
+To keep header + footer identical across both pages without duplicating ~400 lines of JSX, extract them into two small components:
+- `src/heritage-homepage/Header.tsx`
+- `src/heritage-homepage/Footer.tsx`
+
+`index.tsx` and `temples.tsx` both import these. `navGroups` moves into `src/heritage-homepage/nav.ts` so both use the same nav.
+
+## 4. Static HTML/CSS export for cPanel (two folders)
+
+Deliverable committed to the repo at `static-export/`:
+
+```
+static-export/
+  home/
+    index.html
+    css/heritage.css
+    js/whatsapp.js         (also handles mobile menu toggle)
+    images/…               (all home-page JPGs/PNGs + logo)
+  temples/
+    index.html             (single scrolling page; uploaded as /temples/ on cPanel)
+    css/heritage.css       (same file copied)
+    js/whatsapp.js
+    images/…               (temple images + shared header/footer images)
+```
+
+Rules for the export:
+- Pure HTML + CSS + a single tiny vanilla JS file. No React, no build step, no framework.
+- CSS is the current `src/heritage-homepage/styles.css` with the `.heritage-root` scope flattened to normal selectors (or kept as-is with `<body class="heritage-root">` — I'll keep the class to avoid rewriting selectors).
+- All product / category / nav links are absolute URLs to `sriaishwaryasarees.com` (already the case).
+- Cross-page links: `home/index.html` → Temple of the Month button links to `../temples/`; `temples/index.html` header logo links to `../home/`.
+- Fonts loaded via `<link>` to Google Fonts in each `index.html` head (Cormorant Garamond + Inter) so no font files need to ship.
+- WhatsApp float, mobile nav toggle, and simple carousel behaviour go into `js/whatsapp.js` (~50 lines, no dependencies).
+- A short `static-export/README.md` explains: upload `home/` contents to the WooCommerce site root (replacing existing `index.html`) and upload `temples/` as a subfolder, or drop both folders wherever cPanel serves static HTML.
+
+The static export is generated by hand (I'll write the two HTML files directly), not by a build script — that keeps it "no complex stuff", exactly matching what will be uploaded.
 
 ## Files touched
 
-- `src/heritage-homepage/styles.css` — color token remap + footer background + text-shadow/opacity tweaks.
-- `src/heritage-homepage/assets/footer-loom.jpg` — new generated image.
+Created:
+- `src/heritage-homepage/WhatsAppFloat.tsx`
+- `src/heritage-homepage/Header.tsx`
+- `src/heritage-homepage/Footer.tsx`
+- `src/heritage-homepage/nav.ts`
+- `src/heritage-homepage/temple-images.ts`
+- `src/heritage-homepage/temples.json`
+- `src/routes/temples.tsx`
+- `static-export/home/index.html` + `css/heritage.css` + `js/whatsapp.js` + `images/*`
+- `static-export/temples/index.html` + `css/heritage.css` + `js/whatsapp.js` + `images/*`
+- `static-export/README.md`
 
-No JSX changes required.
+Edited:
+- `src/routes/__root.tsx` — mount `<WhatsAppFloat />`.
+- `src/routes/index.tsx` — import shared Header/Footer/nav, add Kids nav group, add "See all featured temples" link.
+- `src/heritage-homepage/styles.css` — `.h-wa-float` + `.h-temples-*` blocks.
 
 ## Out of scope
 
-- The base Tailwind/shadcn tokens in `src/styles.css` (the homepage is fully scoped under `.heritage-root` and doesn't use them).
-- Logo image itself, layout, typography, or any other section.
+- Adding more than one Kids sub-item (only Pattu Pavadai confirmed).
+- CMS/back-end for the temples archive — it's a JSON file, edit-then-deploy.
+- Automating the static export via a build script.
