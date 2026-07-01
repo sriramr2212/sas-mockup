@@ -1592,3 +1592,240 @@
 }
 .h-test-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
 .h-test-arrow svg { width: 18px; height: 18px; }
+
+/* ============ Floating WhatsApp button (all pages) ============ */
+.h-wa-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.h-wa-float:hover {
+  transform: scale(1.06);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+.h-wa-float:focus-visible {
+  outline: 3px solid #b48a3c;
+  outline-offset: 3px;
+}
+.h-wa-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(37, 211, 102, 0.55);
+  animation: h-wa-pulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes h-wa-pulse {
+  0%   { transform: scale(0.85); opacity: 0.9; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+@media (max-width: 600px) {
+  .h-wa-float { width: 52px; height: 52px; bottom: 16px; right: 16px; }
+  .h-wa-float svg { width: 26px; height: 26px; }
+}
+
+/* ============ Home: Featured Temple actions ============ */
+.heritage-root .h-temple-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+  margin-top: 8px;
+}
+.heritage-root .h-temple-archive-link {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--h-gold-soft);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212, 173, 94, 0.4);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.heritage-root .h-temple-archive-link:hover {
+  color: var(--h-cream);
+  border-bottom-color: var(--h-cream);
+}
+
+/* ============ Temples page ============ */
+.heritage-root .h-temples-header {
+  background: var(--h-cream);
+  border-bottom: 1px solid var(--h-rule);
+  padding: 18px 0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+.heritage-root .h-temples-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.heritage-root .h-temples-header .h-logo img {
+  height: 52px;
+  width: auto;
+  display: block;
+}
+.heritage-root .h-temples-nav {
+  display: flex;
+  gap: 28px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.heritage-root .h-temples-nav a {
+  color: var(--h-ink);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.heritage-root .h-temples-nav a:hover { color: var(--h-burgundy); }
+
+.heritage-root .h-temples-hero {
+  padding: 90px 0 60px;
+  background: linear-gradient(180deg, var(--h-cream) 0%, var(--h-ivory) 100%);
+  text-align: center;
+}
+.heritage-root .h-temples-hero h1 {
+  font-size: clamp(38px, 6vw, 68px);
+  margin: 14px 0 20px;
+}
+.heritage-root .h-temples-hero p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: var(--h-muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.heritage-root .h-temples-archive-head {
+  text-align: center;
+  padding: 80px 20px 20px;
+}
+.heritage-root .h-temples-archive-head h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  margin-top: 12px;
+}
+
+.heritage-root .h-temples-entry {
+  padding: 70px 0;
+  border-bottom: 1px solid var(--h-rule);
+}
+.heritage-root .h-temples-entry.is-featured {
+  padding-top: 40px;
+  background: var(--h-cream);
+}
+.heritage-root .h-temples-entry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.heritage-root .h-temples-entry.is-reverse .h-temples-entry-grid {
+  direction: rtl;
+}
+.heritage-root .h-temples-entry.is-reverse .h-temples-entry-grid > * {
+  direction: ltr;
+}
+.heritage-root .h-temples-entry-media {
+  display: block;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 20px 50px rgba(31, 20, 16, 0.18);
+}
+.heritage-root .h-temples-entry-media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  transition: transform 1s ease;
+}
+.heritage-root .h-temples-entry-media:hover img { transform: scale(1.04); }
+.heritage-root .h-temples-entry-text h2 {
+  font-size: clamp(30px, 4vw, 46px);
+  margin: 12px 0 8px;
+}
+.heritage-root .h-temples-entry-loc {
+  font-family: "Inter", sans-serif;
+  color: var(--h-muted);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+}
+.heritage-root .h-temples-entry-lede {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--h-text);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+.heritage-root .h-temples-entry-text p {
+  color: var(--h-text);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+.heritage-root .h-temples-entry-text .h-btn {
+  margin-top: 12px;
+}
+
+.heritage-root .h-temples-cta {
+  text-align: center;
+  padding: 70px 20px;
+  background: var(--h-ivory);
+}
+.heritage-root .h-temples-cta p {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 22px;
+  color: var(--h-ink);
+  margin-bottom: 22px;
+}
+.heritage-root .h-temples-back {
+  display: block;
+  margin-top: 22px;
+  color: var(--h-burgundy);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+.heritage-root .h-temples-back:hover { text-decoration: underline; }
+
+.heritage-root .h-temples-footer {
+  background: var(--h-ink);
+  color: rgba(250, 245, 236, 0.75);
+  padding: 30px 0;
+  font-size: 13px;
+}
+.heritage-root .h-temples-footer .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 800px) {
+  .heritage-root .h-temples-entry { padding: 45px 0; }
+  .heritage-root .h-temples-entry-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .heritage-root .h-temples-entry.is-reverse .h-temples-entry-grid { direction: ltr; }
+  .heritage-root .h-temples-hero { padding: 60px 20px 40px; }
+  .heritage-root .h-temples-nav { gap: 18px; font-size: 12px; }
+  .heritage-root .h-temples-header .h-logo img { height: 42px; }
+}
