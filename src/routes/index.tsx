@@ -914,14 +914,20 @@ function FeaturedTemple() {
             <Icon.Pin /> <span>{t.location}</span>
           </div>
           <p>{t.description}</p>
-          <a
-            className="h-btn h-btn--ghost-dark"
-            href={t.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Read More <Icon.Arrow />
-          </a>
+          <div className="h-temple-actions">
+            <a
+              className="h-btn h-btn--ghost-dark"
+              href={t.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read More <Icon.Arrow />
+            </a>
+            <Link to="/temples" className="h-temple-archive-link">
+              See all featured temples →
+            </Link>
+          </div>
+
         </div>
       </div>
     </section>
