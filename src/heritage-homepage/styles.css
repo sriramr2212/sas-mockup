@@ -1829,3 +1829,114 @@
   .heritage-root .h-temples-nav { gap: 18px; font-size: 12px; }
   .heritage-root .h-temples-header .h-logo img { height: 42px; }
 }
+
+/* ============ v2 tweaks: dropdowns, responsive arrivals, tighter sections, footer credit ============ */
+
+/* Wide multi-column dropdown panels for large groups */
+.heritage-root .h-nav-panel.is-wide {
+  min-width: 460px;
+  columns: 2;
+  column-gap: 8px;
+  padding: 12px 0;
+}
+.heritage-root .h-nav-panel.is-wide a {
+  break-inside: avoid;
+  white-space: normal;
+}
+
+/* New Arrivals: 4 cols desktop, 3 tablet, 2 mobile; hide extras */
+.heritage-root .h-arrivals-grid { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1024px) {
+  .heritage-root .h-arrivals-grid { grid-template-columns: repeat(3, 1fr); }
+  .heritage-root .h-arrivals-grid > .h-product:nth-child(n+7) { display: none; }
+}
+@media (max-width: 720px) {
+  .heritage-root .h-arrivals-grid { grid-template-columns: repeat(2, 1fr); }
+  .heritage-root .h-arrivals-grid > .h-product:nth-child(n+5) { display: none; }
+}
+
+/* Craftsmanship — trimmed vertical rhythm */
+.heritage-root .h-craft { padding: 56px 0; }
+.heritage-root .h-craft .h-section-head { margin-bottom: 32px; }
+.heritage-root .h-craft-grid { margin-top: 32px; gap: 28px; }
+.heritage-root .h-craft-card p { font-size: 14px; line-height: 1.6; }
+.heritage-root .h-craft-icon { width: 52px; height: 52px; margin-bottom: 14px; }
+.heritage-root .h-craft-icon svg { width: 22px; height: 22px; }
+.heritage-root .h-craft-card h3 { font-size: 19px; margin-bottom: 6px; }
+
+/* Faster marquee on mobile only */
+@media (max-width: 720px) {
+  .heritage-root .h-carousel-track { animation-duration: 38s; }
+}
+
+/* Global section padding audit */
+.heritage-root .h-section { padding: 64px 0; }
+.heritage-root .h-section-head { margin-bottom: 36px; }
+.heritage-root .h-section-cta { margin-top: 36px; }
+.heritage-root .h-section--tight { padding: 44px 0; }
+.heritage-root .h-section--tight .h-section-head { margin-bottom: 28px; }
+.heritage-root .h-stats { padding: 72px 0; }
+.heritage-root .h-gift--compact .h-gift-text { padding: 44px 48px; }
+.heritage-root .h-vshop--compact .h-vshop-text { padding: 44px 48px; }
+.heritage-root .h-gift--compact .h-gift-img img { min-height: 260px; max-height: 320px; }
+.heritage-root .h-vshop--compact img { min-height: 260px; max-height: 320px; }
+.heritage-root .h-stores-grid { margin-top: 36px; }
+.heritage-root .h-store img { height: 240px; }
+.heritage-root .h-store-body { padding: 24px 26px 28px; }
+.heritage-root .h-footer { padding: 52px 0 24px; }
+
+@media (max-width: 860px) {
+  .heritage-root .h-section { padding: 44px 0; }
+  .heritage-root .h-section--tight { padding: 32px 0; }
+  .heritage-root .h-stats { padding: 48px 0; }
+  .heritage-root .h-craft { padding: 40px 0; }
+  .heritage-root .h-gift--compact .h-gift-text,
+  .heritage-root .h-vshop--compact .h-vshop-text { padding: 32px 24px; }
+}
+
+/* AI Try-On — slim, text-only variant */
+.heritage-root .h-aitry.h-aitry--slim { margin-top: 40px; }
+.heritage-root .h-aitry-inner.h-aitry-inner--textonly {
+  grid-template-columns: 1fr;
+  padding: 40px 48px;
+  gap: 20px;
+  max-width: 780px;
+  text-align: center;
+}
+.heritage-root .h-aitry-inner--textonly .h-aitry-text { text-align: center; }
+.heritage-root .h-aitry-inner--textonly .h-aitry-text h2 { margin: 12px 0 12px; font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+.heritage-root .h-aitry-inner--textonly .h-aitry-text p { margin: 0 auto 20px; max-width: 520px; }
+.heritage-root .h-aitry-inner--textonly .h-aitry-form { justify-content: center; margin: 0 auto; }
+.heritage-root .h-aitry-inner--textonly .h-aitry-badge-row { text-align: center; margin-bottom: 8px; }
+
+@media (max-width: 600px) {
+  .heritage-root .h-aitry-inner.h-aitry-inner--textonly { padding: 32px 20px; }
+}
+
+/* Footer credit line */
+.heritage-root .h-footer-credit {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: none;
+  color: rgba(250, 245, 236, 0.7);
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(212, 173, 94, 0.14);
+}
+.heritage-root .h-footer-credit a {
+  color: var(--h-gold-soft);
+  border-bottom: 1px solid rgba(212, 173, 94, 0.35);
+  padding-bottom: 1px;
+}
+.heritage-root .h-footer-credit a:hover { color: var(--h-cream); border-bottom-color: var(--h-cream); }
+@media (min-width: 861px) {
+  .heritage-root .h-footer-credit {
+    width: auto;
+    text-align: right;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
