@@ -97,7 +97,7 @@ export const Route = createFileRoute("/temples")({
             "famous south indian temples, meenakshi amman temple madurai, kamakshi amman temple kanchipuram, sri ranganathaswamy temple srirangam, chennakeshava temple belur, tamil nadu temples, karnataka temples, temple gopurams, kanjivaram silk, handloom sarees",
         },
         { name: "robots", content: "index, follow, max-image-preview:large" },
-        { name: "author", content: "Sri Aishwarya Sarees" },
+        { name: "author", content: "KlivIQ Technologies OPC" },
         { name: "geo.region", content: "IN-TN" },
         { name: "geo.placename", content: "Chennai, Tamil Nadu, India" },
         { name: "geo.position", content: "13.0827;80.2707" },
@@ -168,6 +168,20 @@ function TemplesPage() {
           </p>
         </div>
       </section>
+
+      <nav className="h-temples-index container" aria-label="Featured temples index">
+        <div className="h-temples-index-title">Jump to a temple</div>
+        <ul>
+          {temples.map((t) => (
+            <li key={t.slug}>
+              <a href={`#${t.slug}`}>
+                <span>{t.name} <span className="h-tx-arrow">→</span></span>
+                <span className="h-tx-month">{t.month} · {t.location}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       {featured && (
         <TempleEntry temple={featured} featured />
