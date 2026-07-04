@@ -1780,71 +1780,67 @@
   line-height: 1.65;
 }
 
-/* In-page temple index (blog-style) */
+/* In-page temple index — compact inline menu inside hero */
 .heritage-root .h-temples-index {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 22px 24px 34px;
+  margin: 22px auto 0;
+  max-width: 760px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px 14px;
+  padding-top: 16px;
   border-top: 1px solid var(--h-rule);
-  border-bottom: 1px solid var(--h-rule);
 }
-.heritage-root .h-temples-index-title {
+.heritage-root .h-temples-index-label {
   font-family: "Inter", sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.24em;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--h-gold);
   font-weight: 700;
-  text-align: center;
-  margin: 6px 0 14px;
 }
 .heritage-root .h-temples-index ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  justify-content: center;
 }
 .heritage-root .h-temples-index li + li {
-  border-top: 1px dashed var(--h-rule);
+  border-left: 1px solid var(--h-rule);
+  padding-left: 12px;
 }
 .heritage-root .h-temples-index a {
-  display: flex;
-  justify-content: space-between;
+  display: inline-flex;
   align-items: baseline;
-  gap: 16px;
-  padding: 12px 4px;
+  gap: 6px;
   text-decoration: none;
   color: var(--h-ink);
   font-family: "Fraunces", Georgia, serif;
-  font-size: 17px;
-  transition: color 0.2s ease, background 0.2s ease;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
-.heritage-root .h-temples-index a:hover {
-  color: var(--h-burgundy);
-  background: rgba(107, 66, 2, 0.04);
-}
+.heritage-root .h-temples-index a:hover { color: var(--h-burgundy); }
 .heritage-root .h-temples-index .h-tx-month {
   font-family: "Inter", sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--h-muted);
   font-weight: 600;
-  flex: 0 0 auto;
 }
-.heritage-root .h-temples-index .h-tx-arrow {
-  color: var(--h-gold);
-  font-family: "Inter", sans-serif;
-}
-.heritage-root .h-temples-entry {
-  scroll-margin-top: 90px;
-}
+.heritage-root .h-temples-entry { scroll-margin-top: 90px; }
 html { scroll-behavior: smooth; }
 @media (max-width: 720px) {
-  .heritage-root .h-temples-index a { font-size: 15px; flex-wrap: wrap; gap: 4px; }
-  .heritage-root .h-temples-index { padding: 16px 16px 22px; }
+  .heritage-root .h-temples-index { gap: 6px 10px; padding: 14px 8px 0; }
+  .heritage-root .h-temples-index a { font-size: 12.5px; }
+  .heritage-root .h-temples-index li + li { padding-left: 10px; }
 }
+
 
 .heritage-root .h-temples-archive-head {
   text-align: center;
