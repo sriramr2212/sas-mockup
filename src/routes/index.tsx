@@ -6,6 +6,9 @@ import "../heritage-homepage/styles.css";
 import testimonialsData from "../heritage-homepage/testimonials.json";
 import featuredTemple from "../heritage-homepage/featured-temple.json";
 import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
+import templeKamakshi from "../heritage-homepage/assets/temple-kamakshi.jpg";
+import templeChennakeshava from "../heritage-homepage/assets/temple-chennakeshava.jpg";
+import templeRanganathaswamy from "../heritage-homepage/assets/temple-ranganathaswamy.jpg";
 import {
   getNewArrivals,
   getCollectionThumbnails,
@@ -13,10 +16,13 @@ import {
   type CollectionThumb,
 } from "../lib/arrivals.functions";
 
-// Map JSON image keys (filenames) to bundled assets so the featured temple can
-// be swapped each month by editing featured-temple.json + adding an import here.
+// Map JSON image keys (filenames) to bundled assets so the featured temples can
+// be swapped each month by editing featured-temple.json / temples.json.
 const templeImages: Record<string, string> = {
   "temple-meenakshi.jpg": templeMeenakshi,
+  "temple-kamakshi.jpg": templeKamakshi,
+  "temple-chennakeshava.jpg": templeChennakeshava,
+  "temple-ranganathaswamy.jpg": templeRanganathaswamy,
 };
 
 import logo from "../heritage-homepage/assets/logo.png";
@@ -921,42 +927,67 @@ function AiTryOn() {
 }
 
 function FeaturedTemple() {
-  const t = featuredTemple as {
+  type Entry = {
+    slug?: string;
+    month?: string;
     name: string;
     location: string;
     image: string;
     description: string;
     url: string;
   };
-  const imgKey = t.image.split("/").pop() ?? "";
-  const img = templeImages[imgKey] ?? templeMeenakshi;
-  return (
-    <section className="h-temple" aria-labelledby="h-temple-title">
-      <div className="h-temple-grid">
-        <a
+  const data = featuredTemple as { current: Entry; previous: Entry };
+  const resolveImg = (img: string) => {
+    const key = img.split("/").pop() ?? "";
+    return templeImages[key] ?? templeMeenakshi;
+  };
+
+  const cell = (t: Entry, kind: "previous" | "current") => {
+    const img = resolveImg(t.image);
+    const eyebrow = kind === "current" ? `This Month · ${t.month ?? ""}` : `Last Month · ${t.month ?? ""}`;
+    return (
+      <div className={`h-temple-cell h-temple-cell--${kind}`}>
+        <Link
+          to="/temples"
+          hash={t.slug}
           className="h-temple-media"
-          href={t.url}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`${t.name} — read more`}
+          aria-label={`${t.name} — read the story`}
         >
           <img src={img} alt={`${t.name}, ${t.location}`} loading="lazy" />
-        </a>
+        </Link>
         <div className="h-temple-text">
-          <span className="eyebrow">Featured Temple of the Month</span>
-          <h2 id="h-temple-title">{t.name}</h2>
+          <span className="eyebrow">{eyebrow}</span>
+          <h3>{t.name}</h3>
           <div className="h-temple-loc">
             <Icon.Pin /> <span>{t.location}</span>
           </div>
           <p>{t.description}</p>
           <div className="h-temple-actions">
-            <a className="h-btn h-btn--ghost-dark" href={t.url} target="_blank" rel="noreferrer">
-              Read More <Icon.Arrow />
-            </a>
-            <Link to="/temples" className="h-temple-archive-link">
-              See all featured temples →
+            <Link to="/temples" hash={t.slug} className="h-btn h-btn--ghost-dark">
+              Read the Story <Icon.Arrow />
             </Link>
           </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <section className="h-temple h-temple--split" aria-labelledby="h-temple-title">
+      <div className="container">
+        <div className="h-section-head h-temple-head">
+          <span className="eyebrow">Featured Temples</span>
+          <h2 id="h-temple-title">Sacred Threads · Temple of the Month</h2>
+          <p>Every month we honour a temple whose motifs, colours and rhythms still shape our handloom craft.</p>
+        </div>
+        <div className="h-temple-split-grid">
+          {cell(data.previous, "previous")}
+          {cell(data.current, "current")}
+        </div>
+        <div className="h-temple-archive-cta">
+          <Link to="/temples" className="h-temple-archive-link">
+            See all featured temples →
+          </Link>
         </div>
       </div>
     </section>
