@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { reportError } from "../lib/error-reporting";
 import { WhatsAppFloat } from "../heritage-homepage/WhatsAppFloat";
 
 
@@ -40,7 +40,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
@@ -79,18 +79,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "A luxury editorial homepage for Sri Aishwarya Sarees, showcasing authentic handloom silk and cotton sarees." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "A luxury editorial homepage for Sri Aishwarya Sarees, showcasing authentic handloom silk and cotton sarees." },
+      { title: "Sri Aishwarya Sarees — Heritage Handloom House · Chennai" },
+      { name: "description", content: "Sri Aishwarya Sarees — a family-owned Chennai handloom house showcasing authentic Kanjivaram silk, silk cotton, madisar and pure cotton sarees for three generations." },
+      { name: "author", content: "KlivIQ Technologies OPC" },
+      { property: "og:title", content: "Sri Aishwarya Sarees — Heritage Handloom House · Chennai" },
+      { property: "og:description", content: "Authentic South Indian handloom sarees — Kanjivaram silks, silk cottons, madisars and more, from a family-owned Chennai house since 1972." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "A luxury editorial homepage for Sri Aishwarya Sarees, showcasing authentic handloom silk and cotton sarees." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5b315946-f797-4ad6-b989-2b86f5b31946/id-preview-5265b50c--194c5625-aff9-4cb8-b04d-2d8829483f42.lovable.app-1782495311944.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5b315946-f797-4ad6-b989-2b86f5b31946/id-preview-5265b50c--194c5625-aff9-4cb8-b04d-2d8829483f42.lovable.app-1782495311944.png" },
+      { property: "og:site_name", content: "Sri Aishwarya Sarees" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Sri Aishwarya Sarees — Heritage Handloom House" },
+      { name: "twitter:description", content: "Authentic South Indian handloom sarees — Kanjivaram silks, silk cottons and madisars from Chennai." },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
