@@ -760,7 +760,7 @@ function Testimonials() {
   const next = () => setStart((s) => Math.min(maxStart, s + 1));
 
   return (
-    <section className="h-section h-section--alt">
+    <section className="h-section h-section--alt h-testimonials">
       <div className="container">
         <div className="h-section-head">
           <span className="eyebrow">From Our Patrons</span>
