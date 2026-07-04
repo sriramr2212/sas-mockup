@@ -16,6 +16,17 @@ const templeImages: Record<string, string> = {
 
 const BASE = "https://sriaishwaryasarees.com";
 
+type Temple = {
+  slug: string;
+  name: string;
+  location: string;
+  month: string;
+  image: string;
+  url: string;
+  description: string;
+  story: string[];
+};
+
 const SITE_URL = "https://aish-sample.lovable.app";
 const CANONICAL = `${SITE_URL}/temples`;
 
