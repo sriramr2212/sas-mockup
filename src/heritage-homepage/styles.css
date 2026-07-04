@@ -1727,28 +1727,6 @@
   .h-wa-float svg { width: 26px; height: 26px; }
 }
 
-/* ============ Home: Featured Temple actions ============ */
-.heritage-root .h-temple-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 22px;
-  margin-top: 8px;
-}
-.heritage-root .h-temple-archive-link {
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  color: var(--h-gold-soft);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(212, 173, 94, 0.4);
-  padding-bottom: 2px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-.heritage-root .h-temple-archive-link:hover {
-  color: var(--h-cream);
-  border-bottom-color: var(--h-cream);
-}
 
 /* ============ Temples page ============ */
 .heritage-root .h-temples-header {
