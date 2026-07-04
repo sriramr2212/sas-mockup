@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import "../heritage-homepage/styles.css";
 import testimonialsData from "../heritage-homepage/testimonials.json";
-import featuredTemple from "../heritage-homepage/featured-temple.json";
+import templesData from "../heritage-homepage/temples.json";
 import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
 import templeKamakshi from "../heritage-homepage/assets/temple-kamakshi.jpg";
 import templeChennakeshava from "../heritage-homepage/assets/temple-chennakeshava.jpg";
@@ -17,7 +17,8 @@ import {
 } from "../lib/arrivals.functions";
 
 // Map JSON image keys (filenames) to bundled assets so the featured temples can
-// be swapped each month by editing featured-temple.json / temples.json.
+// be swapped each month by editing temples.json — the first entry is the
+// current month, the second is the previous month.
 const templeImages: Record<string, string> = {
   "temple-meenakshi.jpg": templeMeenakshi,
   "temple-kamakshi.jpg": templeKamakshi,
@@ -928,15 +929,19 @@ function AiTryOn() {
 
 function FeaturedTemple() {
   type Entry = {
-    slug?: string;
-    month?: string;
+    slug: string;
+    month: string;
     name: string;
     location: string;
     image: string;
     description: string;
     url: string;
   };
-  const data = featuredTemple as { current: Entry; previous: Entry };
+  const all = templesData as Entry[];
+  if (all.length < 2) return null;
+  const current = all[0];
+  const previous = all[1];
+
   const resolveImg = (img: string) => {
     const key = img.split("/").pop() ?? "";
     return templeImages[key] ?? templeMeenakshi;
@@ -944,7 +949,6 @@ function FeaturedTemple() {
 
   const cell = (t: Entry, kind: "previous" | "current") => {
     const img = resolveImg(t.image);
-    const eyebrow = kind === "current" ? `${t.month ?? ""}` : `${t.month ?? ""}`;
     return (
       <div className={`h-temple-cell h-temple-cell--${kind}`}>
         <Link
@@ -956,7 +960,7 @@ function FeaturedTemple() {
           <img src={img} alt={`${t.name}, ${t.location}`} loading="lazy" />
         </Link>
         <div className="h-temple-text">
-          <span className="eyebrow">{eyebrow}</span>
+          <span className="eyebrow">{t.month}</span>
           <h3>{t.name}</h3>
           <div className="h-temple-loc">
             <Icon.Pin /> <span>{t.location}</span>
@@ -977,9 +981,9 @@ function FeaturedTemple() {
           <h2 id="h-temple-title">Sacred Threads · Temple of the Month</h2>
         </div>
         <div className="h-temple-simple-grid">
-          {cell(data.previous, "previous")}
+          {cell(previous, "previous")}
           <div className="h-temple-divider" aria-hidden="true" />
-          {cell(data.current, "current")}
+          {cell(current, "current")}
         </div>
         <div className="h-temple-archive-cta">
           <Link to="/temples" className="h-temple-archive-link">
