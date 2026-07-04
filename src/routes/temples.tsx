@@ -166,22 +166,22 @@ function TemplesPage() {
             Indian handloom. This is our growing archive — a place to pause, read, and remember where our
             craft comes from.
           </p>
+          <nav className="h-temples-index" aria-label="Featured temples index">
+            <span className="h-temples-index-label">Jump to:</span>
+            <ul>
+              {temples.map((t) => (
+                <li key={t.slug}>
+                  <a href={`#${t.slug}`}>
+                    {t.name}
+                    <span className="h-tx-month">{t.month}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </section>
 
-      <nav className="h-temples-index container" aria-label="Featured temples index">
-        <div className="h-temples-index-title">Jump to a temple</div>
-        <ul>
-          {temples.map((t) => (
-            <li key={t.slug}>
-              <a href={`#${t.slug}`}>
-                <span>{t.name} <span className="h-tx-arrow">→</span></span>
-                <span className="h-tx-month">{t.month} · {t.location}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
 
       {featured && (
         <TempleEntry temple={featured} featured />
