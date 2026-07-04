@@ -27,7 +27,8 @@ const templeImages: Record<string, string> = {
 };
 
 import logo from "../heritage-homepage/assets/logo.png";
-import hero from "../heritage-homepage/assets/hero.jpg";
+import heroAsset from "../heritage-homepage/assets/sas-hero.png.asset.json";
+const hero = heroAsset.url;
 import weaving from "../heritage-homepage/assets/weaving-video.jpg";
 import giftcard from "../heritage-homepage/assets/giftcard.jpg";
 import videoShop from "../heritage-homepage/assets/video.jpg";
@@ -482,8 +483,7 @@ function Hero() {
           </div>
         </div>
         <div className="h-hero-img">
-          <img src={hero} alt="South Indian woman in a maroon Kanjivaram saree" />
-          <div className="h-hero-meta">Heritage Maroon Kanjivaram · Hand-Woven in Kanchipuram</div>
+          <img src={hero} alt="Sri Aishwarya Sarees — woman seated at a temple threshold in a teal silk-cotton saree with maroon zari border" />
         </div>
       </div>
     </section>
