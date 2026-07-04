@@ -27,7 +27,8 @@ const templeImages: Record<string, string> = {
 };
 
 import logo from "../heritage-homepage/assets/logo.png";
-import hero from "../heritage-homepage/assets/hero.jpg";
+import heroAsset from "../heritage-homepage/assets/sas-hero.png.asset.json";
+const hero = heroAsset.url;
 import weaving from "../heritage-homepage/assets/weaving-video.jpg";
 import giftcard from "../heritage-homepage/assets/giftcard.jpg";
 import videoShop from "../heritage-homepage/assets/video.jpg";
