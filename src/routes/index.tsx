@@ -265,8 +265,8 @@ function HeritageHome() {
       <AiTryOn />
       <Stats />
       <Testimonials />
-      <Stores />
       <ReviewQR />
+      <Stores />
       <FeaturedTemple />
       <Instagram />
       <Footer />
