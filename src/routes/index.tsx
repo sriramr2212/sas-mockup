@@ -483,8 +483,7 @@ function Hero() {
           </div>
         </div>
         <div className="h-hero-img">
-          <img src={hero} alt="South Indian woman in a maroon Kanjivaram saree" />
-          <div className="h-hero-meta">Heritage Maroon Kanjivaram · Hand-Woven in Kanchipuram</div>
+          <img src={hero} alt="Sri Aishwarya Sarees — woman seated at a temple threshold in a teal silk-cotton saree with maroon zari border" />
         </div>
       </div>
     </section>
