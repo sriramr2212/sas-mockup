@@ -1,125 +1,90 @@
-## 1. Floating WhatsApp button (all pages, desktop + mobile)
+## 1. Full dropdown lists in header (from live site)
 
-- Add a small reusable `WhatsAppFloat` component rendered from `src/routes/__root.tsx` so it appears on every route.
-- Number: `+91 95001 92418` → `https://wa.me/919500192418?text=...`
-- Prefilled message: `Thank you for choosing Sri Aishwarya Sarees. How may we help you today?` (URL-encoded).
-- Style (in `src/heritage-homepage/styles.css`, scoped `.h-wa-float`):
-  - Fixed bottom-right, `bottom: 20px; right: 20px`, `z-index: 60`.
-  - 56px circle (48px on mobile ≤600px), WhatsApp green `#25D366`, white glyph, soft shadow, gentle pulse ring.
-  - `aria-label="Chat on WhatsApp"`, `target="_blank"`, `rel="noopener"`.
-- Uses inline SVG (no new dep). Visible on both desktop and mobile — no hiding rules.
+Rewrite `navGroups` in `src/routes/index.tsx` using the real category URLs scraped from sriaishwaryasarees.com. Each parent still links to its own top category; sub-items go into the existing `.h-nav-panel` (already supports any length — will add multi-column CSS if a group has >6 items).
 
-## 2. Kids category in header nav
+Groups (parent → sub-items):
 
-Update the `navGroups` array in `src/routes/index.tsx` to add a new group **Kids** (placed after "Silk Cottons"):
+- **Kanjivaram Silks** → Pure Silk, Soft Silk, Korvai Kanjivaram, Pure Raw Silk, Tussar Silk, Vegan Silk, Bridal Collection.
+- **Silk Cotton** → All Collections, Ameya, Kora, Korvai, Big Border, Butta, Muthukattam, Thread Work, Vaira Oosi, Veldhari, Simple Silk Cotton, Printed Silk Cotton.
+- **Semi Silk Cotton** → Traditional Semi Silk Cotton, Printed Semi Silk Cotton, Semi Mysore Silk, Mangalagiri Silks, Fancy Raw Silk, Fancy Tussar Silks.
+- **Cotton Sarees** → Kuravalli, Chettinad, Kanchi, Jaipur, Chanderi, Kadhi, Devendra, Rich Cotton, Printed Cotton, Sungadi.
+- **10 & 9 Yards** → All Collections, 10 Yards Pure Silk, 10 Yards Silk Cotton, 10 Yards Semi Silk Cotton, 10 & 9 Yards Pure Cotton, 9 Yards Kalyani Cotton, 9 Yards Sungadi, Devendra Sarees.
+- **Kids** → Amman Pavadai, Ready Made Kids Frock.
+- **Men's** → Kurtas & Bushirt, Pattu Dhothi, 4/6/8 Muzham Dhoti, Dhoti 9×5 / 10×6, Dhothi 2×8.
+- **Dance** → Arangetram Sarees, Dance Practice Sarees.
+- **Fancy** → Fancy Sarees, Fancy Raw Silk, Fancy Tussar Silks.
 
-- Group heading link: `https://sriaishwaryasarees.com/product-category/amman-pavadai/` (the existing Pattu Pavadai category on the live site).
-- Sub-items:
-  - **Kids Pattu Pavadai** → `https://sriaishwaryasarees.com/product-category/amman-pavadai/`
-  - (Room left for a second sub-item later; only Pattu Pavadai confirmed for now.)
+CSS: add `.h-nav-panel.is-wide { columns: 2; min-width: 460px; }` for the two biggest groups (Silk Cotton, Cotton Sarees) so the panel stays a comfortable width.
 
-No other nav changes.
+## 2. Live New Arrivals from WordPress (no keys needed)
 
-## 3. New `/temples` page — single scrolling page
+Verified: `https://sriaishwaryasarees.com/wp-json/wc/store/v1/products?per_page=…&orderby=date&order=desc` returns 200 JSON publicly — no auth required. Nothing needed from you.
 
-New route file: `src/routes/temples.tsx` (createFileRoute `"/temples"`), with its own `head()` (title, description, og:title/description, og:image = current featured temple image).
+Implementation:
+- New server function `src/lib/arrivals.functions.ts` — `getNewArrivals({ limit })` fetches the Store API server-side with a 10-minute in-memory cache and maps each product to `{ name, price, img, href }` using `images[0].src`, `prices.price + prices.currency_symbol`, and `permalink`. Reason to fetch server-side: some hosts block browser CORS; also lets us cache and shrink bundle payload.
+- `src/routes/index.tsx` loader primes `queryClient.ensureQueryData` with those options (default read pattern from tanstack-query-integration). `NewArrivals` reads via `useSuspenseQuery`. Removes hardcoded `newArrivals` and the 6 `na-*.jpg` imports.
+- On fetch error (rare), the loader returns an empty array and the section shows a small "View all new arrivals on our store →" fallback instead of crashing.
 
-Data source: new JSON file `src/heritage-homepage/temples.json` — an array, newest first:
+## 3. Responsive item count for New Arrivals
 
-```json
-[
-  { "slug": "meenakshi-amman",
-    "name": "Meenakshi Amman Temple",
-    "location": "Madurai, Tamil Nadu",
-    "month": "December 2025",
-    "image": "temple-meenakshi.jpg",
-    "url": "https://maduraimeenakshi.org/",
-    "description": "…full paragraph…",
-    "story": ["Paragraph 1", "Paragraph 2", "Paragraph 3"] }
-]
-```
+Currently the grid shows all 6. Change:
+- Fetch **8** products.
+- Grid: mobile 2 cols → show 4 items (hide 5th–8th via `:nth-child(n+5){display:none}`), tablet 3 cols → show 6, desktop 4 cols → show 8.
+- Purely CSS in `styles.css`, no JS.
 
-- Image key resolves via the existing `templeImages` map (moved to a shared `src/heritage-homepage/temple-images.ts` so both `index.tsx` and `temples.tsx` import it).
-- To add next month's temple: drop a JPG in `assets/`, add an import + map entry in `temple-images.ts`, prepend a new object to `temples.json`. No component edits needed.
+## 4. Trim Our Craftsmanship
 
-Page layout (all scoped under `.heritage-root`, reusing existing tokens):
+- Shorten section heading paragraph to a single line.
+- Reduce each of the 3 card paragraphs to ~1 short sentence.
+- CSS: cut `.h-craft` vertical padding roughly in half (e.g. `padding: 64px 0` → `40px 0`), tighten `.h-section-head` bottom margin.
 
-```
-[ Header — same as home, shared component ]
-[ Hero band: "Temple of the Month" eyebrow, page title
-  "Sacred Threads — Temples That Inspire Us", short intro paragraph ]
+## 5. Reorder + faster mobile carousel
 
-[ Featured (newest) temple — full-bleed section ]
-   Large image left, name/location/month, long story on right,
-   "Visit temple site" outline button.
+- In `HeritageHome`, move `<CollectionsCarousel />` above `<Craftsmanship />`.
+- In `.h-carousel-track` marquee CSS, add a media query: `@media (max-width: 720px) { animation-duration: 28s; }` (or whatever value gives ~1.4× current mobile speed — still smooth, not frantic). Desktop untouched.
 
-[ Archive — each earlier temple as its own alternating section ]
-   image ↔ text, subtle divider between entries,
-   `<article id="{slug}">` so deep links like /temples#meenakshi-amman work.
+## 6. Collections thumbnails & links sourced from the site
 
-[ Footer — same as home, shared component ]
-```
+Keep the current 13 collection tiles but rewrite each `href` to the exact live category URL (from the scrape above) and add real per-category thumbnails.
+- Fetch category images at build/render time via the Store API `/products/categories?slug=…` (returns `image.src`). Same server function file adds `getCollectionThumbnails()` (cached 1 hour), keyed by slug list defined in code. The current bundled `col-*.jpg` files act as SSR fallbacks so the site never renders blank.
+- Component uses whichever it has: live image first, bundled fallback second.
 
-New CSS block `.h-temples-*` added to `src/heritage-homepage/styles.css`.
+## 7. Shorten Visit Our Stores
 
-**Link from home page:** in the existing "Temple of the Month" section on `index.tsx`, change the current external "Visit temple website" CTA area to also include a secondary link **"See all featured temples →"** pointing to `/temples`. The external "Visit temple website" button stays.
+- Trim intro paragraph to one line.
+- CSS `.h-section--alt` (used by this section): reduce top/bottom padding ~30–40%. Cards keep their layout; only vertical breathing room shrinks.
 
-To keep header + footer identical across both pages without duplicating ~400 lines of JSX, extract them into two small components:
-- `src/heritage-homepage/Header.tsx`
-- `src/heritage-homepage/Footer.tsx`
+## 8. Global padding audit
 
-`index.tsx` and `temples.tsx` both import these. `navGroups` moves into `src/heritage-homepage/nav.ts` so both use the same nav.
+Sweep every `.h-section`, `.h-gift`, `.h-vshop`, `.h-craft`, `.h-stats`, `.h-ig-grid` block; where padding exceeds ~80px top/bottom, reduce to ~48–56px on desktop and ~32–40px on mobile. Sections that already feel tight (TrustStrip, Hero) are left as-is.
 
-## 4. Static HTML/CSS export for cPanel (two folders)
+## 9. Trim AI Try-On section
 
-Deliverable committed to the repo at `static-export/`:
+- Delete the image column and `aiTryon` import.
+- Convert `.h-aitryon-grid` to a single centered text block, ~60ch max width.
+- Shorten copy to 2 short lines + CTA button. Cut vertical padding in half.
 
-```
-static-export/
-  home/
-    index.html
-    css/heritage.css
-    js/whatsapp.js         (also handles mobile menu toggle)
-    images/…               (all home-page JPGs/PNGs + logo)
-  temples/
-    index.html             (single scrolling page; uploaded as /temples/ on cPanel)
-    css/heritage.css       (same file copied)
-    js/whatsapp.js
-    images/…               (temple images + shared header/footer images)
-```
+## 10. Footer credit
 
-Rules for the export:
-- Pure HTML + CSS + a single tiny vanilla JS file. No React, no build step, no framework.
-- CSS is the current `src/heritage-homepage/styles.css` with the `.heritage-root` scope flattened to normal selectors (or kept as-is with `<body class="heritage-root">` — I'll keep the class to avoid rewriting selectors).
-- All product / category / nav links are absolute URLs to `sriaishwaryasarees.com` (already the case).
-- Cross-page links: `home/index.html` → Temple of the Month button links to `../temples/`; `temples/index.html` header logo links to `../home/`.
-- Fonts loaded via `<link>` to Google Fonts in each `index.html` head (Cormorant Garamond + Inter) so no font files need to ship.
-- WhatsApp float, mobile nav toggle, and simple carousel behaviour go into `js/whatsapp.js` (~50 lines, no dependencies).
-- A short `static-export/README.md` explains: upload `home/` contents to the WooCommerce site root (replacing existing `index.html`) and upload `temples/` as a subfolder, or drop both folders wherever cPanel serves static HTML.
+In the existing `Footer` component, add a final line inside the bottom bar (right-aligned on desktop, centered on mobile):
 
-The static export is generated by hand (I'll write the two HTML files directly), not by a build script — that keeps it "no complex stuff", exactly matching what will be uploaded.
+> Homepage designed by [KlivIQ Technologies OPC](https://kliviq.com)
+
+Link opens in a new tab (`target="_blank"`, `rel="noopener"`).
 
 ## Files touched
 
 Created:
-- `src/heritage-homepage/WhatsAppFloat.tsx`
-- `src/heritage-homepage/Header.tsx`
-- `src/heritage-homepage/Footer.tsx`
-- `src/heritage-homepage/nav.ts`
-- `src/heritage-homepage/temple-images.ts`
-- `src/heritage-homepage/temples.json`
-- `src/routes/temples.tsx`
-- `static-export/home/index.html` + `css/heritage.css` + `js/whatsapp.js` + `images/*`
-- `static-export/temples/index.html` + `css/heritage.css` + `js/whatsapp.js` + `images/*`
-- `static-export/README.md`
+- `src/lib/arrivals.functions.ts` — `getNewArrivals`, `getCollectionThumbnails` server fns hitting the public WP Store API.
 
 Edited:
-- `src/routes/__root.tsx` — mount `<WhatsAppFloat />`.
-- `src/routes/index.tsx` — import shared Header/Footer/nav, add Kids nav group, add "See all featured temples" link.
-- `src/heritage-homepage/styles.css` — `.h-wa-float` + `.h-temples-*` blocks.
+- `src/routes/index.tsx` — new `navGroups`, loader wiring, live arrivals + collections, section reorder, trimmed Craftsmanship/Stores/AI Try-On copy, updated Footer, drop `ai-tryon.jpg` and `na-*.jpg` imports.
+- `src/heritage-homepage/styles.css` — wide nav panels, responsive arrivals grid, faster mobile marquee, reduced section paddings, single-column AI Try-On, footer credit style.
+
+Also regenerate the static export (`python3 scripts/export-static.py`) once React changes are in, so `static-export/` reflects the new home page.
 
 ## Out of scope
 
-- Adding more than one Kids sub-item (only Pattu Pavadai confirmed).
-- CMS/back-end for the temples archive — it's a JSON file, edit-then-deploy.
-- Automating the static export via a build script.
+- Wiring the WooCommerce REST API with consumer keys (not needed — public Store API is sufficient).
+- Changing the temples page or WhatsApp float.
+- Automated CMS for collection categories (the slug list stays in code; the images/links are live).
