@@ -944,7 +944,7 @@ function FeaturedTemple() {
 
   const cell = (t: Entry, kind: "previous" | "current") => {
     const img = resolveImg(t.image);
-    const eyebrow = kind === "current" ? `This Month · ${t.month ?? ""}` : `Last Month · ${t.month ?? ""}`;
+    const eyebrow = kind === "current" ? `${t.month ?? ""}` : `${t.month ?? ""}`;
     return (
       <div className={`h-temple-cell h-temple-cell--${kind}`}>
         <Link
@@ -961,27 +961,24 @@ function FeaturedTemple() {
           <div className="h-temple-loc">
             <Icon.Pin /> <span>{t.location}</span>
           </div>
-          <p>{t.description}</p>
-          <div className="h-temple-actions">
-            <Link to="/temples" hash={t.slug} className="h-btn h-btn--ghost-dark">
-              Read the Story <Icon.Arrow />
-            </Link>
-          </div>
+          <Link to="/temples" hash={t.slug} className="h-temple-cell-btn">
+            Read the Story
+          </Link>
         </div>
       </div>
     );
   };
 
   return (
-    <section className="h-temple h-temple--split" aria-labelledby="h-temple-title">
+    <section className="h-temple h-temple--simple" aria-labelledby="h-temple-title">
       <div className="container">
         <div className="h-section-head h-temple-head">
           <span className="eyebrow">Featured Temples</span>
           <h2 id="h-temple-title">Sacred Threads · Temple of the Month</h2>
-          <p>Every month we honour a temple whose motifs, colours and rhythms still shape our handloom craft.</p>
         </div>
-        <div className="h-temple-split-grid">
+        <div className="h-temple-simple-grid">
           {cell(data.previous, "previous")}
+          <div className="h-temple-divider" aria-hidden="true" />
           {cell(data.current, "current")}
         </div>
         <div className="h-temple-archive-cta">
