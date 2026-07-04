@@ -3,9 +3,15 @@ import "../heritage-homepage/styles.css";
 import templesData from "../heritage-homepage/temples.json";
 import logo from "../heritage-homepage/assets/logo.png";
 import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
+import templeKamakshi from "../heritage-homepage/assets/temple-kamakshi.jpg";
+import templeChennakeshava from "../heritage-homepage/assets/temple-chennakeshava.jpg";
+import templeRanganathaswamy from "../heritage-homepage/assets/temple-ranganathaswamy.jpg";
 
 const templeImages: Record<string, string> = {
   "temple-meenakshi.jpg": templeMeenakshi,
+  "temple-kamakshi.jpg": templeKamakshi,
+  "temple-chennakeshava.jpg": templeChennakeshava,
+  "temple-ranganathaswamy.jpg": templeRanganathaswamy,
 };
 
 const BASE = "https://sriaishwaryasarees.com";

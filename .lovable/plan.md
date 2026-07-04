@@ -1,90 +1,73 @@
-## 1. Full dropdown lists in header (from live site)
+## 1. Footer image — proper handloom weaving, dark & on-theme
 
-Rewrite `navGroups` in `src/routes/index.tsx` using the real category URLs scraped from sriaishwaryasarees.com. Each parent still links to its own top category; sub-items go into the existing `.h-nav-panel` (already supports any length — will add multi-column CSS if a group has >6 items).
+The footer currently uses `weaving-video.jpg` (or a similar dark asset) that reads as a black blob. Generate a new asset `src/heritage-homepage/assets/footer-weaving.jpg` — a close-up of hands at a Kanjivaram loom (silk warp threads, gold zari, wooden shuttle), rendered dark and warm to match the site's ivory/maroon palette. Replace the current footer background/image reference in `Footer()` (src/routes/index.tsx around L966+) and its CSS in `styles.css` so the subject is actually legible: reduce the dark overlay from whatever heavy tint is currently applied to a lighter gradient (e.g. `linear-gradient(180deg, rgba(20,10,6,.55), rgba(20,10,6,.75))`) and use `background-size: cover; background-position: center`.
 
-Groups (parent → sub-items):
+## 2. Testimonials ↔ Stores spacing + shorter store cards
 
-- **Kanjivaram Silks** → Pure Silk, Soft Silk, Korvai Kanjivaram, Pure Raw Silk, Tussar Silk, Vegan Silk, Bridal Collection.
-- **Silk Cotton** → All Collections, Ameya, Kora, Korvai, Big Border, Butta, Muthukattam, Thread Work, Vaira Oosi, Veldhari, Simple Silk Cotton, Printed Silk Cotton.
-- **Semi Silk Cotton** → Traditional Semi Silk Cotton, Printed Semi Silk Cotton, Semi Mysore Silk, Mangalagiri Silks, Fancy Raw Silk, Fancy Tussar Silks.
-- **Cotton Sarees** → Kuravalli, Chettinad, Kanchi, Jaipur, Chanderi, Kadhi, Devendra, Rich Cotton, Printed Cotton, Sungadi.
-- **10 & 9 Yards** → All Collections, 10 Yards Pure Silk, 10 Yards Silk Cotton, 10 Yards Semi Silk Cotton, 10 & 9 Yards Pure Cotton, 9 Yards Kalyani Cotton, 9 Yards Sungadi, Devendra Sarees.
-- **Kids** → Amman Pavadai, Ready Made Kids Frock.
-- **Men's** → Kurtas & Bushirt, Pattu Dhothi, 4/6/8 Muzham Dhoti, Dhoti 9×5 / 10×6, Dhothi 2×8.
-- **Dance** → Arangetram Sarees, Dance Practice Sarees.
-- **Fancy** → Fancy Sarees, Fancy Raw Silk, Fancy Tussar Silks.
+- In `styles.css`, cut the vertical padding on `.h-testimonials` bottom and `.h-stores` (a.k.a `.h-section--alt` used by Visit Our Stores) top by ~50% (target ~40–48px each on desktop, ~28px mobile).
+- Constrain the boutique images: add `.h-store-media img { height: 220px; object-fit: cover; }` (desktop) and `~160px` on mobile. Currently they render at natural aspect ratio and dominate the section length.
+- Tighten `.h-store-body` internal padding a notch so the whole card is shorter.
 
-CSS: add `.h-nav-panel.is-wide { columns: 2; min-width: 460px; }` for the two biggest groups (Silk Cotton, Cotton Sarees) so the panel stays a comfortable width.
+## 3. Shrink "Scan or Click to Review Us" + move it above Visit Our Stores
 
-## 2. Live New Arrivals from WordPress (no keys needed)
+- In `src/routes/index.tsx`, reorder the JSX in `HeritageHome` from:
+  `Testimonials → Stores → ReviewQR → FeaturedTemple`
+  to:
+  `Testimonials → ReviewQR → Stores → FeaturedTemple`.
+- In `styles.css`, reduce `.h-reviewqr` (or whatever the ReviewQR section class is — will confirm on edit) padding to ~32–40px top/bottom, shrink the QR cards (`max-width: 260px`, QR image `140px` square) and tighten the heading margin so the block sits snug against Testimonials.
 
-Verified: `https://sriaishwaryasarees.com/wp-json/wc/store/v1/products?per_page=…&orderby=date&order=desc` returns 200 JSON publicly — no auth required. Nothing needed from you.
+## 4. Featured Temple — two-column (previous month | current month)
 
-Implementation:
-- New server function `src/lib/arrivals.functions.ts` — `getNewArrivals({ limit })` fetches the Store API server-side with a 10-minute in-memory cache and maps each product to `{ name, price, img, href }` using `images[0].src`, `prices.price + prices.currency_symbol`, and `permalink`. Reason to fetch server-side: some hosts block browser CORS; also lets us cache and shrink bundle payload.
-- `src/routes/index.tsx` loader primes `queryClient.ensureQueryData` with those options (default read pattern from tanstack-query-integration). `NewArrivals` reads via `useSuspenseQuery`. Removes hardcoded `newArrivals` and the 6 `na-*.jpg` imports.
-- On fetch error (rare), the loader returns an empty array and the section shows a small "View all new arrivals on our store →" fallback instead of crashing.
+Rework `FeaturedTemple()` and `featured-temple.json` so the section shows two temples side-by-side:
 
-## 3. Responsive item count for New Arrivals
+- Update `src/heritage-homepage/featured-temple.json` to:
+  ```json
+  { "previous": { …June entry… }, "current": { …July entry… } }
+  ```
+- Component renders a CSS grid `grid-template-columns: 1fr 1.35fr` (desktop), single column stacked on mobile. Left cell is the previous month (smaller image, muted eyebrow "Last Month"), right cell is the current month (larger image, eyebrow "This Month · July 2026", primary "Read the story →" button linking to `/temples#<slug>`).
+- Both cells pull image + link data through the same `templeImages` map already in `src/routes/index.tsx`.
 
-Currently the grid shows all 6. Change:
-- Fetch **8** products.
-- Grid: mobile 2 cols → show 4 items (hide 5th–8th via `:nth-child(n+5){display:none}`), tablet 3 cols → show 6, desktop 4 cols → show 8.
-- Purely CSS in `styles.css`, no JS.
+## 5. More temples in the archive (3–4 total additions)
 
-## 4. Trim Our Craftsmanship
+Extend `src/heritage-homepage/temples.json` from 1 → 4 entries so the temples page has real archive depth. Fake but plausible monthly dates ending on July 2026:
 
-- Shorten section heading paragraph to a single line.
-- Reduce each of the 3 card paragraphs to ~1 short sentence.
-- CSS: cut `.h-craft` vertical padding roughly in half (e.g. `padding: 64px 0` → `40px 0`), tighten `.h-section-head` bottom margin.
+| Month | Temple | Location |
+|---|---|---|
+| July 2026 (current) | Meenakshi Amman Temple | Madurai, Tamil Nadu |
+| June 2026 | Kamakshi Amman Temple | Kanchipuram, Tamil Nadu |
+| May 2026 | Chennakeshava Temple | Belur, Karnataka |
+| April 2026 | Sri Ranganathaswamy Temple | Srirangam, Tamil Nadu |
 
-## 5. Reorder + faster mobile carousel
+For each new temple:
+- Add a new JPG asset under `src/heritage-homepage/assets/` (`temple-kamakshi.jpg`, `temple-chennakeshava.jpg`, `temple-ranganathaswamy.jpg`) via imagegen — architectural exterior of the temple's iconic gopuram / vimana, warm daylight, matching the existing Meenakshi photo's editorial tone.
+- Register each in the `templeImages` map at the top of `src/routes/temples.tsx` **and** in `src/routes/index.tsx` (so the Featured Temple cells can use them).
+- Write a 1-paragraph `description` (used in cards) and a 3-paragraph `story` (used in the archive entry), each tying the temple's motifs/architecture back to South Indian handloom.
+- Real official URLs where they exist:
+  - Kamakshi Amman: `https://kanchikamakshi.com/`
+  - Chennakeshava Belur: `https://www.karnatakatourism.org/tour-item/chennakeshava-temple/`
+  - Ranganathaswamy Srirangam: `https://srirangam.org/`
 
-- In `HeritageHome`, move `<CollectionsCarousel />` above `<Craftsmanship />`.
-- In `.h-carousel-track` marquee CSS, add a media query: `@media (max-width: 720px) { animation-duration: 28s; }` (or whatever value gives ~1.4× current mobile speed — still smooth, not frantic). Desktop untouched.
-
-## 6. Collections thumbnails & links sourced from the site
-
-Keep the current 13 collection tiles but rewrite each `href` to the exact live category URL (from the scrape above) and add real per-category thumbnails.
-- Fetch category images at build/render time via the Store API `/products/categories?slug=…` (returns `image.src`). Same server function file adds `getCollectionThumbnails()` (cached 1 hour), keyed by slug list defined in code. The current bundled `col-*.jpg` files act as SSR fallbacks so the site never renders blank.
-- Component uses whichever it has: live image first, bundled fallback second.
-
-## 7. Shorten Visit Our Stores
-
-- Trim intro paragraph to one line.
-- CSS `.h-section--alt` (used by this section): reduce top/bottom padding ~30–40%. Cards keep their layout; only vertical breathing room shrinks.
-
-## 8. Global padding audit
-
-Sweep every `.h-section`, `.h-gift`, `.h-vshop`, `.h-craft`, `.h-stats`, `.h-ig-grid` block; where padding exceeds ~80px top/bottom, reduce to ~48–56px on desktop and ~32–40px on mobile. Sections that already feel tight (TrustStrip, Hero) are left as-is.
-
-## 9. Trim AI Try-On section
-
-- Delete the image column and `aiTryon` import.
-- Convert `.h-aitryon-grid` to a single centered text block, ~60ch max width.
-- Shorten copy to 2 short lines + CTA button. Cut vertical padding in half.
-
-## 10. Footer credit
-
-In the existing `Footer` component, add a final line inside the bottom bar (right-aligned on desktop, centered on mobile):
-
-> Homepage designed by [KlivIQ Technologies OPC](https://kliviq.com)
-
-Link opens in a new tab (`target="_blank"`, `rel="noopener"`).
+The temples page already renders `[featured, ...archive]` from the JSON in order, so ordering entries `[Meenakshi (July), Kamakshi (June), Chennakeshava (May), Ranganathaswamy (April)]` makes the archive display work with no code change beyond the `templeImages` map.
 
 ## Files touched
 
-Created:
-- `src/lib/arrivals.functions.ts` — `getNewArrivals`, `getCollectionThumbnails` server fns hitting the public WP Store API.
+**Created**
+- `src/heritage-homepage/assets/footer-weaving.jpg`
+- `src/heritage-homepage/assets/temple-kamakshi.jpg`
+- `src/heritage-homepage/assets/temple-chennakeshava.jpg`
+- `src/heritage-homepage/assets/temple-ranganathaswamy.jpg`
 
-Edited:
-- `src/routes/index.tsx` — new `navGroups`, loader wiring, live arrivals + collections, section reorder, trimmed Craftsmanship/Stores/AI Try-On copy, updated Footer, drop `ai-tryon.jpg` and `na-*.jpg` imports.
-- `src/heritage-homepage/styles.css` — wide nav panels, responsive arrivals grid, faster mobile marquee, reduced section paddings, single-column AI Try-On, footer credit style.
+**Edited**
+- `src/routes/index.tsx` — reorder sections, rewrite `FeaturedTemple` as two-column, swap footer image, extend `templeImages`.
+- `src/routes/temples.tsx` — extend `templeImages` for the 3 new temples.
+- `src/heritage-homepage/featured-temple.json` — new `{ previous, current }` shape.
+- `src/heritage-homepage/temples.json` — add 3 new temple entries.
+- `src/heritage-homepage/styles.css` — footer overlay + background, testimonial/stores padding, boutique image height cap, ReviewQR sizing, FeaturedTemple two-column grid.
 
-Also regenerate the static export (`python3 scripts/export-static.py`) once React changes are in, so `static-export/` reflects the new home page.
+**Also**: re-run `python3 scripts/export-static.py` after the React changes land so `static-export/` reflects the new layout and includes the new temple images.
 
 ## Out of scope
 
-- Wiring the WooCommerce REST API with consumer keys (not needed — public Store API is sufficient).
-- Changing the temples page or WhatsApp float.
-- Automated CMS for collection categories (the slug list stays in code; the images/links are live).
+- Adding a real CMS for temple entries (still JSON-driven).
+- Restructuring the temples page beyond adding the new archive entries.
+- Any changes to header nav, New Arrivals data, or collections carousel.

@@ -3,7 +3,7 @@
     "slug": "meenakshi-amman",
     "name": "Meenakshi Amman Temple",
     "location": "Madurai, Tamil Nadu",
-    "month": "December 2025",
+    "month": "July 2026",
     "image": "temple-meenakshi.jpg",
     "url": "https://maduraimeenakshi.org/",
     "description": "A 2,500-year-old shrine to Goddess Meenakshi, crowned by fourteen soaring gopurams covered in thousands of vivid sculptures. Few places on earth feel as alive with devotion, music and colour.",
@@ -11,6 +11,48 @@
       "Rising at the heart of Madurai's old city, the Meenakshi Amman Temple is one of India's most storied shrines. Its fourteen gopurams — some reaching over fifty metres — are covered in thousands of hand-carved figures, each painted in colours as vivid as a Kanjivaram border.",
       "The temple honours the goddess Meenakshi, believed to be an incarnation of Parvati, and her consort Sundareswarar. For centuries, weavers, dancers and devotees have found inspiration in its halls — the same motifs of peacocks, mangoes and temple gopurams that recur in South Indian saree design were first seen carved into these walls.",
       "For our family, no visit to Madurai is complete without stepping into the thousand-pillar hall at dawn. The scent of jasmine, the sound of the nadaswaram, the sight of a bride in her wedding Kanjivaram — it is where our craft feels most at home."
+    ]
+  },
+  {
+    "slug": "kamakshi-amman",
+    "name": "Kamakshi Amman Temple",
+    "location": "Kanchipuram, Tamil Nadu",
+    "month": "June 2026",
+    "image": "temple-kamakshi.jpg",
+    "url": "https://kanchikamakshi.com/",
+    "description": "The presiding shrine of Kanchipuram — the very town whose looms give us the Kanjivaram. A quiet, golden-toned temple whose motifs still travel from wall to warp.",
+    "story": [
+      "Kanchipuram is one of the seven sacred cities of India, and the Kamakshi Amman Temple sits at its spiritual centre. The golden vimana, the wide inner corridors and the daily processions have shaped this town's rhythm for over a thousand years.",
+      "It is impossible to speak of the Kanjivaram saree without speaking of this temple. Generations of weavers have lived within walking distance of its gates, drawing their palette from its gopuram — the deep kumkum reds, the temple gold, the leaf greens of the mango tree in its courtyard.",
+      "Every rekku border, every temple-tower pallu, every korvai contrast body owes something to the sight of Kamakshi's shrine at lamp-lighting hour. When we say a saree is 'from Kanchipuram', this is the ground it grew from."
+    ]
+  },
+  {
+    "slug": "chennakeshava-belur",
+    "name": "Chennakeshava Temple",
+    "location": "Belur, Karnataka",
+    "month": "May 2026",
+    "image": "temple-chennakeshava.jpg",
+    "url": "https://www.karnatakatourism.org/tour-item/chennakeshava-temple/",
+    "description": "A 12th-century Hoysala masterpiece in soapstone — every inch of its walls carved with dancers, deities and vines. A temple that reads like a textile in stone.",
+    "story": [
+      "Commissioned by King Vishnuvardhana in 1117 CE, the Chennakeshava Temple at Belur took over a hundred years to complete. Its star-shaped platform and soapstone walls are among the finest examples of Hoysala architecture anywhere in South India.",
+      "For a saree family, Belur is a pilgrimage of a different kind. The madanikas — the celestial dancers carved along the outer walls — wear draped garments so detailed that you can see the pleats, the borders, the jewellery, and the fall of the pallu. Weavers and designers still travel here to sketch a motif or study a border.",
+      "The temple's vocabulary of vines, parrots, elephants and dancing women shows up again and again in Mysore silks, Molakalmuru weaves and the finer Kanjivarams. Belur is where you see, unmistakably, that Indian textile and Indian temple were always speaking to each other."
+    ]
+  },
+  {
+    "slug": "ranganathaswamy-srirangam",
+    "name": "Sri Ranganathaswamy Temple",
+    "location": "Srirangam, Tamil Nadu",
+    "month": "April 2026",
+    "image": "temple-ranganathaswamy.jpg",
+    "url": "https://srirangam.org/",
+    "description": "One of the largest functioning temple complexes in the world, spread across 156 acres on an island in the Kaveri. Seven concentric walls, twenty-one gopurams, and the towering Rajagopuram at its entrance.",
+    "story": [
+      "The Sri Ranganathaswamy Temple at Srirangam is dedicated to Lord Ranganatha, a reclining form of Vishnu. Its Rajagopuram, at nearly seventy-three metres, is among the tallest temple towers in Asia, and its seven prakaram walls enclose an entire living town of shrines, mandapams and colonnades.",
+      "Srirangam is the beating heart of Sri Vaishnavism, and generations of Tamil poets, weavers and temple dancers have circled its corridors during the annual Vaikunta Ekadasi. The palette of the temple — the ochre of its walls, the deep vermilion of its flag masts, the white and gold of the priests' angavastrams — has quietly seeded itself into the sarees woven in the towns around it.",
+      "When we set out an Arangetram saree or a nine-yard madisar, the memory of Srirangam is somewhere in the fold. The temple reminds us that a saree is never only clothing — it is a small piece of a much older, much larger devotional world."
     ]
   }
 ]
