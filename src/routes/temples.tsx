@@ -136,16 +136,7 @@ export const Route = createFileRoute("/temples")({
   component: TemplesPage,
 });
 
-type Temple = {
-  slug: string;
-  name: string;
-  location: string;
-  month: string;
-  image: string;
-  url: string;
-  description: string;
-  story: string[];
-};
+
 
 function TemplesPage() {
   const temples = templesData as Temple[];
