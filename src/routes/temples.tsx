@@ -16,28 +16,6 @@ const templeImages: Record<string, string> = {
 
 const BASE = "https://sriaishwaryasarees.com";
 
-export const Route = createFileRoute("/temples")({
-  head: () => ({
-    meta: [
-      { title: "Sacred Threads — Featured Temples · Sri Aishwarya Sarees" },
-      {
-        name: "description",
-        content:
-          "Each month we honour a temple that has inspired the weaves, motifs and colours of South Indian handloom. Read our growing archive of featured temples.",
-      },
-      { property: "og:title", content: "Sacred Threads — Featured Temples of the Month" },
-      {
-        property: "og:description",
-        content: "A growing archive of temples that inspire our handloom craft — updated every month.",
-      },
-      { property: "og:image", content: templeMeenakshi },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: templeMeenakshi },
-    ],
-  }),
-  component: TemplesPage,
-});
-
 type Temple = {
   slug: string;
   name: string;
@@ -48,6 +26,117 @@ type Temple = {
   description: string;
   story: string[];
 };
+
+const SITE_URL = "https://aish-sample.lovable.app";
+const CANONICAL = `${SITE_URL}/temples`;
+
+const templeGeo: Record<string, { lat: number; lng: number; region: string; city: string }> = {
+  "meenakshi-amman": { lat: 9.9195, lng: 78.1194, region: "Tamil Nadu", city: "Madurai" },
+  "kamakshi-amman": { lat: 12.8422, lng: 79.7036, region: "Tamil Nadu", city: "Kanchipuram" },
+  "chennakeshava-belur": { lat: 13.1628, lng: 75.8648, region: "Karnataka", city: "Belur" },
+  "ranganathaswamy-srirangam": { lat: 10.8624, lng: 78.6889, region: "Tamil Nadu", city: "Srirangam" },
+};
+
+export const Route = createFileRoute("/temples")({
+  head: () => {
+    const temples = (templesData as Temple[]);
+    const templeSchema = temples.map((t) => {
+      const g = templeGeo[t.slug];
+      return {
+        "@type": "HinduTemple",
+        name: t.name,
+        url: t.url,
+        image: `${SITE_URL}/temple-images/${t.image}`,
+        description: t.description,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: g?.city ?? t.location.split(",")[0].trim(),
+          addressRegion: g?.region ?? t.location.split(",")[1]?.trim(),
+          addressCountry: "IN",
+        },
+        ...(g ? { geo: { "@type": "GeoCoordinates", latitude: g.lat, longitude: g.lng } } : {}),
+      };
+    });
+
+    const collectionLd = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Sacred Threads — Famous South Indian Temples",
+      description:
+        "A curated archive of famous South Indian temples — Meenakshi Amman (Madurai), Kamakshi Amman (Kanchipuram), Sri Ranganathaswamy (Srirangam) and Chennakeshava (Belur) — that have shaped the motifs and colours of handloom Kanjivaram silk.",
+      url: CANONICAL,
+      inLanguage: "en-IN",
+      isPartOf: { "@type": "WebSite", name: "Sri Aishwarya Sarees", url: SITE_URL },
+      about: templeSchema,
+      mainEntity: { "@type": "ItemList", itemListElement: templeSchema.map((t, i) => ({ "@type": "ListItem", position: i + 1, item: t })) },
+    };
+
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Sacred Threads — Temples", item: CANONICAL },
+      ],
+    };
+
+    return {
+      meta: [
+        {
+          title:
+            "Famous South Indian Temples — Meenakshi, Kamakshi, Ranganathaswamy, Chennakeshava | Sri Aishwarya Sarees",
+        },
+        {
+          name: "description",
+          content:
+            "A curated guide to famous South Indian temples — Meenakshi Amman Madurai, Kamakshi Amman Kanchipuram, Sri Ranganathaswamy Srirangam and Chennakeshava Belur — and the handloom motifs they inspired.",
+        },
+        {
+          name: "keywords",
+          content:
+            "famous south indian temples, meenakshi amman temple madurai, kamakshi amman temple kanchipuram, sri ranganathaswamy temple srirangam, chennakeshava temple belur, tamil nadu temples, karnataka temples, temple gopurams, kanjivaram silk, handloom sarees",
+        },
+        { name: "robots", content: "index, follow, max-image-preview:large" },
+        { name: "author", content: "Sri Aishwarya Sarees" },
+        { name: "geo.region", content: "IN-TN" },
+        { name: "geo.placename", content: "Chennai, Tamil Nadu, India" },
+        { name: "geo.position", content: "13.0827;80.2707" },
+        { name: "ICBM", content: "13.0827, 80.2707" },
+        {
+          property: "og:title",
+          content: "Famous South Indian Temples — Sacred Threads | Sri Aishwarya Sarees",
+        },
+        {
+          property: "og:description",
+          content:
+            "Meenakshi Amman, Kamakshi Amman, Sri Ranganathaswamy and Chennakeshava — an archive of famous South Indian temples and the handloom motifs they inspired.",
+        },
+        { property: "og:type", content: "website" },
+        { property: "og:site_name", content: "Sri Aishwarya Sarees" },
+        { property: "og:locale", content: "en_IN" },
+        { property: "og:url", content: CANONICAL },
+        { property: "og:image", content: templeMeenakshi },
+        { property: "og:image:alt", content: "Aerial view of the Meenakshi Amman Temple gopurams, Madurai" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Famous South Indian Temples — Sacred Threads" },
+        {
+          name: "twitter:description",
+          content:
+            "Meenakshi, Kamakshi, Ranganathaswamy, Chennakeshava — famous South Indian temples and the handloom motifs they inspired.",
+        },
+        { name: "twitter:image", content: templeMeenakshi },
+      ],
+      links: [{ rel: "canonical", href: CANONICAL }],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(collectionLd) },
+        { type: "application/ld+json", children: JSON.stringify(breadcrumbLd) },
+      ],
+    };
+  },
+  component: TemplesPage,
+});
+
+
 
 function TemplesPage() {
   const temples = templesData as Temple[];
@@ -106,6 +195,12 @@ function TemplesPage() {
         <div className="container">
           <div>© {new Date().getFullYear()} Sri Aishwarya Sarees · Temple of Silk Cottons</div>
           <div>Chennai · Three Generations of Handloom</div>
+          <div>
+            Page designed by{" "}
+            <a href="https://kliviq.com" target="_blank" rel="noopener noreferrer">
+              KlivIQ Technologies OPC
+            </a>
+          </div>
         </div>
       </footer>
     </div>
@@ -135,7 +230,7 @@ function TempleEntry({
           rel="noreferrer"
           aria-label={`${temple.name} — visit temple site`}
         >
-          <img src={img} alt={`${temple.name}, ${temple.location}`} loading="lazy" />
+          <img src={img} alt={`${temple.name} gopuram, ${temple.location} — South Indian temple architecture`} loading="lazy" />
         </a>
         <div className="h-temples-entry-text">
           <span className="eyebrow">{featured ? "This Month" : temple.month}</span>
