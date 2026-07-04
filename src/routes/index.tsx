@@ -1,11 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 import "../heritage-homepage/styles.css";
 import testimonialsData from "../heritage-homepage/testimonials.json";
 import featuredTemple from "../heritage-homepage/featured-temple.json";
-import aiTryon from "../heritage-homepage/assets/ai-tryon.jpg";
 import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
+import {
+  getNewArrivals,
+  getCollectionThumbnails,
+  type ArrivalProduct,
+  type CollectionThumb,
+} from "../lib/arrivals.functions";
 
 // Map JSON image keys (filenames) to bundled assets so the featured temple can
 // be swapped each month by editing featured-temple.json + adding an import here.
@@ -21,13 +27,8 @@ import videoShop from "../heritage-homepage/assets/video.jpg";
 import storeTnagar from "../heritage-homepage/assets/store-tnagar.jpg";
 import storeAdyar from "../heritage-homepage/assets/store-adyar.jpg";
 
-import na1 from "../heritage-homepage/assets/na-1.jpg";
-import na2 from "../heritage-homepage/assets/na-2.jpg";
-import na3 from "../heritage-homepage/assets/na-3.jpg";
-import na4 from "../heritage-homepage/assets/na-4.jpg";
-import na5 from "../heritage-homepage/assets/na-5.jpg";
-import na6 from "../heritage-homepage/assets/na-6.jpg";
-
+// Bundled fallback thumbnails, keyed by category slug — used until the live
+// Store API returns a category image.
 import colKanji from "../heritage-homepage/assets/col-kanjivaram.jpg";
 import colSilkCotton from "../heritage-homepage/assets/col-silkcotton.jpg";
 import col10Yard from "../heritage-homepage/assets/col-10yard.jpg";
@@ -42,6 +43,22 @@ import colDhoti from "../heritage-homepage/assets/col-dhoti.jpg";
 import colBridal from "../heritage-homepage/assets/col-bridal.jpg";
 import colTussar from "../heritage-homepage/assets/col-tussar.jpg";
 
+const collectionFallbackBySlug: Record<string, string> = {
+  "kanjivaram-silks-sarees": colKanji,
+  "silk-cotton-sarees-collection": colSilkCotton,
+  "10-yards-sarees-2": col10Yard,
+  "printed-saree": colPrinted,
+  "traditional-polycotton": colSemisilk,
+  "cotton-sarees-kuravalli-chettinad-kanchi": colCotton,
+  "amman-pavadai": colPattu,
+  "fancy-sarees": colFancy,
+  "dance-sarees": colDance,
+  "bridal-collections": colBridal,
+  "tussar-silk": colTussar,
+  "uga-mens-kurtas-bushirt": colKurta,
+  "mens-cotton-dhotis": colDhoti,
+};
+
 import ig1 from "../heritage-homepage/assets/ig1.jpg";
 import ig2 from "../heritage-homepage/assets/ig2.jpg";
 import ig3 from "../heritage-homepage/assets/ig3.jpg";
@@ -50,6 +67,18 @@ import ig5 from "../heritage-homepage/assets/ig5.jpg";
 import ig6 from "../heritage-homepage/assets/ig6.jpg";
 
 const BASE = "https://sriaishwaryasarees.com";
+
+const arrivalsQueryOptions = queryOptions({
+  queryKey: ["arrivals", 8],
+  queryFn: () => getNewArrivals({ data: { limit: 8 } }),
+  staleTime: 10 * 60 * 1000,
+});
+
+const collectionsQueryOptions = queryOptions({
+  queryKey: ["collections", "thumbs"],
+  queryFn: () => getCollectionThumbnails(),
+  staleTime: 60 * 60 * 1000,
+});
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,109 +99,129 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: hero },
     ],
   }),
+  loader: ({ context }) => {
+    context.queryClient.ensureQueryData(arrivalsQueryOptions);
+    context.queryClient.ensureQueryData(collectionsQueryOptions);
+  },
   component: HeritageHome,
 });
 
-// ------- DATA ---------
-const newArrivals = [
-  { name: "Pure Silk Saree — Dual Shade Pink", price: "₹8,245", img: na1, href: `${BASE}/product/pure-silk-sarees-dual-shade-pink-sasps37534/` },
-  { name: "Pure Silk Saree — Dark Wine", price: "₹16,932", img: na2, href: `${BASE}/product/pure-silk-sarees-dark-wine-sasps37533/` },
-  { name: "Pure Silk Saree — Emerald Green", price: "₹10,148", img: na3, href: `${BASE}/product/pure-silk-sarees-emerald-green-sasps37532/` },
-  { name: "Pure Silk Saree — MS Blue", price: "₹9,910", img: na4, href: `${BASE}/product/pure-silk-sarees-ms-blue-sasps37531/` },
-  { name: "Chettinad Cotton — Mustard Yellow", price: "₹1,496", img: na5, href: `${BASE}/product/chettinad-cotton-sarees-mustard-yellow-sasc37485/` },
-  { name: "Pure Silk Saree — Cinnamon", price: "₹14,097", img: na6, href: `${BASE}/product/pure-silk-sarees-cinnamon-sasps37527/` },
-];
-
-const collections = [
-  { name: "Pure Silk", img: colKanji, href: `${BASE}/product-category/Kanjivaram-silks-sarees/` },
-  { name: "Traditional Silk Cotton", img: colSilkCotton, href: `${BASE}/product-category/silk-cotton-sarees-collection/` },
-  { name: "10 Yards Silk Cotton", img: col10Yard, href: `${BASE}/product-category/10-yards-sarees-2/all-collections/` },
-  { name: "Printed Silk Cotton", img: colPrinted, href: `${BASE}/product-category/printed-saree/` },
-  { name: "Semi Silk Cotton", img: colSemisilk, href: `${BASE}/product-category/saree-collections/traditional-polycotton/` },
-  { name: "Traditional Cotton", img: colCotton, href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/` },
-  { name: "10 Yards Cotton", img: colPattu, href: `${BASE}/product-category/amman-pavadai/` },
-  { name: "Fancy Sarees", img: colFancy, href: `${BASE}/product-category/fancy-sarees/` },
-  { name: "Dance Sarees", img: colDance, href: `${BASE}/product-category/dance-sarees/` },
-  { name: "Bridal Collection", img: colBridal, href: `${BASE}/product-category/bridal/` },
-  { name: "Tussar & Soft Silk", img: colTussar, href: `${BASE}/product-category/tussar/` },
-  { name: "Men's Kurtas", img: colKurta, href: `${BASE}/product-category/uga-mens-kurtas-bushirt/` },
-  { name: "Men's Dhothis", img: colDhoti, href: `${BASE}/product-category/mens-cotton-dhotis/` },
-];
-
-// Header navigation: 8 grouped dropdowns matching the reference screenshot.
-// Each group links directly into the corresponding WooCommerce category pages.
-const navGroups: { name: string; href: string; items: { name: string; href: string }[] }[] = [
+// Header navigation — grouped dropdowns using real live-site category URLs.
+const navGroups: { name: string; href: string; wide?: boolean; items: { name: string; href: string }[] }[] = [
   {
     name: "Kanjivaram Silks",
     href: `${BASE}/product-category/Kanjivaram-silks-sarees/`,
     items: [
-      { name: "Pure Kanjivaram Silk", href: `${BASE}/product-category/Kanjivaram-silks-sarees/` },
-      { name: "Bridal Kanjivaram", href: `${BASE}/product-category/bridal/` },
-      { name: "Tussar & Soft Silk", href: `${BASE}/product-category/tussar/` },
+      { name: "All Kanjivaram Silks", href: `${BASE}/product-category/kanjivaram-silks-sarees/all-collections-kanjivaram-silks-sarees/` },
+      { name: "Pure Silk Sarees", href: `${BASE}/product-category/kanjivaram-silks-sarees/pure-silk-sarees/` },
+      { name: "Soft Silk Sarees", href: `${BASE}/product-category/kanjivaram-silks-sarees/soft-silks/` },
+      { name: "Korvai Kanjivaram", href: `${BASE}/product-category/kanjivaram-silks-sarees/korvai-kanchivaram-silk/` },
+      { name: "Pure Raw Silk", href: `${BASE}/product-category/silk-saree/pure-raw-silk/` },
+      { name: "Tussar Silk", href: `${BASE}/product-category/silk-saree/tussar-silk/` },
+      { name: "Vegan Silk", href: `${BASE}/product-category/silk-saree/vegen-silks/` },
+      { name: "Bridal Collection", href: `${BASE}/product-category/silk-saree/bridal-collections/` },
     ],
   },
   {
-    name: "Silk Cottons",
+    name: "Silk Cotton",
     href: `${BASE}/product-category/silk-cotton-sarees-collection/`,
+    wide: true,
     items: [
-      { name: "Traditional Silk Cotton", href: `${BASE}/product-category/silk-cotton-sarees-collection/` },
+      { name: "All Silk Cotton", href: `${BASE}/product-category/silk-cotton-sarees-collection/` },
+      { name: "Ameya Collections", href: `${BASE}/product-category/silk-cotton/ameya-collections/` },
+      { name: "Kora Silk Cotton", href: `${BASE}/product-category/silk-cotton/kora-silk/` },
+      { name: "Korvai Silk Cotton", href: `${BASE}/product-category/silk-cotton/silk-cotton-korvai/` },
+      { name: "Big Border Silk Cotton", href: `${BASE}/product-category/silk-cotton/silk-cotton-big-border-sarees/` },
+      { name: "Silk Cotton Butta", href: `${BASE}/product-category/silk-cotton/silk-cotton-butta/` },
+      { name: "Muthukattam Silk Cotton", href: `${BASE}/product-category/silk-cotton/muthukattam-silk-cotton/` },
+      { name: "Thread Work Silk Cotton", href: `${BASE}/product-category/silk-cotton/silk-cotton-classic-thread-work/` },
+      { name: "Vaira Oosi Silk Cotton", href: `${BASE}/product-category/silk-cotton/vaira-oosi/` },
+      { name: "Veldhari Silk Cotton", href: `${BASE}/product-category/silk-cotton/silk-cotton-veldhari/` },
+      { name: "Simple Silk Cotton", href: `${BASE}/product-category/silk-cotton/silk-cotton-simple-sarees/` },
       { name: "Printed Silk Cotton", href: `${BASE}/product-category/printed-saree/` },
-      { name: "Semi Silk Cotton", href: `${BASE}/product-category/saree-collections/traditional-polycotton/` },
+    ],
+  },
+  {
+    name: "Semi Silk Cotton",
+    href: `${BASE}/product-category/saree-collections/traditional-polycotton/`,
+    items: [
+      { name: "Traditional Semi Silk Cotton", href: `${BASE}/product-category/saree-collections/traditional-polycotton/` },
+      { name: "Printed Semi Silk Cotton", href: `${BASE}/product-category/saree-collections/printed-semi-silk-cotton/` },
+      { name: "Semi Mysore Silk", href: `${BASE}/product-category/saree-collections/semi-mysore-silk/` },
+      { name: "Mangalagiri Silks", href: `${BASE}/product-category/saree-collections/mangalagiri-silk/` },
+      { name: "Fancy Raw Silk", href: `${BASE}/product-category/saree-collections/fancy-raw-silk/` },
+      { name: "Fancy Tussar Silks", href: `${BASE}/product-category/saree-collections/fancy-tussar-silk/` },
+    ],
+  },
+  {
+    name: "Cotton Sarees",
+    href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/`,
+    wide: true,
+    items: [
+      { name: "All Cotton Sarees", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/cotton-sarees-kuravalli-cottons-kanchi-cotton/` },
+      { name: "Kuravalli Cottons", href: `${BASE}/product-category/cotton-sarees/kuravalli-cottons/` },
+      { name: "Chettinad Cotton", href: `${BASE}/product-category/cotton-sarees/chettinad-cotton/` },
+      { name: "Kanchi Cotton", href: `${BASE}/product-category/cotton-sarees/kanchi-cotton/` },
+      { name: "Jaipur Cotton", href: `${BASE}/product-category/cotton-sarees/jaipur-cotton/` },
+      { name: "Chanderi Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/chanderi-cotton/` },
+      { name: "Kadhi Cotton", href: `${BASE}/product-category/cotton-sarees/kadhi-cotton/` },
+      { name: "Devendra Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/devendra-cotton-sarees/` },
+      { name: "Rich Cotton", href: `${BASE}/product-category/cotton-sarees/rich-cotton/` },
+      { name: "Printed Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/printed-cotton-saree/` },
+      { name: "Sungadi Saree", href: `${BASE}/product-category/cotton-sarees/sungadi-saree/` },
+    ],
+  },
+  {
+    name: "10 & 9 Yards",
+    href: `${BASE}/product-category/10-yards-sarees-2/all-collections/`,
+    items: [
+      { name: "All Collections", href: `${BASE}/product-category/10-yards-sarees-2/all-collections/` },
+      { name: "10 Yards Pure Silk", href: `${BASE}/product-category/10-yards-silk-sarees/` },
+      { name: "10 Yards Pure Silk Cotton", href: `${BASE}/product-category/10-yards-sarees-2/10-yards-silk/` },
+      { name: "10 Yards Semi Silk Cotton", href: `${BASE}/product-category/collections/10-yards-semi-silk-cotton/` },
+      { name: "10 & 9 Yards Pure Cotton", href: `${BASE}/product-category/10-9-yards-cotton-saree/` },
+      { name: "9 Yards Kalyani Cotton", href: `${BASE}/product-category/9-yards-kalyani-cotton/` },
+      { name: "9 Yards Sungadi", href: `${BASE}/product-category/9-yards-sungadi/` },
+      { name: "Devendra Sarees", href: `${BASE}/product-category/10-yards-sarees-2/10-9-yards-devendra-sarees-2/` },
     ],
   },
   {
     name: "Kids",
     href: `${BASE}/product-category/amman-pavadai/`,
     items: [
-      { name: "Kids Pattu Pavadai", href: `${BASE}/product-category/amman-pavadai/` },
+      { name: "Amman Pavadai (Pattu)", href: `${BASE}/product-category/amman-pavadai/` },
+      { name: "Ready Made Kids Frock", href: `${BASE}/product-category/ready-made-kids-frock/` },
     ],
   },
   {
-    name: "Cotton Sarees",
-    href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/`,
-    items: [
-      { name: "Traditional Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/` },
-      { name: "Chettinad Cotton", href: `${BASE}/product-category/cotton-sarees-kuravalli-chettinad-kanchi/` },
-    ],
-  },
-  {
-    name: "10 Yards Sarees",
-    href: `${BASE}/product-category/10-yards-sarees-2/all-collections/`,
-    items: [
-      { name: "10 Yards Silk Cotton", href: `${BASE}/product-category/10-yards-sarees-2/all-collections/` },
-      { name: "10 Yards Cotton", href: `${BASE}/product-category/amman-pavadai/` },
-    ],
-  },
-  {
-    name: "Collections",
-    href: `${BASE}/product-category/latest-collections/`,
-    items: [
-      { name: "New Arrivals", href: `${BASE}/product-category/latest-collections/` },
-      { name: "Bridal Collection", href: `${BASE}/product-category/bridal/` },
-      { name: "Tussar & Soft Silk", href: `${BASE}/product-category/tussar/` },
-      { name: "Shop All", href: `${BASE}/shop` },
-    ],
-  },
-  {
-    name: "Dance Sarees",
-    href: `${BASE}/product-category/dance-sarees/`,
-    items: [
-      { name: "Dance Sarees", href: `${BASE}/product-category/dance-sarees/` },
-    ],
-  },
-  {
-    name: "Mens",
+    name: "Men's",
     href: `${BASE}/product-category/uga-mens-kurtas-bushirt/`,
     items: [
-      { name: "Men's Kurtas", href: `${BASE}/product-category/uga-mens-kurtas-bushirt/` },
-      { name: "Men's Dhothis", href: `${BASE}/product-category/mens-cotton-dhotis/` },
+      { name: "Kurtas & Bushirt", href: `${BASE}/product-category/uga-mens-kurtas-bushirt/` },
+      { name: "Pattu Dhothi", href: `${BASE}/product-category/mens-cotton-dhotis/pattu-dhothi/` },
+      { name: "4 Muzham Dhoti", href: `${BASE}/product-category/mens-cotton-dhotis/4-muzham-dhoti/` },
+      { name: "6 Muzham Dhoti", href: `${BASE}/product-category/mens-cotton-dhotis/6-muzham/` },
+      { name: "8 Muzham Dhothi", href: `${BASE}/product-category/mens-cotton-dhothis/dhothi-8-muzham/` },
+      { name: "Dhoti 9×5", href: `${BASE}/product-category/mens-cotton-dhothis/dhothis-95/` },
+      { name: "Dhoti 10×6", href: `${BASE}/product-category/mens-cotton-dhothis/dhothi-106/` },
+      { name: "Dhothi 2×8", href: `${BASE}/product-category/mens-cotton-dhotis/dhothi-28/` },
     ],
   },
   {
-    name: "Fancy Sarees",
+    name: "Dance",
+    href: `${BASE}/product-category/dance-sarees/`,
+    items: [
+      { name: "Arangetram Sarees", href: `${BASE}/product-category/dance-sarees/arangetram-sarees/` },
+      { name: "Dance Practice Sarees", href: `${BASE}/product-category/dancing-practice-sarees/` },
+    ],
+  },
+  {
+    name: "Fancy",
     href: `${BASE}/product-category/fancy-sarees/`,
     items: [
       { name: "Fancy Sarees", href: `${BASE}/product-category/fancy-sarees/` },
+      { name: "Fancy Raw Silk", href: `${BASE}/product-category/saree-collections/fancy-raw-silk/` },
+      { name: "Fancy Tussar Silks", href: `${BASE}/product-category/saree-collections/fancy-tussar-silk/` },
     ],
   },
 ];
@@ -209,8 +258,8 @@ function HeritageHome() {
       <TrustStrip />
       <NewArrivals />
       <Founder />
-      <Craftsmanship />
       <CollectionsCarousel />
+      <Craftsmanship />
       <GiftCards />
       <VideoShopping />
       <AiTryOn />
@@ -236,7 +285,6 @@ function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [currency, setCurrency] = useState("INR");
-  // Placeholder counts — to be wired to WooCommerce wishlist & cart plugins.
   const [wishlistCount] = useState(0);
   const [cartCount] = useState(0);
 
@@ -247,7 +295,6 @@ function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Initialise from URL param or existing WooCommerce currency cookies (WOOCS / CURCY / FOX).
   useEffect(() => {
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
@@ -277,20 +324,16 @@ function SiteHeader() {
     setCurrency(code);
     if (typeof window === "undefined") return;
 
-    // Persist for every common WooCommerce currency-switcher plugin so the
-    // selection survives navigation and is honoured by server-rendered prices.
     const oneYear = 60 * 60 * 24 * 365;
     const cookieOpts = `path=/; max-age=${oneYear}; SameSite=Lax`;
-    document.cookie = `woocommerce_current_currency=${code}; ${cookieOpts}`; // Aelia / generic
-    document.cookie = `aelia_cs_selected_currency=${code}; ${cookieOpts}`;   // Aelia Currency Switcher
-    document.cookie = `wmc_current_currency=${code}; ${cookieOpts}`;          // CURCY (FOX)
-    document.cookie = `woocs_current_currency=${code}; ${cookieOpts}`;        // WOOCS
+    document.cookie = `woocommerce_current_currency=${code}; ${cookieOpts}`;
+    document.cookie = `aelia_cs_selected_currency=${code}; ${cookieOpts}`;
+    document.cookie = `wmc_current_currency=${code}; ${cookieOpts}`;
+    document.cookie = `woocs_current_currency=${code}; ${cookieOpts}`;
 
-    // Trigger a server roundtrip with query params recognised by the major
-    // plugins so cart totals, mini-cart and product prices refresh site-wide.
     const url = new URL(window.location.href);
-    url.searchParams.set("currency", code);    // WOOCS, Aelia
-    url.searchParams.set("wmc-currency", code); // CURCY
+    url.searchParams.set("currency", code);
+    url.searchParams.set("wmc-currency", code);
     window.location.assign(url.toString());
   };
 
@@ -378,7 +421,7 @@ function SiteHeader() {
                     <svg className="h-nav-caret" viewBox="0 0 12 7" width="10" height="6" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </a>
                   {g.items.length > 0 && (
-                    <div className="h-nav-panel" role="menu">
+                    <div className={`h-nav-panel${g.wide ? " is-wide" : ""}`} role="menu">
                       {g.items.map((it) => (
                         <a key={it.name} href={it.href} role="menuitem">{it.name}</a>
                       ))}
@@ -391,7 +434,6 @@ function SiteHeader() {
         </header>
       </div>
 
-      {/* Mobile drawer */}
       <div className={`h-mobile-nav ${menuOpen ? "open" : ""}`}>
         <button className="h-mobile-nav-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button>
         <form className="h-mobile-search" action={BASE} method="get" role="search">
@@ -421,9 +463,7 @@ function Hero() {
       <div className="h-hero-grid">
         <div className="h-hero-text">
           <span className="eyebrow">Est. Chennai · Since 1972</span>
-          <h1>
-            Give Life to handloom.
-          </h1>
+          <h1>Give Life to handloom.</h1>
           <p>
             For more than five decades, our family has carried the looms of South India into the homes of those
             who cherish authenticity. Every saree here is chosen by hand, blessed by tradition, and meant to be
@@ -460,29 +500,46 @@ function TrustStrip() {
 }
 
 function NewArrivals() {
+  const { data: products } = useSuspenseQuery(arrivalsQueryOptions);
+  const items: ArrivalProduct[] = products ?? [];
+
   return (
     <section className="h-section">
       <div className="container">
         <div className="h-section-head">
           <span className="eyebrow">Just Arrived</span>
           <h2>New Arrivals</h2>
-          <p>The latest sarees to enter our store — chosen this week from the looms we have known for generations.</p>
+          <p>The latest sarees to enter our store — direct from the looms we have known for generations.</p>
         </div>
-        <div className="h-arrivals-grid">
-          {newArrivals.map((p) => (
-            <a key={p.name} className="h-product" href={p.href}>
-              <div className="h-product-img">
-                <img src={p.img} alt={p.name} loading="lazy" />
-                <div className="h-product-badge">New</div>
-              </div>
-              <div className="h-product-name">{p.name}</div>
-              <div className="h-product-price">{p.price}</div>
+        {items.length === 0 ? (
+          <div className="h-section-cta">
+            <a className="h-btn" href={`${BASE}/product-category/latest-collections/`}>
+              View All New Arrivals
             </a>
-          ))}
-        </div>
-        <div className="h-section-cta">
-          <a className="h-btn" href={`${BASE}/product-category/latest-collections/`}>View All New Arrivals</a>
-        </div>
+          </div>
+        ) : (
+          <>
+            <div className="h-arrivals-grid">
+              {items.map((p) => (
+                <a key={p.id} className="h-product" href={p.href}>
+                  <div className="h-product-img">
+                    {p.img ? (
+                      <img src={p.img} alt={p.name} loading="lazy" />
+                    ) : (
+                      <div style={{ width: "100%", height: "100%", background: "var(--h-ivory)" }} />
+                    )}
+                    <div className="h-product-badge">New</div>
+                  </div>
+                  <div className="h-product-name">{p.name}</div>
+                  <div className="h-product-price">{p.price}</div>
+                </a>
+              ))}
+            </div>
+            <div className="h-section-cta">
+              <a className="h-btn" href={`${BASE}/product-category/latest-collections/`}>View All New Arrivals</a>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
@@ -529,11 +586,7 @@ function Craftsmanship() {
         <div className="h-section-head">
           <span className="eyebrow">Our Craftsmanship</span>
           <h2>The quiet craft behind every saree.</h2>
-          <p>
-            Traditional weaving is a discipline of patience — of yarn chosen with care, motifs that carry meaning,
-            and looms that have been in the same family for generations. We honour that craft in every saree we
-            offer.
-          </p>
+          <p>Patience, pure yarn, and looms that have stayed in the same families for generations.</p>
         </div>
         <div className="h-craft-grid">
           <div className="h-craft-card">
@@ -541,21 +594,21 @@ function Craftsmanship() {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 7h18M3 12h18M3 17h18"/><path d="M7 3v18M17 3v18"/></svg>
             </div>
             <h3>Heritage Weaves</h3>
-            <p>Each region of South India has its own weaving tradition. We curate the finest from Kanchipuram, Chettinad, Arani and beyond — each saree true to the technique of its place of origin.</p>
+            <p>Curated from Kanchipuram, Chettinad, Arani and beyond — true to each region's tradition.</p>
           </div>
           <div className="h-craft-card">
             <div className="h-craft-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
             </div>
             <h3>Quality We Stand Behind</h3>
-            <p>Pure yarn, real zari, honest weave. Every saree is personally inspected by our family before it is offered — the standard we have kept for more than fifty years.</p>
+            <p>Pure yarn, real zari, honest weave — every saree inspected by our family.</p>
           </div>
           <div className="h-craft-card">
             <div className="h-craft-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.5 7.1 17.2 8 11.7 4 7.8 9.5 7Z"/></svg>
             </div>
             <h3>A Story in Every Saree</h3>
-            <p>Our sarees come from looms we have known for generations. Behind every weave is a master, a village, and a craft that has been kept alive — one saree at a time.</p>
+            <p>Weavers, villages, and a craft kept alive — one saree at a time.</p>
           </div>
         </div>
       </div>
@@ -564,9 +617,16 @@ function Craftsmanship() {
 }
 
 function CollectionsCarousel() {
+  const { data: liveCollections } = useSuspenseQuery(collectionsQueryOptions);
   const trackRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
-  const items = [...collections, ...collections]; // duplicate for infinite marquee
+
+  const collections = (liveCollections ?? []).map((c: CollectionThumb) => ({
+    name: c.name,
+    href: c.href,
+    img: c.img ?? collectionFallbackBySlug[c.slug] ?? colKanji,
+  }));
+  const items = [...collections, ...collections];
 
   const nudge = (dir: "left" | "right") => {
     const el = trackRef.current;
@@ -574,7 +634,6 @@ function CollectionsCarousel() {
     setPaused(true);
     const card = el.querySelector(".h-col-card") as HTMLElement | null;
     const dist = card ? card.offsetWidth + 22 : 300;
-    // pause marquee and scroll the wrap
     const wrap = el.parentElement;
     if (wrap) wrap.scrollBy({ left: dir === "right" ? dist : -dist, behavior: "smooth" });
     setTimeout(() => setPaused(false), 2400);
@@ -616,7 +675,6 @@ function CollectionsCarousel() {
   );
 }
 
-
 function GiftCards() {
   return (
     <section className="h-gift h-gift--compact">
@@ -650,7 +708,6 @@ function VideoShopping() {
     </section>
   );
 }
-
 
 function Stats() {
   const stats = [
@@ -704,12 +761,7 @@ function Testimonials() {
           <h2>Testimonials from our Patrons</h2>
         </div>
         <div className="h-test-carousel">
-          <button
-            className="h-test-arrow"
-            onClick={prev}
-            disabled={safeStart === 0}
-            aria-label="Previous testimonials"
-          >
+          <button className="h-test-arrow" onClick={prev} disabled={safeStart === 0} aria-label="Previous testimonials">
             <Icon.Arrow dir="left" />
           </button>
           <div className="h-test-row" data-per-view={perView}>
@@ -721,12 +773,7 @@ function Testimonials() {
               </div>
             ))}
           </div>
-          <button
-            className="h-test-arrow"
-            onClick={next}
-            disabled={safeStart >= maxStart}
-            aria-label="Next testimonials"
-          >
+          <button className="h-test-arrow" onClick={next} disabled={safeStart >= maxStart} aria-label="Next testimonials">
             <Icon.Arrow />
           </button>
         </div>
@@ -760,12 +807,12 @@ function Instagram() {
 
 function Stores() {
   return (
-    <section className="h-section h-section--alt">
+    <section className="h-section h-section--alt h-section--tight">
       <div className="container">
         <div className="h-section-head">
           <span className="eyebrow">Visit Our Stores</span>
           <h2>Two boutiques in the heart of Chennai.</h2>
-          <p>Step into either of our boutiques and meet the family. Saree consultations, customised blouses, and an unhurried selection — just as it should be.</p>
+          <p>Step into either boutique for an unhurried, personal saree consultation.</p>
         </div>
         <div className="h-stores-grid">
           <div className="h-store">
@@ -841,14 +888,8 @@ function AiTryOn() {
     setSubmitted(true);
   };
   return (
-    <section className="h-aitry" aria-labelledby="h-aitry-title">
-      <div className="h-aitry-inner">
-        <div className="h-aitry-art" aria-hidden="true">
-          <div className="h-aitry-art-frame">
-            <img src={aiTryon} alt="" loading="lazy" width={1280} height={1280} />
-          </div>
-          <span className="h-aitry-glow" />
-        </div>
+    <section className="h-aitry h-aitry--slim" aria-labelledby="h-aitry-title">
+      <div className="h-aitry-inner h-aitry-inner--textonly">
         <div className="h-aitry-text">
           <div className="h-aitry-badge-row">
             <span className="h-aitry-badge">
@@ -856,14 +897,10 @@ function AiTryOn() {
             </span>
           </div>
           <span className="eyebrow">AI Saree Try-On</span>
-          <h2 id="h-aitry-title">Your Personal AI Saree Trial Room. Coming Soon.</h2>
-          <p>
-            Virtually drape any saree from our collection — coming soon to your phone.
-          </p>
+          <h2 id="h-aitry-title">Your Personal AI Saree Trial Room.</h2>
+          <p>Virtually drape any saree from our collection — coming soon to your phone.</p>
           {submitted ? (
-            <p className="h-aitry-thanks">
-              Thank you. We will write to you the moment it is ready.
-            </p>
+            <p className="h-aitry-thanks">Thank you. We will write to you the moment it is ready.</p>
           ) : (
             <form className="h-aitry-form" onSubmit={onSubmit}>
               <input
@@ -874,9 +911,7 @@ function AiTryOn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <button type="submit" className="h-btn h-btn--gold">
-                Notify Me When Available
-              </button>
+              <button type="submit" className="h-btn h-btn--gold">Notify Me</button>
             </form>
           )}
         </div>
@@ -915,19 +950,13 @@ function FeaturedTemple() {
           </div>
           <p>{t.description}</p>
           <div className="h-temple-actions">
-            <a
-              className="h-btn h-btn--ghost-dark"
-              href={t.url}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a className="h-btn h-btn--ghost-dark" href={t.url} target="_blank" rel="noreferrer">
               Read More <Icon.Arrow />
             </a>
             <Link to="/temples" className="h-temple-archive-link">
               See all featured temples →
             </Link>
           </div>
-
         </div>
       </div>
     </section>
@@ -984,6 +1013,12 @@ function Footer() {
         <div className="h-footer-bottom">
           <div>© {new Date().getFullYear()} Sri Aishwarya Sarees · Temple of Silk Cottons</div>
           <div>Handloom · Heritage · Chennai</div>
+          <div className="h-footer-credit">
+            Homepage designed by{" "}
+            <a href="https://kliviq.com" target="_blank" rel="noopener noreferrer">
+              KlivIQ Technologies OPC
+            </a>
+          </div>
         </div>
       </div>
     </footer>
