@@ -349,11 +349,11 @@ function SiteHeader() {
     <>
       <div className={`h-fixed-wrap ${scrolled ? "is-scrolled" : ""}`}>
         <div className="h-topbar">
-          Complimentary Shipping Across India
-          <span className="sep">·</span>
-          Personalised Saree Consultation
-          <span className="sep">·</span>
-          Three Generations of Trust
+          AADI SALE AT ADYAR STORE
+          <span className="sep">|</span>
+          VISIT STORE FOR 5% TO 40% OFF
+          <span className="sep">|</span>
+          GIVE LIFE TO HANDLOOM
         </div>
 
         <header className="h-header">
