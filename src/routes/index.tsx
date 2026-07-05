@@ -494,13 +494,13 @@ function TrustStrip() {
   return (
     <div className="h-strip">
       <div className="h-strip-inner">
-        <span>50+ Years of Heritage</span>
+        <span className="h-strip-item">50+ Years of Heritage</span>
         <span className="sep">·</span>
-        <span>Direct from Weavers</span>
+        <span className="h-strip-item">Direct from Weavers</span>
         <span className="sep">·</span>
-        <span>Pure Yarn · Real Zari</span>
+        <span className="h-strip-item">Pure Yarn · Real Zari</span>
         <span className="sep">·</span>
-        <span>Trusted by Three Generations</span>
+        <span className="h-strip-item">Trusted by Three Generations</span>
       </div>
     </div>
   );
@@ -554,7 +554,7 @@ function NewArrivals() {
 
 function Founder() {
   return (
-    <section className="h-section h-section--alt" id="story">
+    <section className="h-section h-section--alt h-section--compact" id="story">
       <div className="container">
         <div className="h-founder-grid">
           <div className="h-video-frame" role="button" tabIndex={0} aria-label="Play weaving video (coming soon)">
@@ -562,9 +562,9 @@ function Founder() {
             <div className="h-play"><Icon.Play /></div>
             <div className="h-video-caption">Watch the loom in motion</div>
           </div>
-          <div>
+          <div className="h-founder">
             <span className="eyebrow">A Family Story</span>
-            <h2>From my father's loom to your wardrobe.</h2>
+            <h2>From our father's loom to your wardrobe.</h2>
             <p>
               Sri Aishwarya Sarees began in 1972 when our father set out across Tamil Nadu, Andhra and Karnataka,
               sitting with weavers, choosing yarn, and learning the rhythm of every loom. He believed a saree
@@ -575,6 +575,16 @@ function Founder() {
               our boutiques in T.Nagar and Adyar to homes across the world, every saree carries a quiet promise
               of patience, of authenticity, and of the hands that made it.
             </p>
+            <div className="h-founder-cta">
+              <a
+                className="h-btn"
+                href="https://sriaishwaryasarees.com/about-us/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read Our Full Story
+              </a>
+            </div>
             <div className="h-signature">
               — The Sri Aishwarya Family
               <small>Chennai · Three Generations of Handloom</small>
