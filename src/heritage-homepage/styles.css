@@ -1261,7 +1261,8 @@
   .h-col-card { flex-basis: 220px; }
   .h-stats-grid { grid-template-columns: 1fr 1fr; gap: 26px; }
   .h-footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
-  .h-strip-inner { gap: 18px; font-size: 11px; }
+  .h-strip { padding: 14px 16px; }
+  .h-strip-inner { gap: 10px 14px; font-size: 11px; }
 }
 
 @media (max-width: 520px) {
