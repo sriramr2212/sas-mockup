@@ -72,7 +72,7 @@ export const getNewArrivals = createServerFn({ method: "GET" })
         const minor = p.prices?.currency_minor_unit ?? 2;
         const raw = p.prices?.price ?? "0";
         const num = Number(raw) / Math.pow(10, minor);
-        const priceStr = `${p.prices?.currency_symbol ?? "₹"}${num.toLocaleString("en-IN")}`;
+        const priceStr = `₹${num.toLocaleString("en-IN")}`;
         return {
           id: p.id,
           name: decode(p.name),
