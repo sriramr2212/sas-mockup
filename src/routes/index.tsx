@@ -494,13 +494,13 @@ function TrustStrip() {
   return (
     <div className="h-strip">
       <div className="h-strip-inner">
-        <span>50+ Years of Heritage</span>
+        <span className="h-strip-item">50+ Years of Heritage</span>
         <span className="sep">·</span>
-        <span>Direct from Weavers</span>
+        <span className="h-strip-item">Direct from Weavers</span>
         <span className="sep">·</span>
-        <span>Pure Yarn · Real Zari</span>
+        <span className="h-strip-item">Pure Yarn · Real Zari</span>
         <span className="sep">·</span>
-        <span>Trusted by Three Generations</span>
+        <span className="h-strip-item">Trusted by Three Generations</span>
       </div>
     </div>
   );
