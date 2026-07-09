@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TemplesRouteImport } from './routes/temples'
+import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TemplesRoute = TemplesRouteImport.update({
   id: '/temples',
   path: '/temples',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GlossaryRoute = GlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
+  '/glossary': typeof GlossaryRoute
   '/temples': typeof TemplesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
+  '/glossary': typeof GlossaryRoute
   '/temples': typeof TemplesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
+  '/glossary': typeof GlossaryRoute
   '/temples': typeof TemplesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/faq' | '/temples'
+  fullPaths: '/' | '/faq' | '/glossary' | '/temples'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/faq' | '/temples'
-  id: '__root__' | '/' | '/faq' | '/temples'
+  to: '/' | '/faq' | '/glossary' | '/temples'
+  id: '__root__' | '/' | '/faq' | '/glossary' | '/temples'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FaqRoute: typeof FaqRoute
+  GlossaryRoute: typeof GlossaryRoute
   TemplesRoute: typeof TemplesRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/temples'
       fullPath: '/temples'
       preLoaderRoute: typeof TemplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/glossary': {
+      id: '/glossary'
+      path: '/glossary'
+      fullPath: '/glossary'
+      preLoaderRoute: typeof GlossaryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FaqRoute: FaqRoute,
+  GlossaryRoute: GlossaryRoute,
   TemplesRoute: TemplesRoute,
 }
 export const routeTree = rootRouteImport
