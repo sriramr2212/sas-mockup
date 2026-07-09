@@ -27,7 +27,7 @@ type Temple = {
   story: string[];
 };
 
-const SITE_URL = "https://aish-sample.lovable.app";
+const SITE_URL = "https://sriaishwaryasarees.com";
 const CANONICAL = `${SITE_URL}/temples`;
 
 const templeGeo: Record<string, { lat: number; lng: number; region: string; city: string }> = {

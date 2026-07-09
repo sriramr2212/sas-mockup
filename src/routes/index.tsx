@@ -270,12 +270,19 @@ function HeritageHome() {
       <Craftsmanship />
       <GiftCards />
       <VideoShopping />
-      <AiTryOn />
+      
       <Stats />
       <Testimonials />
       <ReviewQR />
       <Stores />
       <FeaturedTemple />
+      <div className="h-section-divider" aria-hidden="true">
+        <div className="container">
+          <span className="h-section-divider-line" />
+          <span className="h-section-divider-mark">✦</span>
+          <span className="h-section-divider-line" />
+        </div>
+      </div>
       <Instagram />
       <Footer />
     </div>
@@ -890,47 +897,6 @@ function ReviewQR() {
             <p>Open your camera and point it at the code, or tap below.</p>
             <a href={reviewLinks.tnagar} target="_blank" rel="noreferrer">Write a Google Review →</a>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function AiTryOn() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
-  };
-  return (
-    <section className="h-aitry h-aitry--slim" aria-labelledby="h-aitry-title">
-      <div className="h-aitry-inner h-aitry-inner--textonly">
-        <div className="h-aitry-text">
-          <div className="h-aitry-badge-row">
-            <span className="h-aitry-badge">
-              <span className="dot" /> Coming Soon
-            </span>
-          </div>
-          <span className="eyebrow">AI Saree Try-On</span>
-          <h2 id="h-aitry-title">Your Personal AI Saree Trial Room.</h2>
-          <p>Virtually drape any saree from our collection — coming soon to your phone.</p>
-          {submitted ? (
-            <p className="h-aitry-thanks">Thank you. We will write to you the moment it is ready.</p>
-          ) : (
-            <form className="h-aitry-form" onSubmit={onSubmit}>
-              <input
-                type="email"
-                required
-                placeholder="Your email address"
-                aria-label="Email for AI Try-On launch notification"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button type="submit" className="h-btn h-btn--gold">Notify Me</button>
-            </form>
-          )}
         </div>
       </div>
     </section>
