@@ -90,23 +90,156 @@ const collectionsQueryOptions = queryOptions({
   staleTime: 60 * 60 * 1000,
 });
 
+const SITE_URL = "https://sriaishwaryasarees.com";
+
+const homeFaqs: { q: string; a: string }[] = [
+  {
+    q: "How do I care for a silk cotton saree so it lasts longer?",
+    a: "Always dry-clean your first wash. From the second wash onwards, gentle hand-wash in cool water with a mild soap-nut or shampoo shikakai solution — never detergent. Dry in the shade, iron on the reverse at a low silk setting, and refold along a different crease every 3–4 months so the zari does not weaken along the same line.",
+  },
+  {
+    q: "Handloom vs powerloom — how do I tell the difference?",
+    a: "Handloom sarees carry small human tells: slight variation in weft density, an uneven-but-alive selvedge, and a soft body that breathes on the shoulder. Powerloom sarees are mechanically perfect, feel stiffer, and the reverse of the pallu will look identical to the front. At Sri Aishwarya Sarees, every saree is woven on a handloom by a weaver we know by name.",
+  },
+  {
+    q: "Why is Sri Aishwarya's silk cotton priced differently from cheaper alternatives?",
+    a: "Cheaper silk cotton sarees usually mix polyester or viscose into the weft and use half-fine (imitation) zari. Ours are woven with pure mulberry silk warp, mercerised cotton weft, and tested pure zari — the same specification our weavers have used for three generations. The price reflects real yarn, real zari, and a fair wage to the weaver.",
+  },
+  {
+    q: "How do I verify pure zari and yarn authenticity?",
+    a: "Every pure-zari saree we sell carries a Silk Mark and, where applicable, a Handloom Mark. You can also do the burn-test on a stray thread: pure silk smells like burning hair and leaves a soft ash; polyester melts into a hard bead. In store, we're happy to walk you through both tests before you buy.",
+  },
+];
+
+const localBusinessLd = {
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "@id": `${SITE_URL}/#store`,
+  name: "Sri Aishwarya Sarees",
+  alternateName: "Temple of Silk Cottons",
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
+  image: [`${SITE_URL}/og.jpg`],
+  description:
+    "Family-owned Chennai handloom house specialising in authentic Kanjivaram silk, silk cotton, madisar and pure cotton sarees. Three generations of weavers, tested zari, honest pricing.",
+  telephone: "+91-98409-83999",
+  email: "hello@sriaishwaryasarees.com",
+  areaServed: { "@type": "Country", name: "India" },
+  currenciesAccepted: "INR",
+  paymentAccepted: "Cash, UPI, Credit Card, Debit Card",
+  priceRange: "₹₹–₹₹₹₹",
+  sameAs: [
+    "https://www.instagram.com/sri_aishwarya_sarees/",
+    "https://www.facebook.com/sriaishwaryasarees",
+  ],
+  department: [
+    {
+      "@type": "ClothingStore",
+      name: "Sri Aishwarya Sarees — T. Nagar",
+      telephone: "+91-98409-83999",
+      openingHours: "Mo-Su 10:00-21:00",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "10, Arcot Street, T. Nagar",
+        addressLocality: "Chennai",
+        addressRegion: "TN",
+        postalCode: "600017",
+        addressCountry: "IN",
+      },
+      geo: { "@type": "GeoCoordinates", latitude: 13.0418, longitude: 80.2341 },
+    },
+    {
+      "@type": "ClothingStore",
+      name: "Sri Aishwarya Sarees — Adyar",
+      telephone: "+91-95001-92418",
+      openingHours: "Mo-Su 10:00-21:00",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "4/1, Indira Nagar 1st Avenue, Adyar",
+        addressLocality: "Chennai",
+        addressRegion: "TN",
+        postalCode: "600020",
+        addressCountry: "IN",
+      },
+      geo: { "@type": "GeoCoordinates", latitude: 13.0067, longitude: 80.2572 },
+    },
+  ],
+};
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "Sri Aishwarya Sarees",
+  url: SITE_URL,
+  inLanguage: "en-IN",
+  publisher: { "@id": `${SITE_URL}/#store` },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${SITE_URL}/?s={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const homeFaqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homeFaqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sri Aishwarya Sarees — Heritage Handloom House · Chennai Since 1972" },
+      {
+        title:
+          "Sri Aishwarya Sarees — Kanjivaram Silk & Silk Cotton Sarees · Chennai (T.Nagar & Adyar)",
+      },
       {
         name: "description",
         content:
-          "Authentic Kanjivaram silk, silk cotton, 10-yard madisar and pure cotton sarees from a family-owned Chennai handloom house, trusted for three generations.",
+          "Authentic Kanjivaram silk, silk cotton, 10-yard madisar and pure cotton sarees, handwoven for three generations. Visit our T.Nagar & Adyar boutiques in Chennai or shop online.",
       },
+      {
+        name: "keywords",
+        content:
+          "kanjivaram silk sarees, silk cotton sarees chennai, handloom sarees, 10 yard madisar saree, pure zari sarees, bridal kanjivaram, silk sarees t nagar, silk sarees adyar, sri aishwarya sarees",
+      },
+      { name: "robots", content: "index, follow, max-image-preview:large" },
+      { name: "author", content: "KlivIQ Technologies OPC" },
+      { name: "geo.region", content: "IN-TN" },
+      { name: "geo.placename", content: "Chennai, Tamil Nadu, India" },
+      { name: "geo.position", content: "13.0418;80.2341" },
+      { name: "ICBM", content: "13.0418, 80.2341" },
       { property: "og:title", content: "Sri Aishwarya Sarees — Chennai Heritage Handloom" },
       {
         property: "og:description",
-        content: "Three generations of authentic South Indian sarees. Shop online or visit our T.Nagar & Adyar boutiques.",
+        content:
+          "Three generations of authentic South Indian handloom sarees. Shop online or visit our T.Nagar & Adyar boutiques in Chennai.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Sri Aishwarya Sarees" },
+      { property: "og:locale", content: "en_IN" },
+      { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:image", content: hero },
+      { property: "og:image:alt", content: "Sri Aishwarya Sarees — heritage handloom house, Chennai" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Sri Aishwarya Sarees — Chennai Heritage Handloom" },
+      {
+        name: "twitter:description",
+        content:
+          "Authentic Kanjivaram silk, silk cotton and madisar sarees from a family-owned Chennai handloom house.",
+      },
       { name: "twitter:image", content: hero },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(localBusinessLd) },
+      { type: "application/ld+json", children: JSON.stringify(websiteLd) },
+      { type: "application/ld+json", children: JSON.stringify(homeFaqLd) },
     ],
   }),
   loader: ({ context }) => {
