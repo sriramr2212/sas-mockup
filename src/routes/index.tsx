@@ -276,6 +276,13 @@ function HeritageHome() {
       <ReviewQR />
       <Stores />
       <FeaturedTemple />
+      <div className="h-section-divider" aria-hidden="true">
+        <div className="container">
+          <span className="h-section-divider-line" />
+          <span className="h-section-divider-mark">✦</span>
+          <span className="h-section-divider-line" />
+        </div>
+      </div>
       <Instagram />
       <Footer />
     </div>
