@@ -1141,6 +1141,8 @@ function Footer() {
               <li><a href={`${BASE}/video-call-appointment/`}>Video Shopping</a></li>
               <li><a href={`${BASE}/gift-cards/`}>Gift Cards</a></li>
               <li><a href={`${BASE}/contact`}>Contact Us</a></li>
+              <li><Link to="/faq">FAQ</Link></li>
+              <li><Link to="/glossary">Saree Glossary</Link></li>
             </ul>
           </div>
           <div>
