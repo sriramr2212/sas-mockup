@@ -209,6 +209,9 @@ function TemplesPage() {
         <div className="container">
           <div>© {new Date().getFullYear()} Sri Aishwarya Sarees · Temple of Silk Cottons</div>
           <div>Chennai · Three Generations of Handloom</div>
+          <div className="h-temples-footer-links">
+            <Link to="/">Home</Link> · <Link to="/faq">FAQ</Link> · <Link to="/glossary">Glossary</Link>
+          </div>
           <div>
             Page designed by{" "}
             <a href="https://kliviq.com" target="_blank" rel="noopener noreferrer">
