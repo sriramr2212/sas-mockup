@@ -32,8 +32,10 @@ const hero = heroAsset.url;
 import weaving from "../heritage-homepage/assets/weaving-video.jpg";
 import giftcard from "../heritage-homepage/assets/giftcard.jpg";
 import videoShop from "../heritage-homepage/assets/video.jpg";
-import storeTnagar from "../heritage-homepage/assets/store-tnagar.jpg";
-import storeAdyar from "../heritage-homepage/assets/store-adyar.jpg";
+import storeTnagarAsset from "../heritage-homepage/assets/store-tnagar.jpg.asset.json";
+import storeAdyarAsset from "../heritage-homepage/assets/store-adyar.jpg.asset.json";
+const storeTnagar = storeTnagarAsset.url;
+const storeAdyar = storeAdyarAsset.url;
 
 // Bundled fallback thumbnails, keyed by category slug — used until the live
 // Store API returns a category image.
