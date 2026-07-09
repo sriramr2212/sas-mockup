@@ -270,7 +270,7 @@ function HeritageHome() {
       <Craftsmanship />
       <GiftCards />
       <VideoShopping />
-      <AiTryOn />
+      
       <Stats />
       <Testimonials />
       <ReviewQR />
