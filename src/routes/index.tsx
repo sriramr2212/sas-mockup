@@ -419,6 +419,7 @@ function HeritageHome() {
         </div>
       </div>
       <Instagram />
+      <Faq />
       <Footer />
     </div>
   );
