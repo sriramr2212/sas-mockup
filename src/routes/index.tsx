@@ -1107,6 +1107,43 @@ function FeaturedTemple() {
   );
 }
 
+function Faq() {
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <section className="h-section h-faq" aria-labelledby="h-faq-title">
+      <div className="container">
+        <div className="h-section-head">
+          <span className="eyebrow">Questions, Answered</span>
+          <h2 id="h-faq-title">Care, craft &amp; what makes a saree honest.</h2>
+          <p>
+            A few questions we hear most often across the shop counter. For the full list, see our{" "}
+            <Link to="/faq">complete FAQ</Link>.
+          </p>
+        </div>
+        <div className="h-faq-list">
+          {homeFaqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={i} className={`h-faq-item${isOpen ? " is-open" : ""}`}>
+                <button
+                  type="button"
+                  className="h-faq-q"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpen(isOpen ? null : i)}
+                >
+                  <span>{f.q}</span>
+                  <span className="h-faq-plus" aria-hidden="true">{isOpen ? "–" : "+"}</span>
+                </button>
+                {isOpen && <div className="h-faq-a"><p>{f.a}</p></div>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer className="h-footer">
