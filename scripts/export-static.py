@@ -94,8 +94,20 @@ async def main():
         page = await ctx.new_page()
 
         results = {}
-        for slug, url in [("home", "http://localhost:8080/"),
-                          ("temples", "http://localhost:8080/temples")]:
+        routes = [
+            ("home", "http://localhost:8080/"),
+            ("temples", "http://localhost:8080/temples"),
+            ("glossary", "http://localhost:8080/glossary"),
+            ("faq", "http://localhost:8080/faq"),
+        ]
+        # slug -> relative path from any sibling folder's index.html
+        rel_targets = {
+            "home": "../home/index.html",
+            "temples": "../temples/index.html",
+            "glossary": "../glossary/index.html",
+            "faq": "../faq/index.html",
+        }
+        for slug, url in routes:
             await page.goto(url, wait_until="networkidle")
             await page.wait_for_selector(".heritage-root", timeout=15000)
             # Trigger lazy images to resolve their src attributes
@@ -107,12 +119,13 @@ async def main():
             ) or ""
             # Append WhatsApp float
             body_html = body_html + WA_SVG
-            # Rewrite Tanstack Link hrefs to relative HTML paths
-            # Home -> temples: <a href="/temples">
-            body_html = re.sub(r'href="/temples"', 'href="../temples/index.html"', body_html)
-            # Temples -> home: <a href="/">
-            body_html = re.sub(r'href="/"', 'href="../home/index.html"', body_html)
-            # Remove any data-* debugging attributes from TanStack Router if present
+            # Rewrite TanStack Link hrefs to relative HTML paths across all pages.
+            # Order matters — rewrite longer, more specific paths first so "/" doesn't
+            # eat "/temples", "/glossary", "/faq".
+            body_html = re.sub(r'href="/temples/?"', f'href="{rel_targets["temples"]}"', body_html)
+            body_html = re.sub(r'href="/glossary/?"', f'href="{rel_targets["glossary"]}"', body_html)
+            body_html = re.sub(r'href="/faq/?"', f'href="{rel_targets["faq"]}"', body_html)
+            body_html = re.sub(r'href="/"', f'href="{rel_targets["home"]}"', body_html)
             results[slug] = (title, desc, body_html)
 
         await b.close()
