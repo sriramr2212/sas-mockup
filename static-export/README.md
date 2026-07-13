@@ -1,20 +1,15 @@
 # Sri Aishwarya Sarees — Static HTML/CSS Export
 
-Two self-contained folders you can upload directly to cPanel File Manager.
+Four self-contained folders you can upload directly to cPanel File Manager.
 No build step, no framework, no server-side code required.
 
 ## Contents
 
 ```
-home/
-  index.html          → the home page
-  css/heritage.css    → all styles (scoped under .heritage-root)
-  images/             → every image used on this page (logo, hero, products, temple, footer photo…)
-
-temples/
-  index.html          → the Temple of the Month archive (single scrolling page)
-  css/heritage.css    → same stylesheet (kept per-folder so each page is self-contained)
-  images/             → temple images + shared header/footer images
+home/       index.html + css/heritage.css + images/   (home page)
+temples/    index.html + css/heritage.css + images/   (Temple of the Month archive)
+glossary/   index.html + css/heritage.css + images/   (Saree glossary)
+faq/        index.html + css/heritage.css + images/   (Frequently asked questions)
 ```
 
 ## How to upload to WooCommerce cPanel
@@ -22,17 +17,20 @@ temples/
 1. Log into cPanel → **File Manager** → `public_html/` (or wherever the site root is).
 2. To replace the current home page: upload the **contents** of `home/`
    (`index.html`, `css/`, `images/`) into the site root.
-3. To publish the temples archive: create a new folder called `temples/` in
-   the site root and upload the **contents** of the `temples/` export folder
-   into it. Visitors reach it at `https://sriaishwaryasarees.com/temples/`.
+3. To publish the other sections: create folders `temples/`, `glossary/`,
+   `faq/` in the site root and upload each export folder's contents into
+   the matching folder. Visitors reach them at:
+   - `https://sriaishwaryasarees.com/temples/`
+   - `https://sriaishwaryasarees.com/glossary/`
+   - `https://sriaishwaryasarees.com/faq/`
 
-The pages already link to each other correctly (home → temples, temples → home)
-using relative paths, and every shop/category/product link is an absolute
-URL back to the live WooCommerce site.
+All cross-page links (home ↔ temples ↔ glossary ↔ faq) are already rewritten
+to relative paths. Every shop/category/product link is an absolute URL back
+to the live WooCommerce site.
 
 ## The floating WhatsApp button
 
-Present on both pages, works on desktop and mobile, opens a chat with
+Present on every page, works on desktop and mobile, opens a chat with
 +91 95001 92418 and a prefilled greeting.
 
 ## Adding next month's temple
