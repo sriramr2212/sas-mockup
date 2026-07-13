@@ -79,8 +79,8 @@ import ig6 from "../heritage-homepage/assets/ig6.jpg";
 const BASE = "https://sriaishwaryasarees.com";
 
 const arrivalsQueryOptions = queryOptions({
-  queryKey: ["arrivals", 8],
-  queryFn: () => getNewArrivals({ data: { limit: 8 } }),
+  queryKey: ["arrivals", 16],
+  queryFn: () => getNewArrivals({ data: { limit: 16 } }),
   staleTime: 10 * 60 * 1000,
 });
 
