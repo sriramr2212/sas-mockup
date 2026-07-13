@@ -1014,26 +1014,23 @@ function Stores() {
 
 function ReviewQR() {
   return (
-    <section className="h-section h-section--dark">
-      <div className="container">
-        <div className="h-section-head">
-          <span className="eyebrow">Scan or Click to Review Us</span>
-          <h2>Loved your saree? Share a word.</h2>
-          <p>Your review helps another family find an honest handloom store. Scan the QR for your nearest branch.</p>
-        </div>
-        <div className="h-qr-grid">
-          <div className="h-qr">
-            <h3>Adyar Branch</h3>
-            <div className="h-qr-img"><img src={qrUrl(reviewLinks.adyar)} alt="Adyar Google review QR" loading="lazy" /></div>
-            <p>Open your camera and point it at the code, or tap below.</p>
-            <a href={reviewLinks.adyar} target="_blank" rel="noreferrer">Write a Google Review →</a>
-          </div>
-          <div className="h-qr">
-            <h3>T. Nagar Branch</h3>
-            <div className="h-qr-img"><img src={qrUrl(reviewLinks.tnagar)} alt="T.Nagar Google review QR" loading="lazy" /></div>
-            <p>Open your camera and point it at the code, or tap below.</p>
-            <a href={reviewLinks.tnagar} target="_blank" rel="noreferrer">Write a Google Review →</a>
-          </div>
+    <section
+      className="h-review"
+      style={{ backgroundImage: `url(${weaving})` }}
+      aria-label="Review us on Google"
+    >
+      <div className="h-review-overlay" aria-hidden="true" />
+      <div className="container h-review-inner">
+        <h2>Scan or click to review us</h2>
+        <div className="h-review-grid">
+          <a className="h-review-card" href={reviewLinks.adyar} target="_blank" rel="noreferrer">
+            <div className="h-review-qr"><img src={qrUrl(reviewLinks.adyar)} alt="Adyar Google review QR" loading="lazy" /></div>
+            <div className="h-review-label">Google Review — Adyar</div>
+          </a>
+          <a className="h-review-card" href={reviewLinks.tnagar} target="_blank" rel="noreferrer">
+            <div className="h-review-qr"><img src={qrUrl(reviewLinks.tnagar)} alt="T.Nagar Google review QR" loading="lazy" /></div>
+            <div className="h-review-label">Google Review — T. Nagar</div>
+          </a>
         </div>
       </div>
     </section>
