@@ -1106,7 +1106,7 @@ function FeaturedTemple() {
 }
 
 function Faq() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
   return (
     <section className="h-section h-faq" aria-labelledby="h-faq-title">
       <div className="container">
