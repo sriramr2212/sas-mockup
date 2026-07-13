@@ -406,7 +406,6 @@ function HeritageHome() {
       <GiftCards />
       <VideoShopping />
       
-      <Stats />
       <Testimonials />
       <ReviewQR />
       <Stores />
