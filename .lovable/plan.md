@@ -1,51 +1,59 @@
-# Homepage refinements (`src/routes/index.tsx` + `src/heritage-homepage/styles.css`)
+## 1. Hero — image sized to match text column height
 
-Presentation-only changes. No data/business logic changes.
+The image column still runs taller than the text column because the grid enforces `min-height: max(65vh, 560px)` and `max-height: 820px`. The text (headline + short paragraph + two buttons) is naturally ~520px, so the image gets stretched to viewport height.
 
-## 1. Hero — top-align text and image (desktop)
-- In `.h-hero-grid` (desktop breakpoint only), set `align-items: start` so the eyebrow + H1 + copy + CTA column starts at the same top edge as the image column.
-- Remove any vertical centering on `.h-hero-text` / `.h-hero-img` at ≥1024px. Leave the mobile stacked layout untouched.
+Edit `src/heritage-homepage/styles.css` (≥1024px only — mobile stays untouched):
 
-## 2. New Arrivals — show two more rows
-- Bump the query from 8 → **16** products:
-  - Update `arrivalsQueryOptions` `queryKey: ["arrivals", 16]` and `queryFn` call to `{ limit: 16 }`.
-  - Loader `ensureQueryData` picks it up automatically.
-- Remove the CSS caps that hide items past a certain index so all 16 render:
-  - Delete `.h-arrivals-grid > .h-product:nth-child(n+7) { display: none; }` (3-col breakpoint) and `.h-arrivals-grid > .h-product:nth-child(n+5) { display: none; }` (2-col breakpoint) in `styles.css`.
-- Desktop stays 4 columns → 4 rows visible; tablet 3 cols → 6 rows; mobile 2 cols → 8 rows.
+- `.h-hero-grid`: remove `min-height` and `max-height`; keep `align-items: stretch`. Height now driven by the text column.
+- `.h-hero-text`: reduce top/bottom padding from `64px 64px` to `72px 64px 64px` (keeps breathing room; no artificial min-height added).
+- `.h-hero-img`: reduce inner padding from `32px` to `20px`, keep `height: 100%; overflow: hidden`.
+- `.h-hero-img img`: keep `object-fit: cover` so the image fills the shorter box without letterboxing or distortion.
 
-## 3. Family Story — one paragraph, equal height with video
-- In `Founder()`, collapse the two `<p>` blocks into a single tighter paragraph (keep tone; ~4–5 lines) covering: family since 1972, same weavers three generations later, saree as a memory in the making.
-- Make text column and `.h-video-frame` the same height:
-  - On `.h-founder-grid` (desktop), use `align-items: stretch`.
-  - On `.h-video-frame`, set `height: 100%` and keep `img { object-fit: cover }` so the video preview matches the text column's height.
-  - On `.h-founder`, keep content top-aligned; push the signature/CTA to the bottom with `display: flex; flex-direction: column; justify-content: space-between` so the column fills the row height cleanly.
+Result: the image column takes exactly the height of the text column on desktop; the model's height cannot exceed the copy any more.
 
-## 4. Craftsmanship → slim scrolling marquee
-- Replace the entire `Craftsmanship()` return with a single slim horizontal marquee band (no eyebrow, no h2, no cards).
-- Content, repeated twice for seamless loop:
-  `The quiet craft behind every saree  ❃  Heritage Weaves  ❃  Quality, We stand behind  ❃  A story in every saree`
-  where `❃` is a small inline paisley SVG lifted from the logo motif (simple leaf/paisley path, ~14px, using `currentColor`, gold tint).
-- Styles: new `.h-craft-marquee` (dark ink background to keep continuity with current dark craft section, ~48–56px tall, single line, font-serif italic ~18px, gold paisley separators). Animate with `@keyframes h-marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }`, `animation: h-marquee 32s linear infinite`, `overflow: hidden`, pause on hover.
-- Delete the old `.h-craft-grid`, `.h-craft-card`, `.h-craft-icon` markup usage. Leave the CSS rules in place (harmless) or trim if easy.
+**Verification (before marking build-ready):** run Playwright at 1440×900, screenshot the hero, and assert `getBoundingClientRect().height` of `.h-hero-text` equals `.h-hero-img` within 1px. Also spot-check at 1280 and 1920. If unequal, iterate on padding before shipping.
 
-## 5. Remove the Stats section
-- Remove `<Stats />` from `HeritageHome`'s render tree (leave the function definition removable or unused; simplest is to also delete the `Stats` component).
+## 2. Lovable references — status
 
-## 6. Review QR — minimal, on a loom backdrop
-- Rewrite `ReviewQR()`:
-  - Section wrapper gets a new class `h-review` with a background image of the existing weaving/loom photo (`weaving`, already imported), full-cover, `background-position: center`, no crop of the loom (use `background-size: cover` with a subtle dark overlay `rgba(0,0,0,0.45)` only — no image cropping via fixed height; let the section size to content).
-  - Remove the eyebrow, the "Loved your saree? Share a word." H2, and the "Your review helps…" paragraph.
-  - Keep only one heading: **"Scan or click to review us"** in white, bold, serif, centered.
-  - Two small compact cards side-by-side (`.h-review-card`), each containing:
-    - a small QR image (~110×110), and
-    - the label **"Google Review — Adyar"** / **"Google Review — T. Nagar"** as a link to the existing `reviewLinks.adyar` / `reviewLinks.tnagar` URLs.
-  - Remove the "Open your camera…" copy and the standalone "Write a Google Review →" link (label on the card is the link).
-- Add CSS: `.h-review` (loom bg + overlay, generous padding), `.h-review h2` (white bold serif, centered), `.h-review-grid` (flex, gap, center), `.h-review-card` (translucent white/ivory panel, small, rounded, centered content, QR + label link).
+Remaining matches are all build-tooling for the Lovable dev/preview environment, not user-visible or shipped output:
 
-## 7. FAQ — all accordions closed by default
-- In `Faq()` (home) change `useState<number | null>(0)` → `useState<number | null>(null)`.
-- In `src/routes/faq.tsx` change `useState<string | null>(faqs[0]?.q ?? null)` → `useState<string | null>(null)`.
+- `package.json` → `@lovable.dev/vite-tanstack-config` (Vite preset)
+- `vite.config.ts` → imports that preset
+- `bunfig.toml` → install-age exclusion for Lovable packages
 
-## Verification
-- After edits: check the built home in the preview at desktop (1280) and mobile (390) — hero top-align, 16 arrivals in 4×4, equal-height family story, thin scrolling marquee, no stats, minimal review section on loom photo, all FAQ items closed on first paint.
+These are **required** for the app to build and preview inside Lovable. Removing them breaks the dev server with no user benefit. The static export shipped to the client (`static-export/home/`, `static-export/temples/`) contains **zero** Lovable strings — verified with ripgrep.
+
+Recommendation: leave the three tooling references in place; they never reach the WordPress site. If you still want them scrubbed from the source repo, say so and I'll swap Vite config to a vanilla TanStack Start setup in a follow-up (higher risk — needs a full build verification pass).
+
+## 3. WordPress integration confirmation
+
+The developer flow is already drop-in via `scripts/export-static.py` → `static-export/`:
+
+```text
+static-export/
+  home/       index.html + css/heritage.css + images/
+  temples/    index.html + css/heritage.css + images/
+```
+
+Each folder is fully self-contained (no JS framework, no build step, no server code). Internal links are already rewritten to relative paths; shop/product links point to the live WooCommerce URLs.
+
+**Gap to close before handoff:** the glossary and FAQ routes exist in the app but the export script only renders `/` and `/temples`. Add them to the loop in `scripts/export-static.py`:
+
+- Add `("glossary", "http://localhost:8080/glossary")` and `("faq", "http://localhost:8080/faq")` to the route list.
+- Add the reverse href rewrites so cross-page nav resolves (`/glossary` → `../glossary/index.html`, `/faq` → `../faq/index.html`, plus existing `/` and `/temples`).
+- Update `static-export/README.md` with upload steps for the two new folders (`glossary/`, `faq/`) and their public URLs.
+
+After that, re-run `python3 scripts/export-static.py`. The developer then uploads each folder into `public_html/` under its slug — no WordPress plugin, PHP edit, or theme change required. Existing WordPress pages/routes are untouched unless the client explicitly replaces `public_html/index.html`.
+
+**Integration risks the developer should know:**
+- If the WordPress theme injects a global stylesheet on all URLs, the `.heritage-root` scoping isolates our CSS but the theme's header/footer will not appear on these static pages (that's intentional — these are standalone pages).
+- WooCommerce product links are hardcoded to `sriaishwaryasarees.com`; if the domain differs on staging, do a find-replace in the exported HTML.
+- Fonts load from Google Fonts CDN — no local hosting needed.
+
+## Deliverables in build mode
+
+1. Edit `src/heritage-homepage/styles.css` (hero grid + padding rules above).
+2. Edit `scripts/export-static.py` to include `glossary` and `faq` routes + href rewrites.
+3. Update `static-export/README.md` with the two new folders.
+4. Run Playwright verification on the hero heights; iterate if not equal.
+5. Re-run the export script to regenerate `static-export/`.
