@@ -384,7 +384,8 @@
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   min-height: max(65vh, 560px);
-  align-items: start;
+  max-height: 820px;
+  align-items: stretch;
 }
 .h-hero-text {
   padding: 64px 64px;
