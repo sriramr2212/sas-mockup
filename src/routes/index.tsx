@@ -79,8 +79,8 @@ import ig6 from "../heritage-homepage/assets/ig6.jpg";
 const BASE = "https://sriaishwaryasarees.com";
 
 const arrivalsQueryOptions = queryOptions({
-  queryKey: ["arrivals", 8],
-  queryFn: () => getNewArrivals({ data: { limit: 8 } }),
+  queryKey: ["arrivals", 16],
+  queryFn: () => getNewArrivals({ data: { limit: 16 } }),
   staleTime: 10 * 60 * 1000,
 });
 
@@ -406,7 +406,6 @@ function HeritageHome() {
       <GiftCards />
       <VideoShopping />
       
-      <Stats />
       <Testimonials />
       <ReviewQR />
       <Stores />
@@ -706,31 +705,31 @@ function Founder() {
             <div className="h-video-caption">Watch the loom in motion</div>
           </div>
           <div className="h-founder">
-            <span className="eyebrow">A Family Story</span>
-            <h2>From our father's loom to your wardrobe.</h2>
-            <p>
-              Sri Aishwarya Sarees began in 1972 when our father set out across Tamil Nadu, Andhra and Karnataka,
-              sitting with weavers, choosing yarn, and learning the rhythm of every loom. He believed a saree
-              was never just a garment — it was a memory in the making.
-            </p>
-            <p>
-              Three generations later, the same families weave for us. The same care goes into every fold. From
-              our boutiques in T.Nagar and Adyar to homes across the world, every saree carries a quiet promise
-              of patience, of authenticity, and of the hands that made it.
-            </p>
-            <div className="h-founder-cta">
-              <a
-                className="h-btn"
-                href="https://sriaishwaryasarees.com/about-us/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Read Our Full Story
-              </a>
+            <div>
+              <span className="eyebrow">A Family Story</span>
+              <h2>From our father's loom to your wardrobe.</h2>
+              <p>
+                Sri Aishwarya Sarees began in 1972 when our father set out across Tamil Nadu, Andhra and Karnataka,
+                sitting with weavers and choosing yarn by hand. Three generations later, the same families still
+                weave for us — from our boutiques in T.Nagar and Adyar to homes across the world, every saree
+                carries a quiet promise of patience, of authenticity, and of the hands that made it.
+              </p>
             </div>
-            <div className="h-signature">
-              — The Sri Aishwarya Family
-              <small>Chennai · Three Generations of Handloom</small>
+            <div>
+              <div className="h-founder-cta">
+                <a
+                  className="h-btn"
+                  href="https://sriaishwaryasarees.com/about-us/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Read Our Full Story
+                </a>
+              </div>
+              <div className="h-signature">
+                — The Sri Aishwarya Family
+                <small>Chennai · Three Generations of Handloom</small>
+              </div>
             </div>
           </div>
         </div>
@@ -740,37 +739,39 @@ function Founder() {
 }
 
 function Craftsmanship() {
+  const Paisley = () => (
+    <svg className="h-craft-paisley" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 2c4 3 6 6 6 10 0 4-3 7-7 7-3 0-5-2-5-4 0-2 2-4 4-4 1.5 0 3 1 3 2.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="8" r="1.1" fill="currentColor" />
+    </svg>
+  );
+  const phrases = [
+    "The quiet craft behind every saree",
+    "Heritage Weaves",
+    "Quality, we stand behind",
+    "A story in every saree",
+  ];
+  const Group = () => (
+    <div className="h-craft-marquee-group" aria-hidden="false">
+      {phrases.map((p, i) => (
+        <span key={i} className="h-craft-marquee-item">
+          <span>{p}</span>
+          <Paisley />
+        </span>
+      ))}
+    </div>
+  );
   return (
-    <section className="h-craft">
-      <div className="container">
-        <div className="h-section-head">
-          <span className="eyebrow">Our Craftsmanship</span>
-          <h2>The quiet craft behind every saree.</h2>
-          <p>Patience, pure yarn, and looms that have stayed in the same families for generations.</p>
-        </div>
-        <div className="h-craft-grid">
-          <div className="h-craft-card">
-            <div className="h-craft-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 7h18M3 12h18M3 17h18"/><path d="M7 3v18M17 3v18"/></svg>
-            </div>
-            <h3>Heritage Weaves</h3>
-            <p>Curated from Kanchipuram, Chettinad, Arani and beyond — true to each region's tradition.</p>
-          </div>
-          <div className="h-craft-card">
-            <div className="h-craft-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
-            </div>
-            <h3>Quality We Stand Behind</h3>
-            <p>Pure yarn, real zari, honest weave — every saree inspected by our family.</p>
-          </div>
-          <div className="h-craft-card">
-            <div className="h-craft-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.5 7.1 17.2 8 11.7 4 7.8 9.5 7Z"/></svg>
-            </div>
-            <h3>A Story in Every Saree</h3>
-            <p>Weavers, villages, and a craft kept alive — one saree at a time.</p>
-          </div>
-        </div>
+    <section className="h-craft-marquee" aria-label="Our craftsmanship">
+      <div className="h-craft-marquee-track">
+        <Group />
+        <Group />
       </div>
     </section>
   );
@@ -1013,26 +1014,23 @@ function Stores() {
 
 function ReviewQR() {
   return (
-    <section className="h-section h-section--dark">
-      <div className="container">
-        <div className="h-section-head">
-          <span className="eyebrow">Scan or Click to Review Us</span>
-          <h2>Loved your saree? Share a word.</h2>
-          <p>Your review helps another family find an honest handloom store. Scan the QR for your nearest branch.</p>
-        </div>
-        <div className="h-qr-grid">
-          <div className="h-qr">
-            <h3>Adyar Branch</h3>
-            <div className="h-qr-img"><img src={qrUrl(reviewLinks.adyar)} alt="Adyar Google review QR" loading="lazy" /></div>
-            <p>Open your camera and point it at the code, or tap below.</p>
-            <a href={reviewLinks.adyar} target="_blank" rel="noreferrer">Write a Google Review →</a>
-          </div>
-          <div className="h-qr">
-            <h3>T. Nagar Branch</h3>
-            <div className="h-qr-img"><img src={qrUrl(reviewLinks.tnagar)} alt="T.Nagar Google review QR" loading="lazy" /></div>
-            <p>Open your camera and point it at the code, or tap below.</p>
-            <a href={reviewLinks.tnagar} target="_blank" rel="noreferrer">Write a Google Review →</a>
-          </div>
+    <section
+      className="h-review"
+      style={{ backgroundImage: `url(${weaving})` }}
+      aria-label="Review us on Google"
+    >
+      <div className="h-review-overlay" aria-hidden="true" />
+      <div className="container h-review-inner">
+        <h2>Scan or click to review us</h2>
+        <div className="h-review-grid">
+          <a className="h-review-card" href={reviewLinks.adyar} target="_blank" rel="noreferrer">
+            <div className="h-review-qr"><img src={qrUrl(reviewLinks.adyar)} alt="Adyar Google review QR" loading="lazy" /></div>
+            <div className="h-review-label">Google Review — Adyar</div>
+          </a>
+          <a className="h-review-card" href={reviewLinks.tnagar} target="_blank" rel="noreferrer">
+            <div className="h-review-qr"><img src={qrUrl(reviewLinks.tnagar)} alt="T.Nagar Google review QR" loading="lazy" /></div>
+            <div className="h-review-label">Google Review — T. Nagar</div>
+          </a>
         </div>
       </div>
     </section>
@@ -1108,7 +1106,7 @@ function FeaturedTemple() {
 }
 
 function Faq() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
   return (
     <section className="h-section h-faq" aria-labelledby="h-faq-title">
       <div className="container">
