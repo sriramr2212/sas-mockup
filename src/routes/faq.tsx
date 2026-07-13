@@ -135,7 +135,7 @@ export const Route = createFileRoute("/faq")({
 });
 
 function FaqPage() {
-  const [open, setOpen] = useState<string | null>(faqs[0]?.q ?? null);
+  const [open, setOpen] = useState<string | null>(null);
   const groups = Array.from(new Set(faqs.map((f) => f.group)));
 
   return (
