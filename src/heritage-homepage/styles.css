@@ -2012,15 +2012,13 @@ html { scroll-behavior: smooth; }
   white-space: normal;
 }
 
-/* New Arrivals: 4 cols desktop, 3 tablet, 2 mobile; hide extras */
+/* New Arrivals: 4 cols desktop, 3 tablet, 2 mobile — show all fetched items */
 .heritage-root .h-arrivals-grid { grid-template-columns: repeat(4, 1fr); }
 @media (max-width: 1024px) {
   .heritage-root .h-arrivals-grid { grid-template-columns: repeat(3, 1fr); }
-  .heritage-root .h-arrivals-grid > .h-product:nth-child(n+7) { display: none; }
 }
 @media (max-width: 720px) {
   .heritage-root .h-arrivals-grid { grid-template-columns: repeat(2, 1fr); }
-  .heritage-root .h-arrivals-grid > .h-product:nth-child(n+5) { display: none; }
 }
 
 /* Craftsmanship — trimmed vertical rhythm */
