@@ -420,6 +420,7 @@ function HeritageHome() {
         </div>
       </div>
       <Instagram />
+      <Newsletter />
       <Faq />
       <Footer />
     </div>
