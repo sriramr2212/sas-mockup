@@ -1018,12 +1018,7 @@ function Newsletter() {
     >
       <div className="h-newsletter-overlay" aria-hidden="true" />
       <div className="container h-newsletter-inner">
-        <span className="eyebrow">Join Our Newsletter</span>
-        <h2 id="h-newsletter-title">Stories from the loom, straight to your inbox.</h2>
-        <p>
-          Be the first to hear about new arrivals, festival collections and the weavers
-          behind every saree — sent gently, never more than twice a month.
-        </p>
+        <h2 id="h-newsletter-title" className="h-newsletter-title">Join Our Newsletter</h2>
         {status === "ok" ? (
           <div className="h-newsletter-thanks" role="status">
             Thank you — please check your inbox to confirm your subscription.
