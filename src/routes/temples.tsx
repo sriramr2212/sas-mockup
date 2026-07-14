@@ -173,7 +173,6 @@ function TemplesPage() {
                 <li key={t.slug}>
                   <a href={`#${t.slug}`}>
                     {t.name}
-                    <span className="h-tx-month">{t.month}</span>
                   </a>
                 </li>
               ))}
