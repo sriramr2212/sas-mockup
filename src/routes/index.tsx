@@ -676,7 +676,13 @@ function NewArrivals() {
                 <a key={p.id} className="h-product" href={p.href}>
                   <div className="h-product-img">
                     {p.img ? (
-                      <img src={p.img} alt={p.name} loading="lazy" />
+                      <img
+                        src={p.img}
+                        alt={p.name}
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(max-width: 720px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                      />
                     ) : (
                       <div style={{ width: "100%", height: "100%", background: "var(--h-ivory)" }} />
                     )}
