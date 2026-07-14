@@ -1187,7 +1187,6 @@ function FeaturedTemple() {
           <img src={img} alt={`${t.name}, ${t.location}`} loading="lazy" />
         </Link>
         <div className="h-temple-text">
-          <span className="eyebrow">{t.month}</span>
           <h3>{t.name}</h3>
           <div className="h-temple-loc">
             <Icon.Pin /> <span>{t.location}</span>
