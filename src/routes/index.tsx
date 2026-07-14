@@ -1203,8 +1203,8 @@ function FeaturedTemple() {
     <section className="h-temple h-temple--simple" aria-labelledby="h-temple-title">
       <div className="container">
         <div className="h-section-head h-temple-head">
-          <span className="eyebrow">Featured Temples</span>
-          <h2 id="h-temple-title">Sacred Threads · Temple of the Month</h2>
+          <span className="eyebrow">Sacred Threads</span>
+          <h2 id="h-temple-title">Temples That Inspire Us</h2>
         </div>
         <div className="h-temple-simple-grid">
           {cell(previous, "previous")}
