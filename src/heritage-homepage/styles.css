@@ -878,7 +878,7 @@
   max-width: 720px;
   text-align: center;
 }
-.h-newsletter-title {
+.h-newsletter h2.h-newsletter-title {
   color: var(--h-cream);
   font-family: "Fraunces", "Inter", Georgia, serif;
   font-size: clamp(2.2rem, 4.4vw, 3.6rem);
