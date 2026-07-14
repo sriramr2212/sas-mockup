@@ -897,7 +897,7 @@ function Stats() {
 }
 
 function Testimonials() {
-  const t = testimonialsData as Array<{ name: string; location: string; rating: number; review: string }>;
+  const t = testimonialsData as Array<{ name: string; location: string; rating: number; review: string; link?: string }>;
   const [perView, setPerView] = useState(3);
   const [start, setStart] = useState(0);
 
@@ -934,12 +934,126 @@ function Testimonials() {
                 <div className="h-test-stars">{"★".repeat(cur.rating)}</div>
                 <blockquote>"{cur.review}"</blockquote>
                 <cite>{cur.name}<small>{cur.location}</small></cite>
+                {cur.link && (
+                  <a
+                    className="h-test-readmore"
+                    href={cur.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Read full article →
+                  </a>
+                )}
               </div>
             ))}
           </div>
           <button className="h-test-arrow" onClick={next} disabled={safeStart >= maxStart} aria-label="Next testimonials">
             <Icon.Arrow />
           </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Newsletter subscription — designed for a WordPress backend developer to wire up
+// quickly. By default it POSTs form-encoded data to the Newsletter plugin
+// endpoint (https://www.thenewsletterplugin.com/documentation/subscription).
+// To point at a different plugin (MailPoet, Mailchimp for WP, Brevo, etc.),
+// either set VITE_NEWSLETTER_ENDPOINT in the WordPress build env OR change the
+// NEWSLETTER_ENDPOINT constant below. The field name for the email input is
+// `ne` (Newsletter plugin default); adjust `emailFieldName` if needed.
+const NEWSLETTER_ENDPOINT =
+  (import.meta as { env?: Record<string, string | undefined> }).env
+    ?.VITE_NEWSLETTER_ENDPOINT ??
+  "https://sriaishwaryasarees.com/?na=s";
+const NEWSLETTER_EMAIL_FIELD = "ne";
+
+function Newsletter() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const trimmed = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed) || trimmed.length > 254) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setStatus("sending");
+    try {
+      const body = new FormData();
+      body.append(NEWSLETTER_EMAIL_FIELD, trimmed);
+      // Newsletter plugin also accepts these standard fields:
+      body.append("nr", "widget");
+      const res = await fetch(NEWSLETTER_ENDPOINT, {
+        method: "POST",
+        body,
+        mode: "no-cors",
+      });
+      // With no-cors we can't read the response, but a network success means
+      // the request reached WordPress. The plugin handles double-opt-in email.
+      void res;
+      setStatus("ok");
+      setEmail("");
+    } catch {
+      setStatus("error");
+      setError("Something went wrong. Please try again in a moment.");
+    }
+  };
+
+  return (
+    <section
+      className="h-newsletter"
+      style={{ backgroundImage: `url(${newsletterLoom})` }}
+      aria-labelledby="h-newsletter-title"
+    >
+      <div className="h-newsletter-overlay" aria-hidden="true" />
+      <div className="container h-newsletter-inner">
+        <span className="eyebrow">Join Our Newsletter</span>
+        <h2 id="h-newsletter-title">Stories from the loom, straight to your inbox.</h2>
+        <p>
+          Be the first to hear about new arrivals, festival collections and the weavers
+          behind every saree — sent gently, never more than twice a month.
+        </p>
+        {status === "ok" ? (
+          <div className="h-newsletter-thanks" role="status">
+            Thank you — please check your inbox to confirm your subscription.
+          </div>
+        ) : (
+          <form className="h-newsletter-form" onSubmit={onSubmit} noValidate>
+            <label className="h-newsletter-field">
+              <span className="sr-only">Email address</span>
+              <input
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                required
+                maxLength={254}
+                placeholder="Your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                aria-invalid={error ? "true" : "false"}
+              />
+            </label>
+            <button
+              type="submit"
+              className="h-btn h-btn--gold"
+              disabled={status === "sending"}
+            >
+              {status === "sending" ? "Subscribing…" : "Subscribe"}
+            </button>
+          </form>
+        )}
+        {error && (
+          <div className="h-newsletter-error" role="alert">
+            {error}
+          </div>
+        )}
+        <div className="h-newsletter-note">
+          We respect your inbox. Unsubscribe any time.
         </div>
       </div>
     </section>
