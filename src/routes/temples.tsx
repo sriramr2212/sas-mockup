@@ -249,9 +249,9 @@ function TempleEntry({
           <img src={img} alt={`${temple.name} gopuram, ${temple.location} — South Indian temple architecture`} loading="lazy" />
         </a>
         <div className="h-temples-entry-text">
-          <span className="eyebrow">{featured ? "This Month" : temple.month}</span>
+          <span className="eyebrow">Sacred Threads</span>
           <h2>{temple.name}</h2>
-          <div className="h-temples-entry-loc">{temple.location} · {temple.month}</div>
+          <div className="h-temples-entry-loc">{temple.location}</div>
           <p className="h-temples-entry-lede">{temple.description}</p>
           {temple.story.map((para, i) => (
             <p key={i}>{para}</p>
