@@ -6,7 +6,8 @@ import "../heritage-homepage/styles.css";
 import testimonialsData from "../heritage-homepage/testimonials.json";
 import templesData from "../heritage-homepage/temples.json";
 import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
-import templeKamakshi from "../heritage-homepage/assets/temple-kamakshi.jpg";
+import templeKanchiPeriyavaAsset from "../heritage-homepage/assets/temple-kanchi-periyava.jpg.asset.json";
+const templeKanchiPeriyava = templeKanchiPeriyavaAsset.url;
 import templeChennakeshava from "../heritage-homepage/assets/temple-chennakeshava.jpg";
 import templeRanganathaswamy from "../heritage-homepage/assets/temple-ranganathaswamy.jpg";
 import {
@@ -17,11 +18,10 @@ import {
 } from "../lib/arrivals.functions";
 
 // Map JSON image keys (filenames) to bundled assets so the featured temples can
-// be swapped each month by editing temples.json — the first entry is the
-// current month, the second is the previous month.
+// be swapped by editing temples.json.
 const templeImages: Record<string, string> = {
   "temple-meenakshi.jpg": templeMeenakshi,
-  "temple-kamakshi.jpg": templeKamakshi,
+  "temple-kanchi-periyava.jpg": templeKanchiPeriyava,
   "temple-chennakeshava.jpg": templeChennakeshava,
   "temple-ranganathaswamy.jpg": templeRanganathaswamy,
 };

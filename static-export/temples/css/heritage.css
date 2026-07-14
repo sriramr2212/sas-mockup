@@ -855,6 +855,136 @@
 .h-gift--compact .h-gift-text p { margin-top: 14px; }
 .h-gift--compact .h-gift-text .h-btn { margin-top: 22px; }
 
+/* ============ NEWSLETTER ============ */
+.h-newsletter {
+  position: relative;
+  background-color: #1a0e08;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--h-cream);
+  padding: 96px 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+.h-newsletter-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20,10,4,0.72) 0%, rgba(20,10,4,0.55) 45%, rgba(20,10,4,0.78) 100%);
+  z-index: -1;
+}
+.h-newsletter-inner {
+  max-width: 720px;
+  text-align: center;
+}
+.h-newsletter .eyebrow {
+  color: var(--h-gold-soft);
+}
+.h-newsletter h2 {
+  color: var(--h-cream);
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  font-style: italic;
+  margin-top: 14px;
+}
+.h-newsletter p {
+  margin: 18px auto 0;
+  color: rgba(250,245,236,0.85);
+  max-width: 540px;
+}
+.h-newsletter-form {
+  display: flex;
+  gap: 10px;
+  margin: 32px auto 0;
+  max-width: 520px;
+  align-items: stretch;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.h-newsletter-field {
+  flex: 1 1 260px;
+  display: flex;
+}
+.h-newsletter-field input {
+  width: 100%;
+  padding: 14px 18px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--h-ink);
+  background: rgba(255, 246, 229, 0.96);
+  border: 1px solid rgba(180, 138, 60, 0.4);
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.h-newsletter-field input:focus {
+  border-color: var(--h-gold-soft);
+  box-shadow: 0 0 0 3px rgba(212, 173, 94, 0.35);
+}
+.h-newsletter-form .h-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.h-newsletter-form .h-btn[disabled] {
+  opacity: 0.7;
+  cursor: wait;
+}
+.h-newsletter-thanks {
+  margin: 32px auto 0;
+  padding: 16px 22px;
+  max-width: 520px;
+  background: rgba(255, 246, 229, 0.12);
+  border: 1px solid rgba(212, 173, 94, 0.45);
+  color: var(--h-cream);
+  border-radius: 2px;
+  font-size: 15px;
+}
+.h-newsletter-error {
+  margin: 14px auto 0;
+  max-width: 520px;
+  color: #f4c8a7;
+  font-size: 13px;
+}
+.h-newsletter-note {
+  margin-top: 22px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(250,245,236,0.55);
+}
+.h-newsletter .sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+@media (max-width: 720px) {
+  .h-newsletter { padding: 72px 0; }
+  .h-newsletter-form { flex-direction: column; }
+  .h-newsletter-form .h-btn { width: 100%; }
+}
+
+/* Testimonial "Read full article" link */
+.h-test-readmore {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--h-burgundy);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(107, 66, 2, 0.35);
+  padding-bottom: 2px;
+  align-self: flex-start;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.h-test-readmore:hover {
+  color: var(--h-maroon);
+  border-color: var(--h-maroon);
+}
+
+
 /* ============ VIDEO SHOPPING ============ */
 .h-vshop {
   background: var(--h-ivory);
