@@ -159,12 +159,12 @@ function TemplesPage() {
 
       <section className="h-temples-hero">
         <div className="container">
-          <span className="eyebrow">Temple of the Month · Archive</span>
-          <h1>Sacred Threads</h1>
+          <span className="eyebrow">Sacred Threads · Featured Temples</span>
+          <h1>Temples That Inspire Us</h1>
           <p>
-            Every month, we honour a temple that has quietly shaped the weaves, motifs and colours of South
-            Indian handloom. This is our growing archive — a place to pause, read, and remember where our
-            craft comes from.
+            A living archive of the South Indian temples whose gopurams, colours and motifs quietly shape our
+            handloom weaves. We add to this page from time to time — a place to pause, read, and remember
+            where our craft comes from.
           </p>
           <nav className="h-temples-index" aria-label="Featured temples index">
             <span className="h-temples-index-label">Jump to:</span>
@@ -173,7 +173,6 @@ function TemplesPage() {
                 <li key={t.slug}>
                   <a href={`#${t.slug}`}>
                     {t.name}
-                    <span className="h-tx-month">{t.month}</span>
                   </a>
                 </li>
               ))}
@@ -189,7 +188,7 @@ function TemplesPage() {
 
       {archive.length > 0 && (
         <div className="h-temples-archive-head container">
-          <span className="eyebrow">Previously Featured</span>
+          <span className="eyebrow">More Temples</span>
           <h2>From the Archive</h2>
         </div>
       )}
@@ -250,9 +249,9 @@ function TempleEntry({
           <img src={img} alt={`${temple.name} gopuram, ${temple.location} — South Indian temple architecture`} loading="lazy" />
         </a>
         <div className="h-temples-entry-text">
-          <span className="eyebrow">{featured ? "This Month" : temple.month}</span>
+          <span className="eyebrow">Sacred Threads</span>
           <h2>{temple.name}</h2>
-          <div className="h-temples-entry-loc">{temple.location} · {temple.month}</div>
+          <div className="h-temples-entry-loc">{temple.location}</div>
           <p className="h-temples-entry-lede">{temple.description}</p>
           {temple.story.map((para, i) => (
             <p key={i}>{para}</p>
