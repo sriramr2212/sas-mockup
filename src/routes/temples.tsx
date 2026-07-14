@@ -159,12 +159,12 @@ function TemplesPage() {
 
       <section className="h-temples-hero">
         <div className="container">
-          <span className="eyebrow">Temple of the Month · Archive</span>
-          <h1>Sacred Threads</h1>
+          <span className="eyebrow">Sacred Threads · Featured Temples</span>
+          <h1>Temples That Inspire Us</h1>
           <p>
-            Every month, we honour a temple that has quietly shaped the weaves, motifs and colours of South
-            Indian handloom. This is our growing archive — a place to pause, read, and remember where our
-            craft comes from.
+            A living archive of the South Indian temples whose gopurams, colours and motifs quietly shape our
+            handloom weaves. We add to this page from time to time — a place to pause, read, and remember
+            where our craft comes from.
           </p>
           <nav className="h-temples-index" aria-label="Featured temples index">
             <span className="h-temples-index-label">Jump to:</span>
