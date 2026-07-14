@@ -64,7 +64,7 @@ export const Route = createFileRoute("/temples")({
       "@type": "CollectionPage",
       name: "Sacred Threads — Famous South Indian Temples",
       description:
-        "A curated archive of famous South Indian temples — Meenakshi Amman (Madurai), Kamakshi Amman (Kanchipuram), Sri Ranganathaswamy (Srirangam) and Chennakeshava (Belur) — that have shaped the motifs and colours of handloom Kanjivaram silk.",
+        "A curated archive of sacred South Indian temples and spiritual figures — Meenakshi Amman (Madurai), Sri Kanchi Periyava, Sri Ranganathaswamy (Srirangam) and Chennakeshava (Belur) — that have shaped the motifs and colours of handloom Kanjivaram silk.",
       url: CANONICAL,
       inLanguage: "en-IN",
       isPartOf: { "@type": "WebSite", name: "Sri Aishwarya Sarees", url: SITE_URL },
@@ -85,17 +85,17 @@ export const Route = createFileRoute("/temples")({
       meta: [
         {
           title:
-            "Famous South Indian Temples — Meenakshi, Kamakshi, Ranganathaswamy, Chennakeshava | Sri Aishwarya Sarees",
+            "Famous South Indian Temples — Meenakshi, Kanchi Periyava, Ranganathaswamy, Chennakeshava | Sri Aishwarya Sarees",
         },
         {
           name: "description",
           content:
-            "A curated guide to famous South Indian temples — Meenakshi Amman Madurai, Kamakshi Amman Kanchipuram, Sri Ranganathaswamy Srirangam and Chennakeshava Belur — and the handloom motifs they inspired.",
+            "A curated guide to sacred South Indian temples and spiritual figures — Meenakshi Amman Madurai, Sri Kanchi Periyava, Sri Ranganathaswamy Srirangam and Chennakeshava Belur — and the handloom motifs they inspired.",
         },
         {
           name: "keywords",
           content:
-            "famous south indian temples, meenakshi amman temple madurai, kamakshi amman temple kanchipuram, sri ranganathaswamy temple srirangam, chennakeshava temple belur, tamil nadu temples, karnataka temples, temple gopurams, kanjivaram silk, handloom sarees",
+            "famous south indian temples, meenakshi amman temple madurai, kanchi periyava, mahaperiyava, sri ranganathaswamy temple srirangam, chennakeshava temple belur, tamil nadu temples, karnataka temples, temple gopurams, kanjivaram silk, handloom sarees",
         },
         { name: "robots", content: "index, follow, max-image-preview:large" },
         { name: "author", content: "KlivIQ Technologies OPC" },
@@ -110,7 +110,7 @@ export const Route = createFileRoute("/temples")({
         {
           property: "og:description",
           content:
-            "Meenakshi Amman, Kamakshi Amman, Sri Ranganathaswamy and Chennakeshava — an archive of famous South Indian temples and the handloom motifs they inspired.",
+            "Meenakshi Amman, Sri Kanchi Periyava, Sri Ranganathaswamy and Chennakeshava — an archive of sacred South Indian temples and spiritual figures and the handloom motifs they inspired.",
         },
         { property: "og:type", content: "website" },
         { property: "og:site_name", content: "Sri Aishwarya Sarees" },
@@ -123,7 +123,7 @@ export const Route = createFileRoute("/temples")({
         {
           name: "twitter:description",
           content:
-            "Meenakshi, Kamakshi, Ranganathaswamy, Chennakeshava — famous South Indian temples and the handloom motifs they inspired.",
+            "Meenakshi, Kanchi Periyava, Ranganathaswamy, Chennakeshava — sacred South Indian temples and spiritual figures and the handloom motifs they inspired.",
         },
         { name: "twitter:image", content: templeMeenakshi },
       ],
