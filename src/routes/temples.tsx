@@ -3,13 +3,14 @@ import "../heritage-homepage/styles.css";
 import templesData from "../heritage-homepage/temples.json";
 import logo from "../heritage-homepage/assets/logo.png";
 import templeMeenakshi from "../heritage-homepage/assets/temple-meenakshi.jpg";
-import templeKamakshi from "../heritage-homepage/assets/temple-kamakshi.jpg";
+import templeKanchiPeriyavaAsset from "../heritage-homepage/assets/temple-kanchi-periyava.jpg.asset.json";
+const templeKanchiPeriyava = templeKanchiPeriyavaAsset.url;
 import templeChennakeshava from "../heritage-homepage/assets/temple-chennakeshava.jpg";
 import templeRanganathaswamy from "../heritage-homepage/assets/temple-ranganathaswamy.jpg";
 
 const templeImages: Record<string, string> = {
   "temple-meenakshi.jpg": templeMeenakshi,
-  "temple-kamakshi.jpg": templeKamakshi,
+  "temple-kanchi-periyava.jpg": templeKanchiPeriyava,
   "temple-chennakeshava.jpg": templeChennakeshava,
   "temple-ranganathaswamy.jpg": templeRanganathaswamy,
 };
@@ -32,7 +33,7 @@ const CANONICAL = `${SITE_URL}/temples`;
 
 const templeGeo: Record<string, { lat: number; lng: number; region: string; city: string }> = {
   "meenakshi-amman": { lat: 9.9195, lng: 78.1194, region: "Tamil Nadu", city: "Madurai" },
-  "kamakshi-amman": { lat: 12.8422, lng: 79.7036, region: "Tamil Nadu", city: "Kanchipuram" },
+  "kanchi-periyava": { lat: 12.8422, lng: 79.7036, region: "Tamil Nadu", city: "Kanchipuram" },
   "chennakeshava-belur": { lat: 13.1628, lng: 75.8648, region: "Karnataka", city: "Belur" },
   "ranganathaswamy-srirangam": { lat: 10.8624, lng: 78.6889, region: "Tamil Nadu", city: "Srirangam" },
 };
