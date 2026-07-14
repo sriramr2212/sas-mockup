@@ -188,7 +188,7 @@ function TemplesPage() {
 
       {archive.length > 0 && (
         <div className="h-temples-archive-head container">
-          <span className="eyebrow">Previously Featured</span>
+          <span className="eyebrow">More Temples</span>
           <h2>From the Archive</h2>
         </div>
       )}
