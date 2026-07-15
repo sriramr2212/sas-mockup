@@ -1,59 +1,42 @@
-## 1. Hero — image sized to match text column height
+# WordPress/WooCommerce Integration — Answer + Developer Handoff
 
-The image column still runs taller than the text column because the grid enforces `min-height: max(65vh, 560px)` and `max-height: 820px`. The text (headline + short paragraph + two buttons) is naturally ~520px, so the image gets stretched to viewport height.
+## Short answer (for you)
 
-Edit `src/heritage-homepage/styles.css` (≥1024px only — mobile stays untouched):
+**Yes, it can be integrated.** The `static-export/` folder in this project is already exactly what a WordPress developer needs — plain HTML, CSS, and images with no framework or build step. Every shop/category/product link inside those files already points to your live WooCommerce site, and the four folders (`home/`, `temples/`, `glossary/`, `faq/`) link to each other with relative paths.
 
-- `.h-hero-grid`: remove `min-height` and `max-height`; keep `align-items: stretch`. Height now driven by the text column.
-- `.h-hero-text`: reduce top/bottom padding from `64px 64px` to `72px 64px 64px` (keeps breathing room; no artificial min-height added).
-- `.h-hero-img`: reduce inner padding from `32px` to `20px`, keep `height: 100%; overflow: hidden`.
-- `.h-hero-img img`: keep `object-fit: cover` so the image fills the shorter box without letterboxing or distortion.
+There is **one thing to decide** before handing off: the newsletter form is currently a visual-only form (it does not send emails anywhere yet). The developer needs to wire it to whatever email tool you already use (Mailchimp, Brevo/Sendinblue, MailPoet, Contact Form 7, or WooCommerce's built-in customer list).
 
-Result: the image column takes exactly the height of the text column on desktop; the model's height cannot exceed the copy any more.
+## What I will deliver
 
-**Verification (before marking build-ready):** run Playwright at 1440×900, screenshot the hero, and assert `getBoundingClientRect().height` of `.h-hero-text` equals `.h-hero-img` within 1px. Also spot-check at 1280 and 1920. If unequal, iterate on padding before shipping.
+1. **This chat message** — plain-language explanation and the step-by-step process.
+2. **A downloadable Markdown file** at `/mnt/documents/wordpress-integration-guide.md` — the same instructions formatted as a developer handoff document you can forward as-is.
 
-## 2. Lovable references — status
+## What the handoff document will contain
 
-Remaining matches are all build-tooling for the Lovable dev/preview environment, not user-visible or shipped output:
+1. **Overview** — what the export is, what's inside each folder.
+2. **Pre-flight checks** — cPanel access, backup, permalink settings (WooCommerce needs "Post name" permalinks; the export assumes that).
+3. **Step-by-step upload instructions**:
+   - Back up existing `public_html/index.html` (or current theme home).
+   - Decide: replace the WordPress home page with `home/index.html`, OR keep WordPress home and publish the new pages at `/new-home/`, `/temples/`, `/glossary/`, `/faq/`.
+   - Upload each folder's contents to the matching path via cPanel File Manager.
+   - Test each URL and confirm cross-page links, WhatsApp button, and product links to WooCommerce work.
+4. **Newsletter wiring** — where the `<form>` lives in `home/index.html` and `temples/index.html`, and three drop-in options:
+   - Mailchimp embedded form action URL.
+   - Brevo/MailPoet shortcode replacement (requires PHP page instead of static HTML — noted as an alternative path).
+   - Contact Form 7 replacement snippet.
+5. **How to update content later** — either re-run `python3 scripts/export-static.py` from this Lovable project and re-upload, or edit HTML directly in cPanel for small tweaks.
+6. **Known limitations & recommendations**:
+   - Static HTML doesn't inherit the WordPress theme header/footer. If the client wants the WP menu/footer on these pages, the developer should convert each `index.html` into a WordPress **Page Template** (`.php` file) inside the active theme — instructions included.
+   - SEO: submit new URLs to Google Search Console; add to `sitemap.xml`.
+   - New arrivals are currently hard-coded thumbnails in the static export. Once the developer serves these as PHP pages inside WordPress, they can pull live products via the WooCommerce Store API (code already exists in `src/lib/arrivals.functions.ts` as a reference).
+7. **Answer to the "blurry new arrivals" question** — confirms images will be replaced by real, high-resolution product photos once wired to WooCommerce.
 
-- `package.json` → `@lovable.dev/vite-tanstack-config` (Vite preset)
-- `vite.config.ts` → imports that preset
-- `bunfig.toml` → install-age exclusion for Lovable packages
+## Out of scope
 
-These are **required** for the app to build and preview inside Lovable. Removing them breaks the dev server with no user benefit. The static export shipped to the client (`static-export/home/`, `static-export/temples/`) contains **zero** Lovable strings — verified with ripgrep.
+- No code changes to the app. This turn only produces the handoff document; no `src/**` or `static-export/**` files are modified.
 
-Recommendation: leave the three tooling references in place; they never reach the WordPress site. If you still want them scrubbed from the source repo, say so and I'll swap Vite config to a vanilla TanStack Start setup in a follow-up (higher risk — needs a full build verification pass).
+## Files to be created
 
-## 3. WordPress integration confirmation
+- `/mnt/documents/wordpress-integration-guide.md`
 
-The developer flow is already drop-in via `scripts/export-static.py` → `static-export/`:
-
-```text
-static-export/
-  home/       index.html + css/heritage.css + images/
-  temples/    index.html + css/heritage.css + images/
-```
-
-Each folder is fully self-contained (no JS framework, no build step, no server code). Internal links are already rewritten to relative paths; shop/product links point to the live WooCommerce URLs.
-
-**Gap to close before handoff:** the glossary and FAQ routes exist in the app but the export script only renders `/` and `/temples`. Add them to the loop in `scripts/export-static.py`:
-
-- Add `("glossary", "http://localhost:8080/glossary")` and `("faq", "http://localhost:8080/faq")` to the route list.
-- Add the reverse href rewrites so cross-page nav resolves (`/glossary` → `../glossary/index.html`, `/faq` → `../faq/index.html`, plus existing `/` and `/temples`).
-- Update `static-export/README.md` with upload steps for the two new folders (`glossary/`, `faq/`) and their public URLs.
-
-After that, re-run `python3 scripts/export-static.py`. The developer then uploads each folder into `public_html/` under its slug — no WordPress plugin, PHP edit, or theme change required. Existing WordPress pages/routes are untouched unless the client explicitly replaces `public_html/index.html`.
-
-**Integration risks the developer should know:**
-- If the WordPress theme injects a global stylesheet on all URLs, the `.heritage-root` scoping isolates our CSS but the theme's header/footer will not appear on these static pages (that's intentional — these are standalone pages).
-- WooCommerce product links are hardcoded to `sriaishwaryasarees.com`; if the domain differs on staging, do a find-replace in the exported HTML.
-- Fonts load from Google Fonts CDN — no local hosting needed.
-
-## Deliverables in build mode
-
-1. Edit `src/heritage-homepage/styles.css` (hero grid + padding rules above).
-2. Edit `scripts/export-static.py` to include `glossary` and `faq` routes + href rewrites.
-3. Update `static-export/README.md` with the two new folders.
-4. Run Playwright verification on the hero heights; iterate if not equal.
-5. Re-run the export script to regenerate `static-export/`.
+At the end I'll post the same guidance directly in chat and attach the file with `<presentation-artifact>` so you can download it.
